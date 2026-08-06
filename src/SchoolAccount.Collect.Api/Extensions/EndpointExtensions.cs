@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using SchoolAccount.Web.Api.Endpoints;
+using SchoolAccount.Collect.Api.Endpoints;
 
-namespace SchoolAccount.Web.Api.Extensions;
+namespace SchoolAccount.Collect.Api.Extensions;
 
 public static class EndpointExtensions
 {

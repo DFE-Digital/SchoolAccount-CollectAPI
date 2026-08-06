@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Primitives;
 using Serilog.Context;
 
-namespace SchoolAccount.Web.Api.Middleware;
+namespace SchoolAccount.Collect.Api.Middleware;
 
 public class RequestContextLoggingMiddleware(RequestDelegate next)
 {

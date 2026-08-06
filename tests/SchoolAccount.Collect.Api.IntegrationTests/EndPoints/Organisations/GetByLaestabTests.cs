@@ -5,10 +5,10 @@ using NSubstitute;
 using SchoolAccount.Application.Abstractions.Messaging;
 using SchoolAccount.Application.Organisations.GetByLaestab;
 using SchoolAccount.SharedKernel;
-using SchoolAccount.Web.Api.Endpoints;
+using SchoolAccount.Collect.Api.Endpoints;
 using Shouldly;
 
-namespace SchoolAccount.Web.Api.IntegrationTests.EndPoints.Organisations;
+namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Organisations;
 
 public class GetByLaestabTests : IClassFixture<WebApplicationFactory<Program>>
 {

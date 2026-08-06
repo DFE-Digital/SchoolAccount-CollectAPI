@@ -13,23 +13,23 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
-COPY ["src/SchoolAccount.Web.Api/SchoolAccount.Web.Api.csproj", "src/SchoolAccount.Web.Api/"]
+COPY ["src/SchoolAccount.Collect.Api/SchoolAccount.Collect.Api.csproj", "src/SchoolAccount.Collect.Api/"]
 COPY ["src/SchoolAccount.Infrastructure/SchoolAccount.Infrastructure.csproj", "src/SchoolAccount.Infrastructure/"]
 COPY ["src/SchoolAccount.Application/SchoolAccount.Application.csproj", "src/SchoolAccount.Application/"]
 COPY ["src/SchoolAccount.Domain/SchoolAccount.Domain.csproj", "src/SchoolAccount.Domain/"]
 COPY ["src/SchoolAccount.SharedKernel/SchoolAccount.SharedKernel.csproj", "src/SchoolAccount.SharedKernel/"]
-RUN dotnet restore "./src/SchoolAccount.Web.Api/SchoolAccount.Web.Api.csproj"
+RUN dotnet restore "./src/SchoolAccount.Collect.Api/SchoolAccount.Collect.Api.csproj"
 COPY . .
-WORKDIR "/src/src/SchoolAccount.Web.Api"
-RUN dotnet build "./SchoolAccount.Web.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/SchoolAccount.Collect.Api"
+RUN dotnet build "./SchoolAccount.Collect.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./SchoolAccount.Web.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./SchoolAccount.Collect.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SchoolAccount.Web.Api.dll"]
+ENTRYPOINT ["dotnet", "SchoolAccount.Collect.Api.dll"]

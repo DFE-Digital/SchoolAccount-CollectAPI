@@ -49,7 +49,7 @@ inward:
 * `SchoolAccount.Infrastructure` - EF Core/PostgreSQL persistence, authentication, time -
   implementations of abstractions the inner layers define; depends on
   `SchoolAccount.Application`.
-* `SchoolAccount.Web.Api` - minimal API endpoints and composition root; references
+* `SchoolAccount.Collect.Api` - minimal API endpoints and composition root; references
   `SchoolAccount.Infrastructure` only to wire dependency injection.
 
 ### Consequences

@@ -1,11 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using SchoolAccount.Application.Abstractions.Messaging;
 using SchoolAccount.Application.Organisations.GetByLaestab;
+using SchoolAccount.Collect.Api.Infrastructure;
 using SchoolAccount.SharedKernel;
-using SchoolAccount.Web.Api.Extensions;
-using SchoolAccount.Web.Api.Infrastructure;
+using SchoolAccount.Collect.Api.Extensions;
 
-namespace SchoolAccount.Web.Api.Endpoints.Organisations.GetByLaestab;
+namespace SchoolAccount.Collect.Api.Endpoints.Organisations.GetByLaestab;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.AllConstructors)]
 internal sealed class GetByLaestabEndpoint : IEndpoint

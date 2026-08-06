@@ -55,9 +55,9 @@ Core validates them automatically before the endpoint delegate runs, with no dec
 validator class needed for what is usually a handful of attributes.
 
 `services.AddValidation()` in
-[SchoolAccount.Web.Api/DependencyInjection.cs](../src/SchoolAccount.Web.Api/DependencyInjection.cs) wires
+[SchoolAccount.Collect.Api/DependencyInjection.cs](../src/SchoolAccount.Collect.Api/DependencyInjection.cs) wires
 up ASP.NET Core's built-in minimal API validation. `GetByLaestabRequest.Laestab` in
-[GetByLaestabRequest.cs](../src/SchoolAccount.Web.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabRequest.cs)
+[GetByLaestabRequest.cs](../src/SchoolAccount.Collect.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabRequest.cs)
 carries a `[RegularExpression]` attribute as the example. A malformed value never reaches
 `GetOrganisationByLaestabQueryHandler`; the endpoint's `.ProducesValidationProblem()` documents the
 response the client gets instead.
@@ -94,7 +94,7 @@ up front.
 
 ### Confirmation
 
-[GetByLaestabTests.cs](../tests/SchoolAccount.Web.Api.IntegrationTests/EndPoints/Organisations/GetByLaestabTests.cs)
+[GetByLaestabTests.cs](../tests/SchoolAccount.Collect.Api.IntegrationTests/EndPoints/Organisations/GetByLaestabTests.cs)
 exercises the endpoint with a malformed LAESTAB value and asserts the validation problem response,
 confirming the request never reaches the query handler.
 

@@ -1,6 +1,6 @@
 ﻿using SchoolAccount.SharedKernel;
 
-namespace SchoolAccount.Web.Api.Extensions;
+namespace SchoolAccount.Collect.Api.Extensions;
 
 public static class ResultExtensions
 {

@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SchoolAccount.Web.Api.Endpoints.Organisations.GetByLaestab;
+namespace SchoolAccount.Collect.Api.Endpoints.Organisations.GetByLaestab;
 
 public sealed record GetByLaestabRequest
 {

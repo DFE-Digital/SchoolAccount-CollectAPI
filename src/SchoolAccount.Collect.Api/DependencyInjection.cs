@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
-using SchoolAccount.Web.Api.Infrastructure;
+using SchoolAccount.Collect.Api.Infrastructure;
 
-namespace SchoolAccount.Web.Api;
+namespace SchoolAccount.Collect.Api;
 
 public static class DependencyInjection
 {

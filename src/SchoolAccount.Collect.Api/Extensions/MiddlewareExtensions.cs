@@ -1,6 +1,6 @@
-﻿using SchoolAccount.Web.Api.Middleware;
+﻿using SchoolAccount.Collect.Api.Middleware;
 
-namespace SchoolAccount.Web.Api.Extensions;
+namespace SchoolAccount.Collect.Api.Extensions;
 
 public static class MiddlewareExtensions
 {

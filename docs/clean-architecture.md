@@ -83,7 +83,7 @@ Infrastructure depends on both Domain and Application but is never referenced by
 
 ### 4. Presentation
 
-The entry point to the system - the Web API project. In this solution that is `SchoolAccount.Web.Api`.
+The entry point to the system - the Web API project. In this solution that is `SchoolAccount.Collect.Api`.
 
 Contains:
 - **Endpoints** - thin wrappers implementing `IEndpoint` that dispatch Commands and Queries
@@ -116,7 +116,7 @@ These rules are enforced by the tests in `tests/SchoolAccount.ArchitectureTests`
 | Domain         | `SchoolAccount.Domain`         |
 | Application    | `SchoolAccount.Application`    |
 | Infrastructure | `SchoolAccount.Infrastructure` |
-| Presentation   | `SchoolAccount.Web.Api`        |
+| Presentation   | `SchoolAccount.Collect.Api`    |
 | Shared kernel  | `SchoolAccount.SharedKernel`   |
 
 `SchoolAccount.SharedKernel` contains primitives used across all layers (`Result<T>`, `Error`, `ValidationError`,

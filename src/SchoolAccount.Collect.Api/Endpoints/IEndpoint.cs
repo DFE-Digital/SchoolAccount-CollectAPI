@@ -1,4 +1,4 @@
-﻿namespace SchoolAccount.Web.Api.Endpoints;
+﻿namespace SchoolAccount.Collect.Api.Endpoints;
 
 public interface IEndpoint
 {

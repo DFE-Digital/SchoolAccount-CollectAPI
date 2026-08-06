@@ -33,7 +33,7 @@ The information will be displayed in the Scalar UI and in the Open API documenta
 
 Annotations on request classes can be used to provide descriptions of individual parameters. 
 
-An example can be seen in [GetByLaestabRequest](../src/SchoolAccount.Web.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabRequest.cs) which is annotated with a description for the `Laestab` property.
+An example can be seen in [GetByLaestabRequest](../src/SchoolAccount.Collect.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabRequest.cs) which is annotated with a description for the `Laestab` property.
 
 ```csharp
     [Description("LAESTAB of the organisation. Must be a seven digit number.")]
@@ -58,7 +58,7 @@ For validation errors the specfic `ProducesValidationProblem` extenstion method 
 
 ## Example of documented endpoint
 
-All the recommendations above can be found on the `GetByLaestab` endpoint in the [GetByLaestabEndpoint](../src/SchoolAccount.Web.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabEndpoint.cs) endpoint.
+All the recommendations above can be found on the `GetByLaestab` endpoint in the [GetByLaestabEndpoint](../src/SchoolAccount.Collect.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabEndpoint.cs) endpoint.
 
 ```csharp
 app.MapGet("/organisations/{laestab}", GetByLaestab)

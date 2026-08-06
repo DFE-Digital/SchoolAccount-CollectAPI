@@ -11,7 +11,7 @@ Narrow integration testing ensures the stack is wired up correctly prior to runn
 
 While targeted at MVC sites, the [Integration Testing in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0&pivots=xunit) guide provides a good overview of the approach used in this project.
 
-Rather than starting a web server and sending HTTP requests from a separate process the tests leverage the [WebApplicationFactory](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0&pivots=xunit#basic-tests-with-the-default-webapplicationfactory) to host the API in-process by extending the API's [Program.cs](../src/SchoolAccount.Web.Api/Program.cs). 
+Rather than starting a web server and sending HTTP requests from a separate process the tests leverage the [WebApplicationFactory](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0&pivots=xunit#basic-tests-with-the-default-webapplicationfactory) to host the API in-process by extending the API's [Program.cs](../src/SchoolAccount.Collect.Api/Program.cs). 
 
 This allows the tests to send HTTP requests directly to the API without the overhead of starting a separate process allowing tests run faster in an isolated fashion.
 
@@ -30,7 +30,7 @@ var client = _factory.WithWebHostBuilder(builder =>
 
 For more advanced scenarios a [Custom WebApplicationFactory](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-10.0&pivots=xunit#customize-webapplicationfactory) may be created to provide common defaults across tests and reduce boilerplate setup.
 
-The [SchoolAccount.Web.Api.IntegrationTests](../tests/SchoolAccount.Web.Api.IntegrationTests) project contains 'narrow' integration tests for the API endpoints. 
+The [SchoolAccount.Collect.Api.IntegrationTests](../tests/SchoolAccount.Collect.Api.IntegrationTests) project contains 'narrow' integration tests for the API endpoints. 
 
 Due to the simplicity of the example API the default WebApplicationFactory is sufficient, however the project demonstrates use of `ConfigureTestServices` to replace the handler with a test implementation.
 

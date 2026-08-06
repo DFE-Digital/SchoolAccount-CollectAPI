@@ -1,6 +1,6 @@
 ﻿using SchoolAccount.SharedKernel;
 
-namespace SchoolAccount.Web.Api.Infrastructure;
+namespace SchoolAccount.Collect.Api.Infrastructure;
 
 public static class CustomResults
 {
