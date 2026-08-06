@@ -1,0 +1,72 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  DOTNET_VERSION: "10.x"
+  MIN_LINE_COVERAGE: "50"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      checks: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore SchoolAccount.ApiTemplate.slnx
+
+      - name: Check formatting
+        run: |
+          dotnet tool restore
+          dotnet csharpier check .
+
+      - name: Build
+        run: dotnet build SchoolAccount.ApiTemplate.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test SchoolAccount.ApiTemplate.slnx --configuration Release --no-restore --no-build -- --report-trx --coverage --coverage-output-format cobertura --coverage-settings ${{ github.workspace }}/coverage.config
+
+      - name: Test report
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: ${{ !cancelled() }}
+        with:
+          files: "TestResults/*.trx"
+
+      - name: Merge coverage reports and enforce threshold
+        if: ${{ !cancelled() }}
+        uses: danielpalme/ReportGenerator-GitHub-Action@5
+        with:
+          reports: "TestResults/*.cobertura.xml"
+          targetdir: TestResults/Merged
+          reporttypes: "Cobertura;MarkdownSummaryGithub"
+          customSettings: "minimumCoverageThresholds:lineCoverage=${{ env.MIN_LINE_COVERAGE }}"
+
+      - name: Write coverage job summary
+        if: ${{ !cancelled() }}
+        run: cat TestResults/Merged/SummaryGithub.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Add coverage comment to PR
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          path: TestResults/Merged/SummaryGithub.md
+
+      - name: Publish
+        run: dotnet publish SchoolAccount.ApiTemplate.slnx --configuration Release --no-restore --no-build

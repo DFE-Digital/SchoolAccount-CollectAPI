@@ -1,0 +1,39 @@
+<Solution>
+  <Folder Name="/decisions/">
+    <File Path="decisions\0000-adr-template.md" />
+    <File Path="decisions\0001-record-architecture-decisions.md" />
+    <File Path="decisions\0002-use-clean-architecture.md" />
+    <File Path="decisions\0003-strip-imported-template-to-minimal-core.md" />
+    <File Path="decisions\0004-microsoft-testing-platform-and-ci-reporting.md" />
+    <File Path="decisions\0005-format-code-with-csharpier.md" />
+    <File Path="decisions\0006-enforce-code-quality-with-roslyn-analysers.md" />
+    <File Path="decisions\0007-validate-requests-with-data-annotations.md" />
+  </Folder>
+  <Folder Name="/docs/">
+    <File Path="docs\clean-architecture.md" />
+    <File Path="docs\coding-standards.md" />
+    <File Path="docs\integration-testing.md" />
+    <File Path="docs\open-api-documentation.md" />
+    <File Path="docs\testing-standards.md" />
+  </Folder>
+  <Folder Name="/solution/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="docker-compose.override.yml" />
+    <File Path="docker-compose.yml" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/SchoolAccount.Application/SchoolAccount.Application.csproj" />
+    <Project Path="src/SchoolAccount.Domain/SchoolAccount.Domain.csproj" />
+    <Project Path="src/SchoolAccount.Infrastructure/SchoolAccount.Infrastructure.csproj" />
+    <Project Path="src/SchoolAccount.SharedKernel/SchoolAccount.SharedKernel.csproj" />
+    <Project Path="src/SchoolAccount.Web.Api/SchoolAccount.Web.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SchoolAccount.Application.UnitTests/SchoolAccount.Application.UnitTests.csproj" />
+    <Project Path="tests/SchoolAccount.ArchitectureTests/SchoolAccount.ArchitectureTests.csproj" />
+    <Project Path="tests/SchoolAccount.Web.Api.IntegrationTests/SchoolAccount.Web.Api.IntegrationTests.csproj" />
+  </Folder>
+</Solution>
