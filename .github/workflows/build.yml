@@ -30,7 +30,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore SchoolAccount.ApiTemplate.slnx
+        run: dotnet restore SchoolAccount.CollectAPI.slnx
 
       - name: Check formatting
         run: |
@@ -38,10 +38,10 @@ jobs:
           dotnet csharpier check .
 
       - name: Build
-        run: dotnet build SchoolAccount.ApiTemplate.slnx --configuration Release --no-restore
+        run: dotnet build SchoolAccount.CollectAPI.slnx --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test SchoolAccount.ApiTemplate.slnx --configuration Release --no-restore --no-build -- --report-trx --coverage --coverage-output-format cobertura --coverage-settings ${{ github.workspace }}/coverage.config
+        run: dotnet test SchoolAccount.CollectAPI.slnx --configuration Release --no-restore --no-build -- --report-trx --coverage --coverage-output-format cobertura --coverage-settings ${{ github.workspace }}/coverage.config
 
       - name: Test report
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -69,4 +69,4 @@ jobs:
           path: TestResults/Merged/SummaryGithub.md
 
       - name: Publish
-        run: dotnet publish SchoolAccount.ApiTemplate.slnx --configuration Release --no-restore --no-build
+        run: dotnet publish SchoolAccount.CollectAPI.slnx --configuration Release --no-restore --no-build
