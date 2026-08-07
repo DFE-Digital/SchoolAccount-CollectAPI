@@ -14,10 +14,10 @@ WORKDIR /src
 COPY ["Directory.Packages.props", "."]
 COPY ["Directory.Build.props", "."]
 COPY ["src/SchoolAccount.Collect.Api/SchoolAccount.Collect.Api.csproj", "src/SchoolAccount.Collect.Api/"]
-COPY ["src/SchoolAccount.Infrastructure/SchoolAccount.Infrastructure.csproj", "src/SchoolAccount.Infrastructure/"]
-COPY ["src/SchoolAccount.Application/SchoolAccount.Application.csproj", "src/SchoolAccount.Application/"]
-COPY ["src/SchoolAccount.Domain/SchoolAccount.Domain.csproj", "src/SchoolAccount.Domain/"]
-COPY ["src/SchoolAccount.SharedKernel/SchoolAccount.SharedKernel.csproj", "src/SchoolAccount.SharedKernel/"]
+COPY ["src/SchoolAccount.Collect.Infrastructure/SchoolAccount.Collect.Infrastructure.csproj", "src/SchoolAccount.Collect.Infrastructure/"]
+COPY ["src/SchoolAccount.Collect.Application/SchoolAccount.Collect.Application.csproj", "src/SchoolAccount.Collect.Application/"]
+COPY ["src/SchoolAccount.Collect.Domain/SchoolAccount.Collect.Domain.csproj", "src/SchoolAccount.Collect.Domain/"]
+COPY ["src/SchoolAccount.Collect.SharedKernel/SchoolAccount.Collect.SharedKernel.csproj", "src/SchoolAccount.Collect.SharedKernel/"]
 RUN dotnet restore "./src/SchoolAccount.Collect.Api/SchoolAccount.Collect.Api.csproj"
 COPY . .
 WORKDIR "/src/src/SchoolAccount.Collect.Api"

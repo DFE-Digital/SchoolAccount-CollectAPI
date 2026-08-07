@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using NSubstitute;
-using SchoolAccount.Application.Abstractions.Messaging;
-using SchoolAccount.Application.Organisations.GetByLaestab;
 using SchoolAccount.Collect.Api.Endpoints;
-using SchoolAccount.SharedKernel;
+using SchoolAccount.Collect.Application.Abstractions.Messaging;
+using SchoolAccount.Collect.Application.Organisations.GetByLaestab;
+using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
 
 namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Organisations;

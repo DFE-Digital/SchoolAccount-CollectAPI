@@ -1,4 +1,4 @@
-﻿using SchoolAccount.SharedKernel;
+﻿using SchoolAccount.Collect.SharedKernel;
 
 namespace SchoolAccount.Collect.Api.Infrastructure;
 

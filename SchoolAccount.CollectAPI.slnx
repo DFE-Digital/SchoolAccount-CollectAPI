@@ -25,15 +25,15 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/SchoolAccount.Application/SchoolAccount.Application.csproj" />
-    <Project Path="src/SchoolAccount.Domain/SchoolAccount.Domain.csproj" />
-    <Project Path="src/SchoolAccount.Infrastructure/SchoolAccount.Infrastructure.csproj" />
-    <Project Path="src/SchoolAccount.SharedKernel/SchoolAccount.SharedKernel.csproj" />
     <Project Path="src\SchoolAccount.Collect.Api\SchoolAccount.Collect.Api.csproj" />
+    <Project Path="src\SchoolAccount.Collect.Application\SchoolAccount.Collect.Application.csproj" />
+    <Project Path="src\SchoolAccount.Collect.Domain\SchoolAccount.Collect.Domain.csproj" />
+    <Project Path="src\SchoolAccount.Collect.Infrastructure\SchoolAccount.Collect.Infrastructure.csproj" />
+    <Project Path="src\SchoolAccount.Collect.SharedKernel\SchoolAccount.Collect.SharedKernel.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/SchoolAccount.Application.UnitTests/SchoolAccount.Application.UnitTests.csproj" />
-    <Project Path="tests/SchoolAccount.ArchitectureTests/SchoolAccount.ArchitectureTests.csproj" />
     <Project Path="tests\SchoolAccount.Collect.Api.IntegrationTests\SchoolAccount.Collect.Api.IntegrationTests.csproj" />
+    <Project Path="tests\SchoolAccount.Collect.Application.UnitTests\SchoolAccount.Collect.Application.UnitTests.csproj" />
+    <Project Path="tests\SchoolAccount.Collect.ArchitectureTests\SchoolAccount.Collect.ArchitectureTests.csproj" />
   </Folder>
 </Solution>

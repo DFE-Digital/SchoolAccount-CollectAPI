@@ -105,7 +105,7 @@ Domain ← Application ← Infrastructure
 
 The arrows show the direction of **allowed** dependencies. No arrow ever points toward Infrastructure from the inner layers.
 
-These rules are enforced by the tests in `tests/SchoolAccount.ArchitectureTests`.
+These rules are enforced by the tests in `tests/SchoolAccount.Collect.ArchitectureTests`.
 
 ---
 
@@ -113,17 +113,17 @@ These rules are enforced by the tests in `tests/SchoolAccount.ArchitectureTests`
 
 | Layer          | Project                        |
 |----------------|--------------------------------|
-| Domain         | `SchoolAccount.Domain`         |
-| Application    | `SchoolAccount.Application`    |
-| Infrastructure | `SchoolAccount.Infrastructure` |
+| Domain         | `SchoolAccount.Collect.Domain`         |
+| Application    | `SchoolAccount.Collect.Application`    |
+| Infrastructure | `SchoolAccount.Collect.Infrastructure` |
 | Presentation   | `SchoolAccount.Collect.Api`    |
-| Shared kernel  | `SchoolAccount.SharedKernel`   |
+| Shared kernel  | `SchoolAccount.Collect.SharedKernel`   |
 
-`SchoolAccount.SharedKernel` contains primitives used across all layers (`Result<T>`, `Error`, `ValidationError`,
+`SchoolAccount.Collect.SharedKernel` contains primitives used across all layers (`Result<T>`, `Error`, `ValidationError`,
 `IDateTimeProvider`) and sits outside the ring model - it has no dependencies itself and can be referenced by any
 layer.
 
-The Application layer organises features using **package by feature** under `src/SchoolAccount.Application/`,
+The Application layer organises features using **package by feature** under `src/SchoolAccount.Collect.Application/`,
 with each use case in its own folder.
 
 ---

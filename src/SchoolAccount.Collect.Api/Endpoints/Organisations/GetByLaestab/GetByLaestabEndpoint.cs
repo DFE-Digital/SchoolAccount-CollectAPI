@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
-using SchoolAccount.Application.Abstractions.Messaging;
-using SchoolAccount.Application.Organisations.GetByLaestab;
 using SchoolAccount.Collect.Api.Extensions;
 using SchoolAccount.Collect.Api.Infrastructure;
-using SchoolAccount.SharedKernel;
+using SchoolAccount.Collect.Application.Abstractions.Messaging;
+using SchoolAccount.Collect.Application.Organisations.GetByLaestab;
+using SchoolAccount.Collect.SharedKernel;
 
 namespace SchoolAccount.Collect.Api.Endpoints.Organisations.GetByLaestab;
 

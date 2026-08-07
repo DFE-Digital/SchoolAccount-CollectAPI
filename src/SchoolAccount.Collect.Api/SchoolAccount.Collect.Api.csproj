@@ -15,6 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SchoolAccount.Infrastructure\SchoolAccount.Infrastructure.csproj" />
+    <ProjectReference Include="..\SchoolAccount.Collect.Infrastructure\SchoolAccount.Collect.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

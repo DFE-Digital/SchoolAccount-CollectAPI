@@ -1,6 +1,6 @@
 # Introduction
 
-SchoolAccount-CollectAPI is an API for the DfE School Account service built on .NET 10. It
+SchoolAccount-CollectAPI is an API for the DfE School Account service built on .NET 10 based on this [Api-Template](https://github.com/DFE-Digital/SchoolAccount-ApiTemplate). It
 provides a minimal clean architecture solution, with CQRS abstractions, structured logging, error handling, and
 architecture tests.
 
@@ -77,7 +77,7 @@ Use the .NET CLI to build or test the solution.
   dotnet test
   ```
 
-Architecture tests under `tests/SchoolAccount.ArchitectureTests` enforce the clean architecture dependency rules between layers.
+Architecture tests under `tests/SchoolAccount.Collect.ArchitectureTests` enforce the clean architecture dependency rules between layers.
 
 ### Formatting
 
@@ -135,10 +135,10 @@ The solution follows a clean architecture pattern with vertical slice features:
 | Project                        | Purpose                                                      |
 |--------------------------------|--------------------------------------------------------------|
 | `SchoolAccount.Collect.Api`    | ASP.NET Core Web API - endpoints, middleware, error handling |
-| `SchoolAccount.Application`    | CQRS handlers and feature logic, organised by feature folder |
-| `SchoolAccount.Domain`         | Domain entities and business rules                           |
-| `SchoolAccount.Infrastructure` | External concerns - time, data access, integrations          |
-| `SchoolAccount.SharedKernel`   | Shared primitives - `Result<T>`, `Error`, `ValidationError`  |
+| `SchoolAccount.Collect.Application`    | CQRS handlers and feature logic, organised by feature folder |
+| `SchoolAccount.Collect.Domain`         | Domain entities and business rules                           |
+| `SchoolAccount.Collect.Infrastructure` | External concerns - time, data access, integrations          |
+| `SchoolAccount.Collect.SharedKernel`   | Shared primitives - `Result<T>`, `Error`, `ValidationError`  |
 
 Each endpoint implements `IEndpoint` and is discovered and mapped automatically at startup. See
 [Structure the solution using clean architecture](decisions/0002-use-clean-architecture.md) for the dependency rules.

@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\SchoolAccount.Collect.SharedKernel\SchoolAccount.Collect.SharedKernel.csproj" />
+  </ItemGroup>
+</Project>

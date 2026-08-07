@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Scrutor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SchoolAccount.Collect.Domain\SchoolAccount.Collect.Domain.csproj" />
+    <ProjectReference Include="..\SchoolAccount.Collect.SharedKernel\SchoolAccount.Collect.SharedKernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SchoolAccount.Collect.Application.UnitTests" />
+  </ItemGroup>
+</Project>

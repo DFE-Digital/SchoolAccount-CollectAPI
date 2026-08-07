@@ -87,7 +87,7 @@ up front.
   anything needing other data (a database lookup, a cross-field business rule) has no attribute to
   express it and must be checked inside the handler instead.
 * Neutral, because `FluentValidation.DependencyInjectionExtensions` remains referenced in
-  [SchoolAccount.Application.csproj](../src/SchoolAccount.Application/SchoolAccount.Application.csproj)
+  [SchoolAccount.Collect.Application.csproj](../src/SchoolAccount.Collect.Application/SchoolAccount.Collect.Application.csproj)
   for that case. Nothing currently
   uses it; if a query or command needs it, wrap that specific handler the way `LoggingDecorator`
   does, rather than making FluentValidation the default for every handler.

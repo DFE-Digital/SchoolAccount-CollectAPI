@@ -44,7 +44,7 @@ An example can be seen in [GetByLaestabRequest](../src/SchoolAccount.Collect.Api
 
 The `Produces` extension method can be used to specify the response type and status code for an endpoint, i.e. `.Produces<OrganisationResponse>()`.
 
-The specified type can be annotated in the same way as annotating a request in the previous section. See [OrganisationResponse](../src/SchoolAccount.Application/Organisations/GetByLaestab/OrganisationResponse.cs) for an example of annotating a response type with descriptions.
+The specified type can be annotated in the same way as annotating a request in the previous section. See [OrganisationResponse](../src/SchoolAccount.Collect.Application/Organisations/GetByLaestab/OrganisationResponse.cs) for an example of annotating a response type with descriptions.
 
 Specific problem responses codes can be documented using the `ProducesProblem` extension method. The method should be used to specify each HTTP response code that can be returned from an endpoint. The below snippet shows an example of documenting that the API may throw a 500 error.
 

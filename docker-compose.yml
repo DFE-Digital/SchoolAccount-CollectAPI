@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: src/SchoolAccount.Collect.Api/Dockerfile
     ports:
-      - "5100:8080"
+      - "5101:8080"
 
   seq:
     image: datalust/seq:2024.3
