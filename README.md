@@ -50,6 +50,9 @@ Follow these steps to start the API locally.
 
    In Rider or Visual Studio you can use the equivalent `docker-compose` or `http` run configurations from the toolbar.
 
+**Note**: When running the application the messages `No action descriptors found.` may appear. This is a common message 
+for minimal APIs due to ASP.NET Core not being able to register controllers/endpoints.
+
 4. Once running, the API is available at `http://localhost:5100`:
     - Interactive API reference (Scalar) at `http://localhost:5100/scalar/v1`
     - Health checks at `http://localhost:5100/health`
@@ -132,9 +135,9 @@ finishes:
 
 The solution follows a clean architecture pattern with vertical slice features:
 
-| Project                        | Purpose                                                      |
-|--------------------------------|--------------------------------------------------------------|
-| `SchoolAccount.Collect.Api`    | ASP.NET Core Web API - endpoints, middleware, error handling |
+| Project                                | Purpose                                                      |
+|----------------------------------------|--------------------------------------------------------------|
+| `SchoolAccount.Collect.Api`            | ASP.NET Core Web API - endpoints, middleware, error handling |
 | `SchoolAccount.Collect.Application`    | CQRS handlers and feature logic, organised by feature folder |
 | `SchoolAccount.Collect.Domain`         | Domain entities and business rules                           |
 | `SchoolAccount.Collect.Infrastructure` | External concerns - time, data access, integrations          |
