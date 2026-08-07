@@ -40,17 +40,17 @@ can be enforced mechanically at the assembly level.
 The solution is split into five projects, with all dependencies pointing
 inward:
 
-* `SchoolAccount.SharedKernel` - base building blocks (`Result`, `Error`) with no dependencies.
-* `SchoolAccount.Domain` - entities and business rules; depends only on `SchoolAccount.SharedKernel`.
-* `SchoolAccount.Application` - command/query handlers for each use case, implementing
+* `SchoolAccount.Collect.SharedKernel` - base building blocks (`Result`, `Error`) with no dependencies.
+* `SchoolAccount.Collect.Domain` - entities and business rules; depends only on `SchoolAccount.Collect.SharedKernel`.
+* `SchoolAccount.Collect.Application` - command/query handlers for each use case, implementing
   `ICommandHandler`/`IQueryHandler` interfaces. Handlers are decorated with cross-cutting
-  concerns such as validation and logging. Depends on `SchoolAccount.Domain` and
-  `SchoolAccount.SharedKernel`.
-* `SchoolAccount.Infrastructure` - EF Core/PostgreSQL persistence, authentication, time -
+  concerns such as validation and logging. Depends on `SchoolAccount.Collect.Domain` and
+  `SchoolAccount.Collect.SharedKernel`.
+* `SchoolAccount.Collect.Infrastructure` - EF Core/PostgreSQL persistence, authentication, time -
   implementations of abstractions the inner layers define; depends on
-  `SchoolAccount.Application`.
-* `SchoolAccount.Web.Api` - minimal API endpoints and composition root; references
-  `SchoolAccount.Infrastructure` only to wire dependency injection.
+  `SchoolAccount.Collect.Application`.
+* `SchoolAccount.Collect.Api` - minimal API endpoints and composition root; references
+  `SchoolAccount.Collect.Infrastructure` only to wire dependency injection.
 
 ### Consequences
 
@@ -66,9 +66,9 @@ inward:
 
 ### Confirmation
 
-`tests/SchoolAccount.ArchitectureTests` encodes the dependency rules with NetArchTest (e.g.
-`SchoolAccount.Domain` must not depend on `SchoolAccount.Application`,
-`SchoolAccount.Application` must not depend on `SchoolAccount.Infrastructure`). These tests run in the
+`tests/SchoolAccount.Collect.ArchitectureTests` encodes the dependency rules with NetArchTest (e.g.
+`SchoolAccount.Collect.Domain` must not depend on `SchoolAccount.Collect.Application`,
+`SchoolAccount.Collect.Application` must not depend on `SchoolAccount.Collect.Infrastructure`). These tests run in the
 `Build` workflow on every pull request, so a violating change cannot merge cleanly.
 
 ## More Information

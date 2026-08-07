@@ -33,7 +33,7 @@ The information will be displayed in the Scalar UI and in the Open API documenta
 
 Annotations on request classes can be used to provide descriptions of individual parameters. 
 
-An example can be seen in [GetByLaestabRequest](../src/SchoolAccount.Web.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabRequest.cs) which is annotated with a description for the `Laestab` property.
+An example can be seen in [GetByLaestabRequest](../src/SchoolAccount.Collect.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabRequest.cs) which is annotated with a description for the `Laestab` property.
 
 ```csharp
     [Description("LAESTAB of the organisation. Must be a seven digit number.")]
@@ -44,7 +44,7 @@ An example can be seen in [GetByLaestabRequest](../src/SchoolAccount.Web.Api/End
 
 The `Produces` extension method can be used to specify the response type and status code for an endpoint, i.e. `.Produces<OrganisationResponse>()`.
 
-The specified type can be annotated in the same way as annotating a request in the previous section. See [OrganisationResponse](../src/SchoolAccount.Application/Organisations/GetByLaestab/OrganisationResponse.cs) for an example of annotating a response type with descriptions.
+The specified type can be annotated in the same way as annotating a request in the previous section. See [OrganisationResponse](../src/SchoolAccount.Collect.Application/Organisations/GetByLaestab/OrganisationResponse.cs) for an example of annotating a response type with descriptions.
 
 Specific problem responses codes can be documented using the `ProducesProblem` extension method. The method should be used to specify each HTTP response code that can be returned from an endpoint. The below snippet shows an example of documenting that the API may throw a 500 error.
 
@@ -58,7 +58,7 @@ For validation errors the specfic `ProducesValidationProblem` extenstion method 
 
 ## Example of documented endpoint
 
-All the recommendations above can be found on the `GetByLaestab` endpoint in the [GetByLaestabEndpoint](../src/SchoolAccount.Web.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabEndpoint.cs) endpoint.
+All the recommendations above can be found on the `GetByLaestab` endpoint in the [GetByLaestabEndpoint](../src/SchoolAccount.Collect.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabEndpoint.cs) endpoint.
 
 ```csharp
 app.MapGet("/organisations/{laestab}", GetByLaestab)

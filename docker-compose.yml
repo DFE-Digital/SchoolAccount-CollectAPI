@@ -1,12 +1,12 @@
 services:
-  web-api:
-    image: ${DOCKER_REGISTRY-}webapi
-    container_name: web-api
+  collect-api:
+    image: ${DOCKER_REGISTRY-}collectapi
+    container_name: collect-api
     build:
       context: .
-      dockerfile: src/SchoolAccount.Web.Api/Dockerfile
+      dockerfile: src/SchoolAccount.Collect.Api/Dockerfile
     ports:
-      - "5100:8080"
+      - "5101:8080"
 
   seq:
     image: datalust/seq:2024.3

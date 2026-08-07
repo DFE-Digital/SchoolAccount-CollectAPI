@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>SchoolAccount.Collect.SharedKernel</RootNamespace>
+  </PropertyGroup>
+</Project>
