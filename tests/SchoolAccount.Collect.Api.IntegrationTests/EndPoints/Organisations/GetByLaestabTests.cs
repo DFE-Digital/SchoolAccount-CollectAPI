@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.TestHost;
 using NSubstitute;
 using SchoolAccount.Application.Abstractions.Messaging;
 using SchoolAccount.Application.Organisations.GetByLaestab;
-using SchoolAccount.SharedKernel;
 using SchoolAccount.Collect.Api.Endpoints;
+using SchoolAccount.SharedKernel;
 using Shouldly;
 
 namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Organisations;

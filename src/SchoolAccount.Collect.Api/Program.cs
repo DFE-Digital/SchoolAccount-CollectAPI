@@ -4,9 +4,9 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Scalar.AspNetCore;
 using SchoolAccount.Application;
-using SchoolAccount.Infrastructure;
 using SchoolAccount.Collect.Api;
 using SchoolAccount.Collect.Api.Extensions;
+using SchoolAccount.Infrastructure;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
