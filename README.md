@@ -53,9 +53,9 @@ Follow these steps to start the API locally.
 **Note**: When running the application the messages `No action descriptors found.` may appear. This is a common message 
 for minimal APIs due to ASP.NET Core not being able to register controllers/endpoints.
 
-4. Once running, the API is available at `http://localhost:5100`:
-    - Interactive API reference (Scalar) at `http://localhost:5100/scalar/v1`
-    - Health checks at `http://localhost:5100/health`
+4. Once running, the API is available at `http://localhost:5101`:
+    - Interactive API reference (Scalar) at `http://localhost:5101/scalar/v1`
+    - Health checks at `http://localhost:5101/health`
     - Logs (if started with compose) at `http://localhost:8081`
 
    > The Scalar API reference is only mapped in the `Development` environment.
