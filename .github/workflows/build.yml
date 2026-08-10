@@ -107,6 +107,13 @@ jobs:
           push: true
           tags: |
             ghcr.io/dfe-digital/schoolaccount-collectapi:${{ steps.meta.outputs.tag }}
+            
+      - name: Tag released image as latest
+        if: ${{ github.event_name == 'push' }}
+        env:
+          IMAGE: ghcr.io/dfe-digital/schoolaccount-collectapi
+          TAG: ${{ steps.meta.outputs.tag }}
+        run: docker buildx imagetools create -t "$IMAGE:latest" "$IMAGE:$TAG"
         
       - name: Publish
         run: dotnet publish SchoolAccount.CollectAPI.slnx --configuration Release --no-restore --no-build
