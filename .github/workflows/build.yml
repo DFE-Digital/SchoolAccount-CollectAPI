@@ -85,6 +85,7 @@ jobs:
           images: ghcr.io/dfe-digital/schoolaccount-collectapi
           tags: |
             type=sha
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=ref,event=branch
             
       - name: Build & Push Docker image
