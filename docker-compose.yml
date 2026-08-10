@@ -1,6 +1,6 @@
 services:
   collect-api:
-    image: ${DOCKER_REGISTRY-}collectapi
+    image: ghcr.io/dfe-digital/schoolaccount-collectapi:latest
     platform: linux/amd64
     container_name: collect-api
     build:
