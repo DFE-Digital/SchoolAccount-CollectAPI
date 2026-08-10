@@ -86,8 +86,6 @@ jobs:
           tags: |
             type=sha
             type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
             
       - name: Build & Push Docker image
         uses: docker/build-push-action@v7
