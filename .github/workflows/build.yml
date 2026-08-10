@@ -89,19 +89,21 @@ jobs:
 #          context: .
 #          file: src/SchoolAccount.Collect.Api/Dockerfile
 #          target: final
+#          platforms: linux/amd64
 #          build-args: |
 #            GIT_SHA=${{ steps.meta.outputs.sha }}
 #          push: false
 #          tags: |
 #            ghcr.io/dfe-digital/schoolaccount-collectapi:${{ steps.meta.outputs.tag }}
             
-      - name: Build & Push
+      - name: Build & Push Docker image
         if: ${{ github.event_name == 'pull_request' }}
         uses: docker/build-push-action@v7
         with:
           context: .
           file: src/SchoolAccount.Collect.Api/Dockerfile
           target: final
+          platforms: linux/amd64
           build-args: |
             GIT_SHA=${{ steps.meta.outputs.sha }}
           push: true

@@ -1,6 +1,7 @@
 services:
   collect-api:
     image: ${DOCKER_REGISTRY-}collectapi
+    platform: linux/amd64
     container_name: collect-api
     build:
       context: .
