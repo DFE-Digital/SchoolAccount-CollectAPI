@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
+      contents: read
+      packages: write
       checks: write
       pull-requests: write
 
@@ -68,5 +70,43 @@ jobs:
         with:
           path: TestResults/Merged/SummaryGithub.md
 
+      - name: Compute version
+        id: meta
+        uses: ./.github/actions/compute-version
+        
+      - name: Log in to GHCR
+        if: ${{ github.event_name == 'push'}}
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Build Docker image
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: src/SchoolAccount.Collect.Api/Dockerfile
+          target: final
+          build-args: |
+            GIT_SHA=${{ steps.meta.outputs.sha }}
+          push: false
+          tags: |
+            ghcr.io/dfe-digital/schoolaccount-collectapi:${{ steps.meta.outputs.tag }}
+            
+      - name: Build & Push
+        if: ${{ github.event_name == 'push' }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: src/SchoolAccount.Collect.Api/Dockerfile
+          target: final
+          build-args: |
+            GIT_SHA=${{ steps.meta.outputs.sha }}
+          push: true
+          tags: |
+            ghcr.io/dfe-digital/schoolaccount-collectapi:${{ steps.meta.outputs.tag }}
+        
       - name: Publish
         run: dotnet publish SchoolAccount.CollectAPI.slnx --configuration Release --no-restore --no-build
