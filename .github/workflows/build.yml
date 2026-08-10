@@ -102,7 +102,7 @@ jobs:
           target: final
           platforms: linux/amd64
           push: false
-          tags: {{steps.meta.outputs.tags}}
+          tags: ${{ steps.meta.outputs.tags }}
             
       - name: Build & Push Docker image
         if: ${{ github.event_name == 'push' }}
@@ -113,7 +113,7 @@ jobs:
           target: final
           platforms: linux/amd64
           push: true
-          tags: {{steps.meta.outputs.tags}}      
+          tags: ${{ steps.meta.outputs.tags }}      
             
       - name: Tag released image as latest
         if: ${{ github.event_name == 'push' }}
