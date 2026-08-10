@@ -69,10 +69,6 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v3
         with:
           path: TestResults/Merged/SummaryGithub.md
-
-      - name: Compute version
-        id: meta
-        uses: ./.github/actions/compute-version
         
       - name: Log in to GHCR
         if: ${{ github.event_name == 'push' }}

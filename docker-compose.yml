@@ -1,8 +1,7 @@
 services:
   collect-api:
-    image: ghcr.io/dfe-digital/schoolaccount-collectapi:latest
+    image: ${DOCKER_REGISTRY-}collectapi
     platform: linux/amd64
-    container_name: collect-api
     build:
       context: .
       dockerfile: src/SchoolAccount.Collect.Api/Dockerfile
