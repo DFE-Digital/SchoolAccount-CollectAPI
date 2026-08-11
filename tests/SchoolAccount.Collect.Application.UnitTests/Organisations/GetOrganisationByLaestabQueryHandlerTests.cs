@@ -30,6 +30,6 @@ public class GetOrganisationByLaestabQueryHandlerTests
         result.IsSuccess.ShouldBeTrue();
         result.Value.Status.ShouldBe(OrgStatus.Open);
         result.Value.LocalAuthorityCode.ShouldBe(localAuthorityCode);
-        result.Value.EstablishmentNo.ShouldBe(establishmentNo);
+        result.Value.EstablishmentNumber.ShouldBe(establishmentNo);
     }
 }

@@ -2,26 +2,28 @@ using System.Diagnostics.CodeAnalysis;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.SharedKernel;
 
-namespace SchoolAccount.Collect.Application.Status.QueryStatus;
+namespace SchoolAccount.Collect.Application.Status.GetStatus;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.AllConstructors)]
-public sealed class QueryStatusQueryHandler : IQueryHandler<QueryStatusQuery, StatusResponse>
+public sealed class GetStatusQueryHandler : IQueryHandler<GetStatusQuery, StatusResponse>
 {
     public async Task<Result<StatusResponse>> Handle(
-        QueryStatusQuery query,
+        GetStatusQuery getStatusQuery,
         CancellationToken cancellationToken
     )
     {
         var response = new StatusResponse
         {
-            Details = query
+            Details = getStatusQuery
                 .request.OrgDetails.Select(x => new OrganisationResponse
                 {
-                    LocalAuthorityCode = x.LocalAuthorityCode,
-                    EstablishmentNo = x.EstablishmentNo,
-                    Laestab = x.LocalAuthorityCode + x.EstablishmentNo,
+                    Id = x.Id,
+                    Name = x.Name,
+                    CategoryId = x.CategoryId,
+                    Ukprn = x.Ukprn,
+                    Laestab = x.LocalAuthorityCode + x.EstablishmentNumber
                 })
-                .ToList(),
+                .ToList()
         };
 
         return await Task.FromResult(Result.Success(response));

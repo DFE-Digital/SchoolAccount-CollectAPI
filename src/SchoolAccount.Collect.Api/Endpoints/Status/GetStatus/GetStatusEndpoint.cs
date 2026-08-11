@@ -3,35 +3,39 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolAccount.Collect.Api.Extensions;
 using SchoolAccount.Collect.Api.Infrastructure;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
-using SchoolAccount.Collect.Application.Status.QueryStatus;
+using SchoolAccount.Collect.Application.Status.GetStatus;
 using SchoolAccount.Collect.SharedKernel;
 
-namespace SchoolAccount.Collect.Api.Endpoints.Status.QueryStatus;
+namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.AllConstructors)]
-internal sealed class QueryStatusEndpoint : IEndpoint
+internal sealed class GetStatusEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost(
                 "status",
                 async (
-                    [FromBody] QueryStatusRequest request,
-                    IQueryHandler<QueryStatusQuery, StatusResponse> handler,
+                    [FromBody] GetStatusRequest request,
+                    IQueryHandler<GetStatusQuery, StatusResponse> handler,
                     CancellationToken cancellationToken
                 ) =>
                 {
                     var orgDetails = request
                         .Organisations.Select(x => new OrgDetails
                         {
-                            LocalAuthorityCode = x.LocalAuthorityCode,
-                            EstablishmentNo = x.EstablishmentNo,
+                            Id = x.Id,
+                            Name = x.Name,
+                            CategoryId = x.Category.Id,
+                            Ukprn = x.Ukprn,
+                            LocalAuthorityCode = x.LocalAuthority?.Code,
+                            EstablishmentNumber = x.EstablishmentNumber
                         })
                         .ToList();
 
-                    var requestModel = new QueryStatusRequestModel { OrgDetails = orgDetails };
+                    var requestModel = new GetStatusRequestModel { OrgDetails = orgDetails };
 
-                    var query = new QueryStatusQuery(requestModel);
+                    var query = new GetStatusQuery(requestModel);
 
                     Result<StatusResponse> result = await handler.Handle(query, cancellationToken);
 

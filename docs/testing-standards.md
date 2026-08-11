@@ -52,7 +52,7 @@ public void Laestab_is_separated_into_localAuthorityCode_and_establishmentNumber
 
     // Assert
     laestabValue.LocalAuthorityCode.ShouldBe("321");
-    laestabValue.EstablishmentNo.ShouldBe("4567");
+    laestabValue.EstablishmentNumber.ShouldBe("4567");
 }
 ```
 

@@ -19,7 +19,7 @@ public sealed class GetOrganisationByLaestabQueryHandler(IDateTimeProvider dateT
         var response = new OrganisationResponse
         {
             LocalAuthorityCode = laestabValue.LocalAuthorityCode,
-            EstablishmentNo = laestabValue.EstablishmentNo,
+            EstablishmentNumber = laestabValue.EstablishmentNumber,
             Status = statusCalculator.GetOpenStatus(),
         };
 

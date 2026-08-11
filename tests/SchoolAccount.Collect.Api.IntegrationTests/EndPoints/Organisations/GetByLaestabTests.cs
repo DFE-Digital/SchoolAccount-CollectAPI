@@ -45,7 +45,7 @@ public class GetByLaestabTests : IClassFixture<WebApplicationFactory<Program>>
         var stubbedOrganisationResponse = new OrganisationResponse
         {
             LocalAuthorityCode = localAuthorityCode,
-            EstablishmentNo = establishmentNo,
+            EstablishmentNumber = establishmentNo,
             Status = OrgStatus.Closed,
         };
 
@@ -68,7 +68,7 @@ public class GetByLaestabTests : IClassFixture<WebApplicationFactory<Program>>
             );
 
         result.ShouldNotBeNull();
-        result.EstablishmentNo.ShouldBe(stubbedOrganisationResponse.EstablishmentNo);
+        result.EstablishmentNumber.ShouldBe(stubbedOrganisationResponse.EstablishmentNumber);
         result.LocalAuthorityCode.ShouldBe(stubbedOrganisationResponse.LocalAuthorityCode);
         result.Status.ShouldBe(stubbedOrganisationResponse.Status.ToString());
     }

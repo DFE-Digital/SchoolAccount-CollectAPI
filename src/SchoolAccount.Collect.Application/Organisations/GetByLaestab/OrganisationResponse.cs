@@ -14,7 +14,7 @@ public sealed record OrganisationResponse
     public string LocalAuthorityCode { get; init; }
 
     [Description("The four digit establishment number")]
-    public string EstablishmentNo { get; init; }
+    public string EstablishmentNumber { get; init; }
 
     [Description("The status of the organisation")]
     public OrgStatus Status { get; init; }
