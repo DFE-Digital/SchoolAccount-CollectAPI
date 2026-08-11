@@ -9,8 +9,8 @@ data "azurerm_key_vault" "kv" {
   resource_group_name = "s268d01rg-uks-sa-shared"
 }
 
-data "azurerm_key_vault_secret" "ai_key" {
-  name         = "AppInsightsInstrumentationKey"
+data "azurerm_key_vault_secret" "appinsights_connection_string" {
+  name = "ApplicationInsightsConnectionString"
   key_vault_id = data.azurerm_key_vault.kv.id
 }
 
@@ -37,11 +37,9 @@ resource "azurerm_container_app" "app" {
         value = data.azurerm_app_configuration.app_config.endpoint
       }
 
-      #Secrets Key Vault
       env {
-        # temporary build in Terraform from App Insight key from KV secrets
-        name  = "APPLICATIONINSIGHTS_CONNECTION_STRING"
-        value = "InstrumentationKey=${data.azurerm_key_vault_secret.ai_key.value};IngestionEndpoint=https://uksouth-0.in.applicationinsights.azure.com/"
+        name = "APPLICATIONINSIGHTS_CONNECTION_STRING"
+        value = data.azurerm_key_vault_secret.appinsights_connection_string.value
       }
     }
   }
