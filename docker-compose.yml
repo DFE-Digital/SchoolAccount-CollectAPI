@@ -1,7 +1,6 @@
 services:
   collect-api:
     image: ${DOCKER_REGISTRY-}collectapi
-    container_name: collect-api
     build:
       context: .
       dockerfile: src/SchoolAccount.Collect.Api/Dockerfile
