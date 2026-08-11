@@ -3,10 +3,6 @@ name: Deploy CollectAPI ACA
 on:
   workflow_dispatch:
 
-  push:
-    branches:
-      - feature/collectapi-aca-terraform
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
