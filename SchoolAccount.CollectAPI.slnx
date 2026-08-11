@@ -8,6 +8,7 @@
     <File Path="decisions\0005-format-code-with-csharpier.md" />
     <File Path="decisions\0006-enforce-code-quality-with-roslyn-analysers.md" />
     <File Path="decisions\0007-validate-requests-with-data-annotations.md" />
+    <File Path="decisions\0008-use-containerisation-to-publish-code.md" />
   </Folder>
   <Folder Name="/docs/">
     <File Path="docs\clean-architecture.md" />
