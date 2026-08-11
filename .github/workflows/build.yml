@@ -94,7 +94,6 @@ jobs:
           context: .
           file: src/SchoolAccount.Collect.Api/Dockerfile
           target: final
-          platforms: linux/amd64
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ${{ steps.meta.outputs.tags }}      
         

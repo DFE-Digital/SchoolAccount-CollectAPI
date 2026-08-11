@@ -1,7 +1,6 @@
 services:
   collect-api:
     image: ${DOCKER_REGISTRY-}collectapi
-    platform: linux/amd64
     build:
       context: .
       dockerfile: src/SchoolAccount.Collect.Api/Dockerfile

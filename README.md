@@ -21,6 +21,7 @@ Architecture decisions are recorded as ADRs in the [decisions](decisions) folder
 - [Format code with CSharpier](decisions/0005-format-code-with-csharpier.md) - why formatting is automated and enforced in the build
 - [Enforce code quality with Roslyn analysers](decisions/0006-enforce-code-quality-with-roslyn-analysers.md) - why SonarAnalyzer.CSharp and strict analysis are enforced in the build
 - [Validate requests with Data Annotations](decisions/0007-validate-requests-with-data-annotations.md) - why request shape is validated with Data Annotations rather than a FluentValidation decorator
+- [Use containerisation to publish code](decisions/0008-use-containerisation-to-publish-code.md) - why we have chosen to use containerisationa and push to the github container registry
 
 New decisions should follow the [ADR template](decisions/0000-adr-template.md).
 
@@ -150,6 +151,25 @@ Each endpoint implements `IEndpoint` and is discovered and mapped automatically 
 
 Structured logs are written via Serilog to [Seq](https://datalust.co/seq). When running via Docker Compose, the Seq UI
 is available at http://localhost:8081.
+
+## Published Docker Image
+
+The API is published to the [GitHub Container Registry](https://github.com/DFE-Digital/SchoolAccount-CollectAPI/pkgs/container/schoolaccount-collectapi)
+as a Docker image that can be pulled down and run.
+The image is created on every push to the `main` branch and tagged with the current commit SHA and the latest tag. 
+
+To verify the image locally, you can run:
+```
+docker run --platform linux/amd64 --name collect-api -p 5101:8080 -d ghcr.io/dfe-digital/schoolaccount-collectapi:latest
+```
+
+You can then test the API endpoints by visiting http://localhost:5101/organisations/1234567.
+
+To stop and delete the container, you can run:
+```
+docker stop collect-api
+docker rm collect-api
+```
 
 ## Contributing
 
