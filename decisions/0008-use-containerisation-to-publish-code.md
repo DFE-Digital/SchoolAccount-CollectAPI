@@ -8,9 +8,9 @@ decision-makers: Kian Winstanley
 
 ## Context and Problem Statement
 
-A decision has been made to use containerisation to publish code to the github container registry. This ensures that the
-same immutable image is used and promoted to all environments to ensure consistency. This is to be done rather than deploying
-code onto services. 
+A decision has been made to use containerisation to publish code to the github container registry. 
+This ensures that the same immutable image is used and promoted to all environments to ensure consistency. 
+This is to be done rather than deploying code onto services. 
 
 ## Decision Drivers
 
