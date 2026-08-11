@@ -21,7 +21,7 @@ Architecture decisions are recorded as ADRs in the [decisions](decisions) folder
 - [Format code with CSharpier](decisions/0005-format-code-with-csharpier.md) - why formatting is automated and enforced in the build
 - [Enforce code quality with Roslyn analysers](decisions/0006-enforce-code-quality-with-roslyn-analysers.md) - why SonarAnalyzer.CSharp and strict analysis are enforced in the build
 - [Validate requests with Data Annotations](decisions/0007-validate-requests-with-data-annotations.md) - why request shape is validated with Data Annotations rather than a FluentValidation decorator
-- [Use containerisation to publish code](decisions/0008-use-containerisation-to-publish-code.md) - why we have chosen to use containerisationa and push to the github container registry
+- [Use containerisation to publish code](decisions/0008-use-containerisation-to-publish-code.md) - why we have chosen to use containerisation and push to the github container registry
 
 New decisions should follow the [ADR template](decisions/0000-adr-template.md).
 
