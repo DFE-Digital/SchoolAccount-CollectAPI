@@ -1,11 +1,20 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
 
-public class Organisation
+public record Organisation
 {
-    public required string Id { get; init; }
-    public required string Name { get; init; }
-    public required Category Category { get; init; }
-    public required string Ukprn { get; init; }
+    [Required]
+    public string Id { get; init; }
+
+    [Required]
+    public string Name { get; init; }
+
+    [Required]
+    public Category Category { get; init; }
+
+    [Required]
+    public string Ukprn { get; init; }
     public LocalAuthority? LocalAuthority { get; init; }
     public string? EstablishmentNumber { get; init; }
 }

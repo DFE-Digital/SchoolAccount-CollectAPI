@@ -1,8 +1,16 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
 
-public class GetStatusRequest
+public record GetStatusRequest
 {
-    public required string Id { get; init; }
-    public required string Email { get; init; }
-    public required List<Organisation> Organisations { get; init; }
+    [Required]
+    public string Id { get; init; }
+
+    [Required]
+    [EmailAddress]
+    public string Email { get; init; }
+
+    [Required]
+    public List<Organisation> Organisations { get; init; }
 }

@@ -1,8 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
 
-public class LocalAuthority
+public record LocalAuthority
 {
-    public required string Id { get; init; }
-    public required string Name { get; init; }
-    public required string Code { get; init; }
+    [Required]
+    public string Id { get; init; }
+
+    [Required]
+    public string Name { get; init; }
+
+    [Required]
+    public string Code { get; init; }
 }
