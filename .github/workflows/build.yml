@@ -104,7 +104,7 @@ jobs:
           context: .
           file: src/SchoolAccount.Collect.Api/Dockerfile
           target: final
-          push: ${{ github.ref == 'refs/heads/main' }}
+          push: true
           tags: ${{ steps.meta.outputs.tags }}      
         
       - name: Publish
