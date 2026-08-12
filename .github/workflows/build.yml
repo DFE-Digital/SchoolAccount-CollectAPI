@@ -87,10 +87,16 @@ jobs:
             type=sha
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=ref,event=branch
-
-      - name: Show metadata
+            
+      - name: Get SHA image tag
+        id: image
         run: |
-          echo "${{ steps.meta.outputs.tags }}"
+          IMAGE=$(echo "${{ steps.meta.outputs.tags }}" | grep "sha-")
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+
+      - name: Show selected image
+        run: |
+          echo "Selected image: ${{ steps.image.outputs.image }}"
             
       - name: Build & Push Docker image
         uses: docker/build-push-action@v7
@@ -116,4 +122,4 @@ jobs:
           az containerapp update \
             --name schoolaccount-collectapi-app \
             --resource-group s268d01rg-uks-sa-poc \
-            --image ghcr.io/dfe-digital/schoolaccount-collectapi:latest
+            --image ${{ steps.image.outputs.image }}
