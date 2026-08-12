@@ -87,6 +87,10 @@ jobs:
             type=sha
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=ref,event=branch
+
+      - name: Show metadata
+        run: |
+          echo "${{ steps.meta.outputs.tags }}"
             
       - name: Build & Push Docker image
         uses: docker/build-push-action@v7
