@@ -101,13 +101,13 @@ jobs:
         run: dotnet publish SchoolAccount.CollectAPI.slnx --configuration Release --no-restore --no-build
 
       - name: Azure Login
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Update ACA Image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           az containerapp update \
             --name schoolaccount-collectapi-app \
