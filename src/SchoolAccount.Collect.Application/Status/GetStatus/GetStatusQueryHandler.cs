@@ -15,15 +15,22 @@ public sealed class GetStatusQueryHandler : IQueryHandler<GetStatusQuery, Status
         var response = new StatusResponse
         {
             Details = getStatusQuery
-                .request.OrgDetails.Select(x => new OrganisationResponse
+                .request.OrgDetails.Select(x =>
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                    CategoryId = x.CategoryId,
-                    Ukprn = x.Ukprn,
-                    Laestab = x.LocalAuthorityCode + x.EstablishmentNumber
+                    string laestab = x.LocalAuthorityCode + x.EstablishmentNumber;
+                    bool interesting = !string.IsNullOrEmpty(laestab);
+                    return new OrganisationResponse
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        CategoryId = x.CategoryId,
+                        Ukprn = x.Ukprn,
+                        Laestab = laestab,
+                        Interesting = interesting,
+                        Actions = interesting ? new List<Action> { new() } : new(),
+                    };
                 })
-                .ToList()
+                .ToList(),
         };
 
         return await Task.FromResult(Result.Success(response));
