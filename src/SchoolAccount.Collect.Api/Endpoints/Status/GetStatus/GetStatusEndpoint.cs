@@ -29,7 +29,7 @@ internal sealed class GetStatusEndpoint : IEndpoint
                             CategoryId = x.Category.Id,
                             Ukprn = x.Ukprn,
                             LocalAuthorityCode = x.LocalAuthority?.Code,
-                            EstablishmentNumber = x.EstablishmentNumber
+                            EstablishmentNumber = x.EstablishmentNumber,
                         })
                         .ToList();
 
