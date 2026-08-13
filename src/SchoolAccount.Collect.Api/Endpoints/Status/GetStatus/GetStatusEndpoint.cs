@@ -42,7 +42,7 @@ internal sealed class GetStatusEndpoint : IEndpoint
                     return result.Match(Results.Ok, CustomResults.Problem);
                 }
             )
-            .WithName("QueryStatus")
+            .WithName("GetStatus")
             .WithSummary("Get status of the service")
             .WithDescription("Retrieves the status of the service")
             .Produces<StatusResponse>()
