@@ -26,3 +26,24 @@ Content-Type: application/json
     }
   ]
 }
+
+### Get status for trust school
+POST {{API_HostAddress}}/status
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "user-1",
+  "email": "test.user@email.com",
+  "organisations": [
+    {
+      "id": "DD9F7BD6-2828-4FE7-B6DA-7C7C028ED479",
+      "name": "BALMORAL LEARNING TRUST",
+      "category": {
+        "id": "010",
+        "name": "Multi-Academy Trust"
+      },
+      "ukprn": "10059806"
+    }
+  ] 
+}
