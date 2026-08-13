@@ -63,6 +63,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
                     CategoryId = organisation.Category.Id,
                     Ukprn = organisation.Ukprn,
                     Laestab = string.Empty,
+                    Interesting = false,
                 },
             },
         };
