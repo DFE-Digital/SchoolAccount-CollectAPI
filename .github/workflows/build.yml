@@ -88,6 +88,12 @@ jobs:
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=ref,event=branch
             
+      - name: Get SHA image tag
+        id: image
+        run: |
+          IMAGE=$(echo "${{ steps.meta.outputs.tags }}" | grep "sha-" | head -n 1)
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+            
       - name: Build & Push Docker image
         uses: docker/build-push-action@v7
         with:
@@ -99,3 +105,17 @@ jobs:
         
       - name: Publish
         run: dotnet publish SchoolAccount.CollectAPI.slnx --configuration Release --no-restore --no-build
+
+      - name: Azure Login
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Update ACA Image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          az containerapp update \
+            --name schoolaccount-collectapi-app \
+            --resource-group s268d01rg-uks-sa-poc \
+            --image ${{ steps.image.outputs.image }}
