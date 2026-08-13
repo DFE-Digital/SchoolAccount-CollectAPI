@@ -138,7 +138,17 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
                     Ukprn = organisation.Ukprn,
                     Laestab = organisation.LocalAuthority.Code + organisation.EstablishmentNumber,
                     Interesting = true,
-                    Actions = new List<Action>() { new Action() },
+                    Actions = new List<Action>()
+                    {
+                        new Action
+                        {
+                            Name = "Autumn School Census",
+                            Status = new Application.Status.GetStatus.Status
+                            {
+                                Name = "Not Started",
+                            },
+                        },
+                    },
                 },
             },
         };
@@ -176,12 +186,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Status_endpoint_should_return_error_messages_for_all_missing_required_parameters_with_null_organisation()
     {
         // Arrange
-        var request = new GetStatusRequest
-        {
-            Id = string.Empty,
-            Email = string.Empty,
-            Organisations = new List<Organisation>() { new Organisation { } },
-        };
+        var request = new { Organisations = new[] { new { } } };
 
         // Act
         HttpResponseMessage response = await _client.PostAsJsonAsync(
@@ -227,20 +232,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Status_endpoint_should_return_error_messages_for_all_missing_required_parameters_with_empty_trust_organisation()
     {
         // Arrange
-        var organisation = new Organisation
-        {
-            Id = string.Empty,
-            Name = string.Empty,
-            Category = new Category { Id = string.Empty, Name = string.Empty },
-            Ukprn = string.Empty,
-        };
-
-        var request = new GetStatusRequest
-        {
-            Id = string.Empty,
-            Email = string.Empty,
-            Organisations = new List<Organisation>() { organisation },
-        };
+        var request = new { Organisations = new[] { new { Category = new { } } } };
 
         // Act
         HttpResponseMessage response = await _client.PostAsJsonAsync(
@@ -290,26 +282,9 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Status_endpoint_should_return_error_messages_for_all_missing_required_parameters_with_empty_academy()
     {
         // Arrange
-        var organisation = new Organisation
+        var request = new
         {
-            Id = string.Empty,
-            Name = string.Empty,
-            Category = new Category { Id = string.Empty, Name = string.Empty },
-            Ukprn = string.Empty,
-            LocalAuthority = new LocalAuthority()
-            {
-                Id = string.Empty,
-                Name = string.Empty,
-                Code = string.Empty,
-            },
-            EstablishmentNumber = string.Empty,
-        };
-
-        var request = new GetStatusRequest
-        {
-            Id = string.Empty,
-            Email = string.Empty,
-            Organisations = new List<Organisation>() { organisation },
+            Organisations = new[] { new { Category = new { }, LocalAuthority = new { } } },
         };
 
         // Act

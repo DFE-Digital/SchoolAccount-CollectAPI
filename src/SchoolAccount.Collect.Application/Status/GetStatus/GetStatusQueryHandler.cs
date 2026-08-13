@@ -27,7 +27,16 @@ public sealed class GetStatusQueryHandler : IQueryHandler<GetStatusQuery, Status
                         Ukprn = x.Ukprn,
                         Laestab = laestab,
                         Interesting = interesting,
-                        Actions = interesting ? new List<Action> { new() } : new(),
+                        Actions = interesting
+                            ? new List<Action>
+                            {
+                                new Action
+                                {
+                                    Name = "Autumn School Census",
+                                    Status = new Status { Name = "Not Started" },
+                                },
+                            }
+                            : new(),
                     };
                 })
                 .ToList(),
