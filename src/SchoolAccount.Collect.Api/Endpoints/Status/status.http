@@ -47,3 +47,58 @@ Content-Type: application/json
     }
   ] 
 }
+
+### Validation error for GetStatus with empty body
+POST {{API_HostAddress}}/status
+Accept: application/json
+Content-Type: application/json
+
+{}
+
+### Validation error for GetStatus with empty trust school fields
+POST {{API_HostAddress}}/status
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "",
+  "name": "",
+  "organisations": [
+    {
+      "id": "",
+      "name": "",
+      "category": {
+        "id": "",
+        "name": ""
+      },
+      "ukprn": ""
+    }
+  ]
+}
+
+### Validation errors for GetStatus with empty academy fields
+POST {{API_HostAddress}}/status
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "",
+  "name": "",
+  "organisations": [
+    {
+      "id": "",
+      "name": "",
+      "category": {
+        "id": "",
+        "name": ""
+      },
+      "ukprn": "",
+      "establishmentNumber": "",
+      "localAuthority": {
+        "id": "",
+        "name": "",
+        "code": ""
+      }
+    }
+  ]
+}
