@@ -13,7 +13,7 @@ env:
   DOTNET_VERSION: "10.x"
   MIN_LINE_COVERAGE: "50"
   API_SOLUTION_FILE: SchoolAccount.CollectAPI.slnx
-  MAIN_BRANCH: 'refs/heads/main'
+  MAIN_BRANCH: refs/heads/main
   CONTAINERAPP_NAME: schoolaccount-collectapi-app
   CONTAINERAPP_RESOURCE_GROUP: s268d01rg-uks-sa-poc
 
@@ -89,7 +89,7 @@ jobs:
           images: ghcr.io/dfe-digital/schoolaccount-collectapi
           tags: |
             type=sha
-            type=raw,value=latest,enable=${{ github.ref == ${{ env.MAIN_BRANCH }} }}
+            type=raw,value=latest,enable=${{ github.ref == '${{ env.MAIN_BRANCH }}' }}
             type=ref,event=branch
             
       - name: Get SHA image tag
@@ -104,20 +104,20 @@ jobs:
           context: .
           file: src/SchoolAccount.Collect.Api/Dockerfile
           target: final
-          push: ${{ github.ref == ${{ env.MAIN_BRANCH }} }}
+          push: ${{ github.ref == '${{ env.MAIN_BRANCH }}' }}
           tags: ${{ steps.meta.outputs.tags }}      
         
       - name: Publish
         run: dotnet publish ${{ env.API_SOLUTION_FILE }} --configuration Release --no-restore --no-build
 
       - name: Azure Login
-        if: github.event_name == 'push' && github.ref == ${{ env.MAIN_BRANCH }}
+        if: github.event_name == 'push' && github.ref == '${{ env.MAIN_BRANCH }}'
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Update ACA Image
-        if: github.event_name == 'push' && github.ref == ${{ env.MAIN_BRANCH }}
+        if: github.event_name == 'push' && github.ref == '${{ env.MAIN_BRANCH }}'
         run: |
           az containerapp update \
             --name ${{ env.CONTAINERAPP_NAME }} \
