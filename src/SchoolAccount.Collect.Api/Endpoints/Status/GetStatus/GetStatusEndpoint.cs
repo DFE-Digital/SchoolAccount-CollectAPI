@@ -21,21 +21,7 @@ internal sealed class GetStatusEndpoint : IEndpoint
                     CancellationToken cancellationToken
                 ) =>
                 {
-                    var orgDetails = request
-                        .Organisations.Select(x => new OrgDetails
-                        {
-                            Id = x.Id,
-                            Name = x.Name,
-                            CategoryId = x.Category.Id,
-                            Ukprn = x.Ukprn,
-                            LocalAuthorityCode = x.LocalAuthority?.Code,
-                            EstablishmentNumber = x.EstablishmentNumber,
-                        })
-                        .ToList();
-
-                    var requestModel = new GetStatusRequestModel { OrgDetails = orgDetails };
-
-                    var query = new GetStatusQuery(requestModel);
+                    GetStatusQuery query = request.ToQuery();
 
                     Result<StatusResponse> result = await handler.Handle(query, cancellationToken);
 
