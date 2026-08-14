@@ -12,36 +12,43 @@ public sealed class GetStatusQueryHandler : IQueryHandler<GetStatusQuery, Status
         CancellationToken cancellationToken
     )
     {
-        var response = new StatusResponse
-        {
-            Details = getStatusQuery
-                .request.OrgDetails.Select(x =>
-                {
-                    string laestab = x.LocalAuthorityCode + x.EstablishmentNumber;
-                    bool interesting = !string.IsNullOrEmpty(laestab);
-                    return new OrganisationResponse
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        CategoryId = x.CategoryId,
-                        Ukprn = x.Ukprn,
-                        Laestab = laestab,
-                        Interesting = interesting,
-                        Actions = interesting
-                            ? new List<Action>
-                            {
-                                new Action
-                                {
-                                    Name = "Autumn School Census",
-                                    Status = new Status { Name = "Not Started" },
-                                },
-                            }
-                            : new(),
-                    };
-                })
-                .ToList(),
-        };
+        StatusResponse response = CreateStatusResponse(getStatusQuery);
 
         return await Task.FromResult(Result.Success(response));
+    }
+
+    private static StatusResponse CreateStatusResponse(GetStatusQuery getStatusQuery)
+    {
+        return new StatusResponse
+        {
+            Details = getStatusQuery
+                .request.OrgDetails.Select(x => CreateOrganisationResponse(x))
+                .ToList(),
+        };
+    }
+
+    private static OrganisationResponse CreateOrganisationResponse(OrgDetails orgDetails)
+    {
+        string laestab = orgDetails.LocalAuthorityCode + orgDetails.EstablishmentNumber;
+        bool interesting = !string.IsNullOrEmpty(laestab);
+        return new OrganisationResponse
+        {
+            Id = orgDetails.Id,
+            Name = orgDetails.Name,
+            CategoryId = orgDetails.CategoryId,
+            Ukprn = orgDetails.Ukprn,
+            Laestab = laestab,
+            Interesting = interesting,
+            Actions = interesting
+                ? new List<Action>
+                {
+                    new Action
+                    {
+                        Name = "Autumn School Census",
+                        Status = new Status { Name = "Not Started" },
+                    },
+                }
+                : new(),
+        };
     }
 }
