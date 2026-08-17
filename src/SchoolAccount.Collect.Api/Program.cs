@@ -1,5 +1,4 @@
 using System.Reflection;
-using System.Text.Json.Serialization;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Scalar.AspNetCore;
@@ -15,8 +14,12 @@ builder.Host.UseSerilog(
     (context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration)
 );
 
-builder.Services.AddApplication().AddPresentation().AddInfrastructure();
+if (builder.Environment.IsProduction())
+{
+    builder.Configuration.AddAzureAppConfiguration();
+}
 
+builder.Services.AddApplication().AddPresentation().AddInfrastructure();
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 WebApplication app = builder.Build();
 
