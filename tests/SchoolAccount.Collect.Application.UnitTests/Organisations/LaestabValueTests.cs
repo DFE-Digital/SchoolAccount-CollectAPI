@@ -22,7 +22,7 @@ public class LaestabValueTests
 
         // Assert
         laestabValue.LocalAuthorityCode.ShouldBe(localAuthorityCode);
-        laestabValue.EstablishmentNo.ShouldBe(establishmentNo);
+        laestabValue.EstablishmentNumber.ShouldBe(establishmentNo);
     }
 
     [Fact]

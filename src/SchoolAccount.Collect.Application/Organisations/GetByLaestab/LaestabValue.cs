@@ -15,5 +15,5 @@ public class LaestabValue
     }
 
     public string LocalAuthorityCode => _laestab[..3];
-    public string EstablishmentNo => _laestab[3..];
+    public string EstablishmentNumber => _laestab[3..];
 }
