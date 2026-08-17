@@ -12,6 +12,10 @@ on:
 env:
   DOTNET_VERSION: "10.x"
   MIN_LINE_COVERAGE: "50"
+  API_SOLUTION_FILE: SchoolAccount.CollectAPI.slnx
+  MAIN_BRANCH: refs/heads/main
+  CONTAINERAPP_NAME: schoolaccount-collectapi-app
+  CONTAINERAPP_RESOURCE_GROUP: s268d01rg-uks-sa-poc
 
 jobs:
   build:
@@ -32,7 +36,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Restore
-        run: dotnet restore SchoolAccount.CollectAPI.slnx
+        run: dotnet restore ${{ env.API_SOLUTION_FILE }}
 
       - name: Check formatting
         run: |
@@ -40,10 +44,10 @@ jobs:
           dotnet csharpier check .
 
       - name: Build
-        run: dotnet build SchoolAccount.CollectAPI.slnx --configuration Release --no-restore
+        run: dotnet build ${{ env.API_SOLUTION_FILE }} --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test SchoolAccount.CollectAPI.slnx --configuration Release --no-restore --no-build -- --report-trx --coverage --coverage-output-format cobertura --coverage-settings ${{ github.workspace }}/coverage.config
+        run: dotnet test ${{ env.API_SOLUTION_FILE }} --configuration Release --no-restore --no-build -- --report-trx --coverage --coverage-output-format cobertura --coverage-settings ${{ github.workspace }}/coverage.config
 
       - name: Test report
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -85,7 +89,7 @@ jobs:
           images: ghcr.io/dfe-digital/schoolaccount-collectapi
           tags: |
             type=sha
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=latest,enable=${{ github.ref == env.MAIN_BRANCH }}
             type=ref,event=branch
             
       - name: Get SHA image tag
@@ -100,22 +104,22 @@ jobs:
           context: .
           file: src/SchoolAccount.Collect.Api/Dockerfile
           target: final
-          push: ${{ github.ref == 'refs/heads/main' }}
+          push: ${{ github.ref == env.MAIN_BRANCH }}
           tags: ${{ steps.meta.outputs.tags }}      
         
       - name: Publish
-        run: dotnet publish SchoolAccount.CollectAPI.slnx --configuration Release --no-restore --no-build
+        run: dotnet publish ${{ env.API_SOLUTION_FILE }} --configuration Release --no-restore --no-build
 
       - name: Azure Login
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == env.MAIN_BRANCH
         uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Update ACA Image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == env.MAIN_BRANCH
         run: |
           az containerapp update \
-            --name schoolaccount-collectapi-app \
-            --resource-group s268d01rg-uks-sa-poc \
+            --name ${{ env.CONTAINERAPP_NAME }} \
+            --resource-group ${{ env.CONTAINERAPP_RESOURCE_GROUP }} \
             --image ${{ steps.image.outputs.image }}
