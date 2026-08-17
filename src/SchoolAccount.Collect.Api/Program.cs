@@ -16,7 +16,7 @@ builder.Host.UseSerilog(
 
 if (builder.Environment.IsProduction())
 {
-   builder.Configuration.AddAzureAppConfiguration();
+    builder.Configuration.AddAzureAppConfiguration();
 }
 
 builder.Services.AddApplication().AddPresentation().AddInfrastructure();
