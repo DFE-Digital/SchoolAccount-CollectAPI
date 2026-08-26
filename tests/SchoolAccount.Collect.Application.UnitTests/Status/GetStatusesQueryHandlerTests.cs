@@ -1,16 +1,16 @@
-using SchoolAccount.Collect.Application.Status.GetStatus;
+using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
 
 namespace SchoolAccount.Collect.Application.UnitTests.Status;
 
-public class GetStatusQueryHandlerTests
+public class GetStatusesQueryHandlerTests
 {
     [Fact]
     public async Task Handler_takes_a_getstatusrequestmodel_and_returns_a_statusresponse()
     {
         // Arrange
-        var requestModel = new GetStatusRequestModel
+        var requestModel = new GetStatusesRequestModel
         {
             OrgDetails = new List<OrgDetails>
             {
@@ -24,9 +24,9 @@ public class GetStatusQueryHandlerTests
             },
         };
 
-        var query = new GetStatusQuery(requestModel);
+        var query = new GetStatusesQuery(requestModel);
 
-        var handler = new GetStatusQueryHandler();
+        var handler = new GetStatusesQueryHandler();
 
         // Act
         Result<StatusResponse> result = await handler.Handle(query, CancellationToken.None);

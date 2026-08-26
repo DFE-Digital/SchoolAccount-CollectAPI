@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
+namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
 
 public record Organisation
 {

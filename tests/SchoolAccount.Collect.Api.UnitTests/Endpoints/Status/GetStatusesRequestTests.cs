@@ -1,16 +1,16 @@
-using SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
-using SchoolAccount.Collect.Application.Status.GetStatus;
+using SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
+using SchoolAccount.Collect.Application.Status.GetStatuses;
 using Shouldly;
 
 namespace SchoolAccount.Collect.Api.UnitTests.Endpoints.Status;
 
-public class GetStatusRequestTests
+public class GetStatusesRequestTests
 {
     [Fact]
     public void Query_is_created_correctly_with_valid_trust_school_request()
     {
         // Arrange
-        var request = new GetStatusRequest
+        var request = new GetStatusesRequest
         {
             Id = "test-id",
             Email = "test.user@email.com",
@@ -31,7 +31,7 @@ public class GetStatusRequestTests
         };
 
         // Act
-        GetStatusQuery query = request.ToQuery();
+        GetStatusesQuery query = request.ToQuery();
 
         // Assert
         query.Request.OrgDetails[0].Id.ShouldBe(request.Organisations[0].Id);
@@ -46,7 +46,7 @@ public class GetStatusRequestTests
     public void Query_is_created_correctly_with_valid_academy_request()
     {
         // Arrange
-        var request = new GetStatusRequest
+        var request = new GetStatusesRequest
         {
             Id = "test-id",
             Email = "test.user@email.com",
@@ -74,7 +74,7 @@ public class GetStatusRequestTests
         };
 
         // Act
-        GetStatusQuery query = request.ToQuery();
+        GetStatusesQuery query = request.ToQuery();
 
         // Assert
         query.Request.OrgDetails[0].Id.ShouldBe(request.Organisations[0].Id);

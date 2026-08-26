@@ -2,26 +2,26 @@ using System.Diagnostics.CodeAnalysis;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.SharedKernel;
 
-namespace SchoolAccount.Collect.Application.Status.GetStatus;
+namespace SchoolAccount.Collect.Application.Status.GetStatuses;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.AllConstructors)]
-public sealed class GetStatusQueryHandler : IQueryHandler<GetStatusQuery, StatusResponse>
+public sealed class GetStatusesQueryHandler : IQueryHandler<GetStatusesQuery, StatusResponse>
 {
     public async Task<Result<StatusResponse>> Handle(
-        GetStatusQuery getStatusQuery,
+        GetStatusesQuery getStatusesQuery,
         CancellationToken cancellationToken
     )
     {
-        StatusResponse response = CreateStatusResponse(getStatusQuery);
+        StatusResponse response = CreateStatusResponse(getStatusesQuery);
 
         return await Task.FromResult(Result.Success(response));
     }
 
-    private static StatusResponse CreateStatusResponse(GetStatusQuery getStatusQuery)
+    private static StatusResponse CreateStatusResponse(GetStatusesQuery getStatusesQuery)
     {
         return new StatusResponse
         {
-            Details = getStatusQuery
+            Details = getStatusesQuery
                 .Request.OrgDetails.Select(x => CreateOrganisationResponse(x))
                 .ToList(),
         };

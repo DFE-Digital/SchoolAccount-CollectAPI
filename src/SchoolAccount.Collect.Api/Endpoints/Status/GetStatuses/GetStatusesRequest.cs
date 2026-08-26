@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using SchoolAccount.Collect.Application.Status.GetStatus;
+using SchoolAccount.Collect.Application.Status.GetStatuses;
 
-namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
+namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
 
-public record GetStatusRequest
+public record GetStatusesRequest
 {
     [Required]
     public string Id { get; init; }
@@ -15,7 +15,7 @@ public record GetStatusRequest
     [Required]
     public List<Organisation> Organisations { get; init; }
 
-    public GetStatusQuery ToQuery()
+    public GetStatusesQuery ToQuery()
     {
         var orgDetails = Organisations
             .Select(x => new OrgDetails
@@ -29,8 +29,8 @@ public record GetStatusRequest
             })
             .ToList();
 
-        var requestModel = new GetStatusRequestModel { OrgDetails = orgDetails };
+        var requestModel = new GetStatusesRequestModel { OrgDetails = orgDetails };
 
-        return new GetStatusQuery(requestModel);
+        return new GetStatusesQuery(requestModel);
     }
 }

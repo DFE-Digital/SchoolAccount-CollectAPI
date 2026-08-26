@@ -1,4 +1,4 @@
-namespace SchoolAccount.Collect.Application.Status.GetStatus;
+namespace SchoolAccount.Collect.Application.Status.GetStatuses;
 
 public class OrgDetails
 {
