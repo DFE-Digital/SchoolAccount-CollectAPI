@@ -160,7 +160,7 @@ The image is created on every push to the `main` branch and tagged with the curr
 
 To verify the image locally, you can run:
 ```
-docker run --platform linux/amd64 --name collect-api -p 5101:8080 -d ghcr.io/dfe-digital/schoolaccount-collectapi:latest
+docker run --platform linux/amd64 --name collect-api -e ASPNETCORE_ENVIRONMENT=development -p 5101:8080 -d --pull=always ghcr.io/dfe-digital/schoolaccount-collectapi:latest
 ```
 
 You can then test the API endpoints by visiting http://localhost:5101/organisations/1234567.

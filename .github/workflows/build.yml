@@ -1,4 +1,4 @@
-name: Build
+name: Collect API Build and Deploy
 
 on:
   workflow_dispatch:
