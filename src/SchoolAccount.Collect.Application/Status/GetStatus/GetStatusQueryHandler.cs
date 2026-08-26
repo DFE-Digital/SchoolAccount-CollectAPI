@@ -22,7 +22,7 @@ public sealed class GetStatusQueryHandler : IQueryHandler<GetStatusQuery, Status
         return new StatusResponse
         {
             Details = getStatusQuery
-                .request.OrgDetails.Select(x => CreateOrganisationResponse(x))
+                .Request.OrgDetails.Select(x => CreateOrganisationResponse(x))
                 .ToList(),
         };
     }

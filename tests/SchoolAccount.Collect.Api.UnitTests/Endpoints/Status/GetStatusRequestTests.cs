@@ -34,12 +34,12 @@ public class GetStatusRequestTests
         GetStatusQuery query = request.ToQuery();
 
         // Assert
-        query.request.OrgDetails[0].Id.ShouldBe(request.Organisations[0].Id);
-        query.request.OrgDetails[0].Name.ShouldBe(request.Organisations[0].Name);
-        query.request.OrgDetails[0].CategoryId.ShouldBe(request.Organisations[0].Category.Id);
-        query.request.OrgDetails[0].Ukprn.ShouldBe(request.Organisations[0].Ukprn);
-        query.request.OrgDetails[0].LocalAuthorityCode.ShouldBeNull();
-        query.request.OrgDetails[0].EstablishmentNumber.ShouldBeNull();
+        query.Request.OrgDetails[0].Id.ShouldBe(request.Organisations[0].Id);
+        query.Request.OrgDetails[0].Name.ShouldBe(request.Organisations[0].Name);
+        query.Request.OrgDetails[0].CategoryId.ShouldBe(request.Organisations[0].Category.Id);
+        query.Request.OrgDetails[0].Ukprn.ShouldBe(request.Organisations[0].Ukprn);
+        query.Request.OrgDetails[0].LocalAuthorityCode.ShouldBeNull();
+        query.Request.OrgDetails[0].EstablishmentNumber.ShouldBeNull();
     }
 
     [Fact]
@@ -77,15 +77,15 @@ public class GetStatusRequestTests
         GetStatusQuery query = request.ToQuery();
 
         // Assert
-        query.request.OrgDetails[0].Id.ShouldBe(request.Organisations[0].Id);
-        query.request.OrgDetails[0].Name.ShouldBe(request.Organisations[0].Name);
-        query.request.OrgDetails[0].CategoryId.ShouldBe(request.Organisations[0].Category.Id);
-        query.request.OrgDetails[0].Ukprn.ShouldBe(request.Organisations[0].Ukprn);
+        query.Request.OrgDetails[0].Id.ShouldBe(request.Organisations[0].Id);
+        query.Request.OrgDetails[0].Name.ShouldBe(request.Organisations[0].Name);
+        query.Request.OrgDetails[0].CategoryId.ShouldBe(request.Organisations[0].Category.Id);
+        query.Request.OrgDetails[0].Ukprn.ShouldBe(request.Organisations[0].Ukprn);
         query
-            .request.OrgDetails[0]
+            .Request.OrgDetails[0]
             .LocalAuthorityCode.ShouldBe(request.Organisations[0].LocalAuthority?.Code);
         query
-            .request.OrgDetails[0]
+            .Request.OrgDetails[0]
             .EstablishmentNumber.ShouldBe(request.Organisations[0].EstablishmentNumber);
     }
 }
