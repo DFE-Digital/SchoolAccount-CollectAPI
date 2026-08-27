@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using NSubstitute;
-using SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
+using SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
-using SchoolAccount.Collect.Application.Status.GetStatus;
+using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
-using Action = SchoolAccount.Collect.Application.Status.GetStatus.Action;
+using Action = SchoolAccount.Collect.Application.Status.GetStatuses.Action;
 
 namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Status;
 
@@ -16,8 +16,8 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
-    private readonly IQueryHandler<GetStatusQuery, StatusResponse> _handler = Substitute.For<
-        IQueryHandler<GetStatusQuery, StatusResponse>
+    private readonly IQueryHandler<GetStatusesQuery, StatusResponse> _handler = Substitute.For<
+        IQueryHandler<GetStatusesQuery, StatusResponse>
     >();
 
     public GetByStatusTests(WebApplicationFactory<Program> factory)
@@ -25,7 +25,9 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
         _client = factory
             .WithWebHostBuilder(builder =>
                 builder.ConfigureTestServices(services =>
-                    services.AddScoped<IQueryHandler<GetStatusQuery, StatusResponse>>(_ => _handler)
+                    services.AddScoped<IQueryHandler<GetStatusesQuery, StatusResponse>>(_ =>
+                        _handler
+                    )
                 )
             )
             .CreateClient();
@@ -45,7 +47,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
             Ukprn = "test-ukprn",
         };
 
-        var request = new GetStatusRequest
+        var request = new GetStatusesRequest
         {
             Id = id,
             Email = email,
@@ -69,7 +71,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
         };
 
         _handler
-            .Handle(Arg.Any<GetStatusQuery>(), Arg.Any<CancellationToken>())
+            .Handle(Arg.Any<GetStatusesQuery>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success(stubbedStatusResponse));
 
         // Act
@@ -119,7 +121,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
             EstablishmentNumber = "4567",
         };
 
-        var request = new GetStatusRequest
+        var request = new GetStatusesRequest
         {
             Id = id,
             Email = email,
@@ -143,7 +145,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
                         new Action
                         {
                             Name = "Autumn School Census",
-                            Status = new Application.Status.GetStatus.Status
+                            Status = new Application.Status.GetStatuses.Status
                             {
                                 Name = "Not Started",
                             },
@@ -154,7 +156,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
         };
 
         _handler
-            .Handle(Arg.Any<GetStatusQuery>(), Arg.Any<CancellationToken>())
+            .Handle(Arg.Any<GetStatusesQuery>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success(stubbedStatusResponse));
 
         // Act

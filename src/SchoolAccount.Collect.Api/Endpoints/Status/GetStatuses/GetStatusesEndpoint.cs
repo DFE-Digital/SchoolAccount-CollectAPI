@@ -3,25 +3,25 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolAccount.Collect.Api.Extensions;
 using SchoolAccount.Collect.Api.Infrastructure;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
-using SchoolAccount.Collect.Application.Status.GetStatus;
+using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
 
-namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatus;
+namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.AllConstructors)]
-internal sealed class GetStatusEndpoint : IEndpoint
+internal sealed class GetStatusesEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost(
                 "status",
                 async (
-                    [FromBody] GetStatusRequest request,
-                    IQueryHandler<GetStatusQuery, StatusResponse> handler,
+                    [FromBody] GetStatusesRequest request,
+                    IQueryHandler<GetStatusesQuery, StatusResponse> handler,
                     CancellationToken cancellationToken
                 ) =>
                 {
-                    GetStatusQuery query = request.ToQuery();
+                    GetStatusesQuery query = request.ToQuery();
 
                     Result<StatusResponse> result = await handler.Handle(query, cancellationToken);
 

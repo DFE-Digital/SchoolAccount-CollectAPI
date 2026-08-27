@@ -1,4 +1,4 @@
-namespace SchoolAccount.Collect.Application.Status.GetStatus;
+namespace SchoolAccount.Collect.Application.Status.GetStatuses;
 
 public sealed record OrganisationResponse
 {
@@ -8,5 +8,5 @@ public sealed record OrganisationResponse
     public string Ukprn { get; init; }
     public string Laestab { get; init; }
     public bool Interesting { get; init; }
-    public List<Action>? Actions { get; init; }
+    public List<Action> Actions { get; init; } = [];
 }
