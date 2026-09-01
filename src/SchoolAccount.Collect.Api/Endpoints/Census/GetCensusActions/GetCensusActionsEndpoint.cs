@@ -11,10 +11,10 @@ public class GetCensusActionsEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapPost(
-                "censusActionDetails",
+        app.MapGet(
+                "census/{Id}",
                 async (
-                    [FromBody] GetCensusActionsRequest request,
+                    [AsParameters] GetCensusActionsRequest request,
                     IQueryHandler<GetCensusActionsQuery, CensusActionsResponse> handler,
                     CancellationToken cancellationToken
                 ) =>
