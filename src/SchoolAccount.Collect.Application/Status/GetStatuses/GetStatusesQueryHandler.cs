@@ -44,6 +44,7 @@ public sealed class GetStatusesQueryHandler : IQueryHandler<GetStatusesQuery, St
                 {
                     new Action
                     {
+                        Id = "autumn-school-census",
                         Name = "Autumn School Census",
                         Status = new Status { Name = "Not Started" },
                     },

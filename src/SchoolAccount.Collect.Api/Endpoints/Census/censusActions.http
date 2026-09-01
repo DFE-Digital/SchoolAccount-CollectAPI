@@ -1,0 +1,6 @@
+@API_HostAddress = http://localhost:5101
+
+### Get autumn school census action details
+GET {{API_HostAddress}}/census/autumn-school-census
+Accept: application/json
+Content-Type: application/json
