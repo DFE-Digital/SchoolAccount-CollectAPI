@@ -20,7 +20,7 @@ public sealed class ActionStatus
 
 public sealed class LastUpdated
 {
-    public DateTimeOffset Date { get; init; }
+    public DateOnly Date { get; init; }
 }
 
 public sealed class CallToAction
