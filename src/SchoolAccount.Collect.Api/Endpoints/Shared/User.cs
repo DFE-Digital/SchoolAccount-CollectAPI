@@ -15,8 +15,7 @@ public record User
     public string Email { get; init; }
 
     [Required]
-    [MinLength(1)]
-    public List<Organisation> Organisations { get; init; }
+    public List<Organisation> Organisations { get; init; } = [];
 
     public UserDetails ToUserDetails()
     {
