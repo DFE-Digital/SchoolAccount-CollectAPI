@@ -90,7 +90,7 @@ public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program
             .Received(1)
             .Handle(
                 Arg.Is<GetCensusActionsQuery>(query =>
-                    query!.Request.CensusId == _censusId
+                    query.Request.CensusId == _censusId
                     && query.Request.UserDetails.Id == "test-user-id"
                     && query.Request.UserDetails.OrgDetails.Count == 1
                 ),
