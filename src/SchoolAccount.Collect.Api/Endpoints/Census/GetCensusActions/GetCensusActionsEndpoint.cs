@@ -11,8 +11,8 @@ public class GetCensusActionsEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet(
-                "census/{Id}",
+        app.MapPost(
+                "census/{censusId}",
                 async (
                     [AsParameters] GetCensusActionsRequest request,
                     IQueryHandler<GetCensusActionsQuery, CensusActionsResponse> handler,

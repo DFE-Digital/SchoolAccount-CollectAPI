@@ -1,4 +1,6 @@
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
+using SchoolAccount.Collect.Application.Shared;
+using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
 
@@ -10,7 +12,25 @@ public class GetCensusActionsHandlerTests
     public async Task Handler_takes_a_getcensusactionsrequestmodel_and_returns_a_censusactionsresponse()
     {
         // Arrange
-        var requestModel = new GetCensusActionsRequestModel { Id = "test-id" };
+        var requestModel = new GetCensusActionsRequestModel
+        {
+            CensusId = "test-census-id",
+            UserDetails = new UserDetails
+            {
+                Id = "test-user-id",
+                Email = "test.user@email.com",
+                OrgDetails =
+                [
+                    new OrgDetails
+                    {
+                        Id = "test-organisation-id",
+                        Name = "test-organisation-name",
+                        CategoryId = "test-category-id",
+                        Ukprn = "test-ukprn",
+                    },
+                ],
+            },
+        };
 
         var query = new GetCensusActionsQuery(requestModel);
 
