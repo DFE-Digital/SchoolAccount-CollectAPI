@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
 
+[SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
 public static class StubbedCensusResponse
 {
     public static CensusActionsResponse Create()
@@ -15,7 +18,7 @@ public static class StubbedCensusResponse
             CallToAction = new CallToAction
             {
                 Label = "Go to Autumn Census 2026",
-                Url = "/collect.education.gov.uk",
+                Url = new Uri("https://collectdata.education.gov.uk/CollectPortalLive/"),
             },
             Steps =
             [
