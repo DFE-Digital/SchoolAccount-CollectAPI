@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using NSubstitute;
-using SchoolAccount.Collect.Api.Endpoints.Census.GetCensusActions;
+using SchoolAccount.Collect.Api.Endpoints.Shared;
+using SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.SharedKernel;
@@ -13,6 +14,8 @@ namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Census;
 
 public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program>>
 {
+    private const string _censusId = "autumn-school-census-2026";
+
     private readonly HttpClient _client;
 
     private readonly IQueryHandler<GetCensusActionsQuery, CensusActionsResponse> _handler =
@@ -35,7 +38,7 @@ public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program
     public async Task CensusActions_endpoint_should_return_census_actions_response()
     {
         // Arrange
-        var request = new GetCensusActionsRequest { Id = "test-id" };
+        User user = ValidUser();
 
         CensusActionsResponse stubbedCensusResponse = StubbedCensusResponse.Create();
 
@@ -44,8 +47,9 @@ public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program
             .Returns(Result.Success(stubbedCensusResponse));
 
         // Act
-        HttpResponseMessage response = await _client.GetAsync(
-            $"/census/{request.Id}",
+        HttpResponseMessage response = await _client.PostAsJsonAsync(
+            $"/census/{_censusId}",
+            user,
             CancellationToken.None
         );
 
@@ -69,18 +73,77 @@ public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program
     }
 
     [Fact]
-    public async Task CensusActions_endpoint_should_return_not_found_for_missing_id()
+    public async Task CensusActions_endpoint_should_pass_the_census_id_and_user_to_the_handler()
     {
         // Arrange
-        var request = new GetCensusActionsRequest();
+        User user = ValidUser();
+
+        _handler
+            .Handle(Arg.Any<GetCensusActionsQuery>(), Arg.Any<CancellationToken>())
+            .Returns(Result.Success(StubbedCensusResponse.Create()));
 
         // Act
-        HttpResponseMessage response = await _client.GetAsync(
-            $"/census/{request.Id}",
+        await _client.PostAsJsonAsync($"/census/{_censusId}", user, CancellationToken.None);
+
+        // Assert
+        await _handler
+            .Received(1)
+            .Handle(
+                Arg.Is<GetCensusActionsQuery>(query =>
+                    query.Request.CensusId == _censusId
+                    && query.Request.UserDetails.Id == "test-user-id"
+                    && query.Request.UserDetails.OrgDetails.Count == 1
+                ),
+                Arg.Any<CancellationToken>()
+            );
+    }
+
+    [Fact]
+    public async Task CensusActions_endpoint_should_return_validation_problem_without_a_user()
+    {
+        // Act
+        HttpResponseMessage response = await _client.PostAsJsonAsync(
+            $"/census/{_censusId}",
+            new { },
             CancellationToken.None
         );
 
         // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+        response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+
+        ValidationProblemDetails problem =
+            await response.Content.ReadFromJsonAsync<ValidationProblemDetails>(
+                CancellationToken.None
+            );
+
+        problem.ShouldNotBeNull();
+        problem.Errors.Keys.ShouldContain("User.Email");
+
+        await _handler
+            .DidNotReceive()
+            .Handle(Arg.Any<GetCensusActionsQuery>(), Arg.Any<CancellationToken>());
+    }
+
+    private static User ValidUser()
+    {
+        return new User
+        {
+            Id = "test-user-id",
+            Email = "test.user@email.com",
+            Organisations =
+            [
+                new Organisation
+                {
+                    Id = "test-organisation-id",
+                    Name = "test-organisation-name",
+                    Category = new Category
+                    {
+                        Id = "test-category-id",
+                        Name = "test-category-name",
+                    },
+                    Ukprn = "test-ukprn",
+                },
+            ],
+        };
     }
 }
