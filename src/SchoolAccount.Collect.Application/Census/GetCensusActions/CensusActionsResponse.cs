@@ -26,7 +26,7 @@ public sealed class LastUpdated
 public sealed class CallToAction
 {
     public required string Label { get; init; }
-    public required string Url { get; init; }
+    public required Uri Url { get; init; }
 }
 
 public sealed class ActionStep
