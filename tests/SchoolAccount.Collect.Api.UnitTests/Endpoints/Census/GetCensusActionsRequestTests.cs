@@ -2,6 +2,8 @@ using SchoolAccount.Collect.Api.Endpoints.Census.GetCensusActions;
 using SchoolAccount.Collect.Api.Endpoints.Shared;
 using SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
+using SchoolAccount.Collect.Application.Shared;
+using SchoolAccount.Collect.Application.Status.GetStatuses;
 using Shouldly;
 
 namespace SchoolAccount.Collect.Api.UnitTests.Endpoints.Census;
@@ -19,9 +21,9 @@ public class GetCensusActionsRequestTests
             {
                 Id = "test-user-id",
                 Email = "test.user@email.com",
-                Organisations = new List<Organisation>
-                {
-                    new()
+                Organisations =
+                [
+                    new Organisation
                     {
                         Id = "test-organisation-id",
                         Name = "test-organisation-name",
@@ -39,7 +41,7 @@ public class GetCensusActionsRequestTests
                         },
                         EstablishmentNumber = "4567",
                     },
-                },
+                ],
             },
         };
 
@@ -47,16 +49,18 @@ public class GetCensusActionsRequestTests
         GetCensusActionsQuery query = request.ToQuery();
 
         // Assert
+        UserDetails userDetails = query.Request.UserDetails;
+        OrgDetails orgDetails = userDetails.OrgDetails[0];
+        Organisation firstOrganisation = request.User.Organisations[0];
+
         query.Request.CensusId.ShouldBe(request.CensusId);
-        query.Request.UserDetails.Id.ShouldBe(request.User.Id);
-        query.Request.UserDetails.Email.ShouldBe(request.User.Email);
-        query.Request.UserDetails.OrgDetails[0].Id.ShouldBe(request.User.Organisations[0].Id);
-        query.Request.UserDetails.OrgDetails[0].Name.ShouldBe(request.User.Organisations[0].Name);
-        query
-            .Request.UserDetails.OrgDetails[0]
-            .CategoryId.ShouldBe(request.User.Organisations[0].Category.Id);
-        query.Request.UserDetails.OrgDetails[0].Ukprn.ShouldBe(request.User.Organisations[0].Ukprn);
-        query.Request.UserDetails.OrgDetails[0].LocalAuthorityCode.ShouldBe("123");
-        query.Request.UserDetails.OrgDetails[0].EstablishmentNumber.ShouldBe("4567");
+        userDetails.Id.ShouldBe(request.User.Id);
+        userDetails.Email.ShouldBe(request.User.Email);
+        orgDetails.Id.ShouldBe(firstOrganisation.Id);
+        orgDetails.Name.ShouldBe(firstOrganisation.Name);
+        orgDetails.CategoryId.ShouldBe(firstOrganisation.Category.Id);
+        orgDetails.Ukprn.ShouldBe(firstOrganisation.Ukprn);
+        orgDetails.LocalAuthorityCode.ShouldBe("123");
+        orgDetails.EstablishmentNumber.ShouldBe("4567");
     }
 }
