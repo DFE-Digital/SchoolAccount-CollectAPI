@@ -19,7 +19,7 @@ if (builder.Environment.IsProduction())
     builder.Configuration.AddAzureAppConfiguration();
 }
 
-builder.Services.AddApplication().AddPresentation().AddInfrastructure();
+builder.Services.AddApplication(builder.Configuration).AddPresentation().AddInfrastructure();
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 WebApplication app = builder.Build();
 
