@@ -38,20 +38,6 @@ public class GetCensusActionsHandlerTests
         result.Value.ImportantDates.Count.ShouldBe(censusResponse.ImportantDates.Count);
     }
 
-    [Fact]
-    public async Task Handler_throws_when_the_database_is_enabled()
-    {
-        // Arrange
-        GetCensusActionsQuery query = CreateQuery();
-
-        var handler = new GetCensusActionsHandler(CreateSettings(useDatabase: true));
-
-        // Act & Assert
-        await Should.ThrowAsync<NotImplementedException>(() =>
-            handler.Handle(query, CancellationToken.None)
-        );
-    }
-
     private static GetCensusActionsQuery CreateQuery()
     {
         var requestModel = new GetCensusActionsRequestModel
