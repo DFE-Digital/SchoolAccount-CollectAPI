@@ -1,3 +1,5 @@
+using Dapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.Application.Configuration;
@@ -15,14 +17,25 @@ public class GetCensusActionsHandler(IOptionsSnapshot<CensusSettings> settings)
         CancellationToken cancellationToken
     )
     {
+        CensusActionsResponse response;
+
         if (_settings.UseDatabase)
         {
-            throw new NotImplementedException(
-                "Reading census data from a database is not supported."
+            await using var connection = new SqlConnection(
+                "Server=localhost,1433;User ID=sa;Password=MyStrongPassword123!;TrustServerCertificate=True;Connection Timeout=30;"
             );
+            string sql =
+                "SELECT ReturnStatusCode FROM CollectStateLedger.dbo.CollectReturnStatus WHERE LAEStab = @laestab";
+            StatusCode status = await connection.ExecuteScalarAsync<StatusCode>(
+                sql,
+                new { laestab = query.Request.UserDetails.OrgDetails[0].Laestab }
+            );
+            response = StubbedCensusResponse.Create(status);
         }
-
-        CensusActionsResponse response = StubbedCensusResponse.Create();
+        else
+        {
+            response = StubbedCensusResponse.Create();
+        }
 
         return await Task.FromResult(Result.Success(response));
     }

@@ -5,7 +5,7 @@ namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
 [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
 public static class StubbedCensusResponse
 {
-    public static CensusActionsResponse Create()
+    public static CensusActionsResponse Create(StatusCode? statusCode = null)
     {
         return new CensusActionsResponse
         {
@@ -13,7 +13,9 @@ public static class StubbedCensusResponse
             Caption = "Complete your census return",
             Overview =
                 "The school census collects pupil and school data from state-funded schools three times a year. The data is exported from each school’s management information system (MIS) and submitted to the Department for Education through an online tool called COLLECT.",
-            Status = new ActionStatus { Name = "notStarted", Label = "Not Started" },
+            Status = statusCode is null
+                ? new ActionStatus { Name = "notStarted", Label = "Not Started" }
+                : new ActionStatus { Name = "In Progress", Label = "In Progress" },
             LastUpdated = new LastUpdated { Date = new DateOnly(2026, 8, 26) },
             CallToAction = new CallToAction
             {

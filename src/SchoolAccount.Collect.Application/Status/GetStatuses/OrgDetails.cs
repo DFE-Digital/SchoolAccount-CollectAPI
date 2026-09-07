@@ -8,4 +8,5 @@ public class OrgDetails
     public required string Ukprn { get; init; }
     public string? LocalAuthorityCode { get; init; }
     public string? EstablishmentNumber { get; init; }
+    public string? Laestab => $"{LocalAuthorityCode}{EstablishmentNumber}";
 }
