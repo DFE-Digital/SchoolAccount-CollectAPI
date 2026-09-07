@@ -1,10 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Text.RegularExpressions;
 
 namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
 
 [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
-public static partial class StubbedCensusResponse
+public static class StubbedCensusResponse
 {
     public static CensusActionsResponse Create(StatusCode? statusCode = null)
     {
@@ -16,14 +15,7 @@ public static partial class StubbedCensusResponse
                 "The school census collects pupil and school data from state-funded schools three times a year. The data is exported from each school’s management information system (MIS) and submitted to the Department for Education through an online tool called COLLECT.",
             Status = statusCode is null
                 ? new ActionStatus { Name = "notStarted", Label = "Not Started" }
-                : new ActionStatus
-                {
-                    Name = (
-                        char.ToLowerInvariant(statusCode.Value.ToString()[0])
-                        + statusCode.Value.ToString()[1..]
-                    ).Replace(" ", string.Empty),
-                    Label = MyRegex().Replace(statusCode.Value.ToString(), " "),
-                },
+                : ToActionStatus(statusCode.Value),
             LastUpdated = new LastUpdated { Date = new DateOnly(2026, 8, 26) },
             CallToAction = new CallToAction
             {
@@ -83,6 +75,23 @@ public static partial class StubbedCensusResponse
         };
     }
 
-    [GeneratedRegex("(?<=[a-z])(?=[A-Z])", RegexOptions.Compiled)]
-    private static partial Regex MyRegex();
+    private static ActionStatus ToActionStatus(StatusCode statusCode)
+    {
+        return statusCode switch
+        {
+            StatusCode.Approved => new ActionStatus { Name = "approved", Label = "Approved" },
+            StatusCode.AmendedByCollector => new ActionStatus
+            {
+                Name = "amendedByCollector",
+                Label = "Amended By Collector",
+            },
+            StatusCode.Authorised => new ActionStatus { Name = "authorised", Label = "Authorised" },
+            StatusCode.AwaitingAuthorisation => new ActionStatus
+            {
+                Name = "awaitingAuthorisation",
+                Label = "Awaiting Authorisation",
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(statusCode)),
+        };
+    }
 }
