@@ -21,9 +21,7 @@ public class GetCensusActionsHandler(IOptionsSnapshot<CensusSettings> settings)
 
         if (_settings.UseDatabase)
         {
-            await using var connection = new SqlConnection(
-                "Server=localhost,1433;User ID=sa;Password=MyStrongPassword123!;TrustServerCertificate=True;Connection Timeout=30;"
-            );
+            await using var connection = new SqlConnection(_settings.ConnectionString);
             string sql =
                 "SELECT ReturnStatusCode FROM CollectStateLedger.dbo.CollectReturnStatus WHERE LAEStab = @laestab";
             StatusCode status = await connection.ExecuteScalarAsync<StatusCode>(
