@@ -1,8 +1,4 @@
-using Dapper;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Options;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
-using SchoolAccount.Collect.Application.Configuration;
 using SchoolAccount.Collect.SharedKernel;
 
 namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
