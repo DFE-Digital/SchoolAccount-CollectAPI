@@ -7,33 +7,19 @@ using SchoolAccount.Collect.SharedKernel;
 
 namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
 
-public class GetCensusActionsHandler(IOptionsSnapshot<CensusSettings> settings)
+public class GetCensusActionsHandler(ICensusReturnStatusReader returnStatusReader)
     : IQueryHandler<GetCensusActionsQuery, CensusActionsResponse>
 {
-    private readonly CensusSettings _settings = settings.Value;
-
     public async Task<Result<CensusActionsResponse>> Handle(
         GetCensusActionsQuery query,
         CancellationToken cancellationToken
     )
     {
-        CensusActionsResponse response;
-
-        if (_settings.UseDatabase)
-        {
-            await using var connection = new SqlConnection(_settings.ConnectionString);
-            string sql =
-                "SELECT ReturnStatusCode FROM CollectStateLedger.dbo.CollectReturnStatus WHERE LAEStab = @laestab";
-            StatusCode status = await connection.ExecuteScalarAsync<StatusCode>(
-                sql,
-                new { laestab = query.Request.UserDetails.OrgDetails[0].Laestab }
-            );
-            response = StubbedCensusResponse.Create(status);
-        }
-        else
-        {
-            response = StubbedCensusResponse.Create();
-        }
+        StatusCode? status = await returnStatusReader.GetReturnStatusCode(
+            query.Request.UserDetails.OrgDetails[0].Laestab,
+            cancellationToken
+        );
+        CensusActionsResponse response = StubbedCensusResponse.Create(status);
 
         return await Task.FromResult(Result.Success(response));
     }
