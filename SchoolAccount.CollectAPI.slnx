@@ -34,6 +34,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/SchoolAccount.Collect.Api.UnitTests/SchoolAccount.Collect.Api.UnitTests.csproj" />
+    <Project Path="tests/SchoolAccount.Collect.Infrastructure.UnitTests/SchoolAccount.Collect.Infrastructure.UnitTests.csproj" />
     <Project Path="tests\SchoolAccount.Collect.Api.IntegrationTests\SchoolAccount.Collect.Api.IntegrationTests.csproj" />
     <Project Path="tests\SchoolAccount.Collect.Application.UnitTests\SchoolAccount.Collect.Application.UnitTests.csproj" />
     <Project Path="tests\SchoolAccount.Collect.ArchitectureTests\SchoolAccount.Collect.ArchitectureTests.csproj" />
