@@ -8,5 +8,12 @@ public class OrgDetails
     public required string Ukprn { get; init; }
     public string? LocalAuthorityCode { get; init; }
     public string? EstablishmentNumber { get; init; }
-    public string? Laestab => $"{LocalAuthorityCode}{EstablishmentNumber}";
+    public string? Laestab => CreateLaestab();
+
+    private string? CreateLaestab()
+    {
+        return string.IsNullOrEmpty(LocalAuthorityCode) || string.IsNullOrEmpty(EstablishmentNumber)
+            ? null
+            : LocalAuthorityCode + EstablishmentNumber;
+    }
 }
