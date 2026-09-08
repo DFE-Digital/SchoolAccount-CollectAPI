@@ -16,10 +16,7 @@ public class CensusReturnStatusReaderTests
         var reader = new CensusReturnStatusReader(CreateSettings(false));
 
         // Act
-        StatusCode? result = await reader.GetReturnStatusCode(
-            Arg.Any<string>(),
-            CancellationToken.None
-        );
+        StatusCode? result = await reader.GetReturnStatusCode("1234567", CancellationToken.None);
 
         // Assert
         result.ShouldBeNull();
