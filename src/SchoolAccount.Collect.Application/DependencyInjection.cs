@@ -13,7 +13,13 @@ public static class DependencyInjection
         IConfiguration configuration
     )
     {
-        services.Configure<CensusSettings>(configuration.GetSection(CensusSettings.SectionName));
+        services
+            .AddOptions<CensusSettings>()
+            .Bind(configuration.GetSection(CensusSettings.SectionName))
+            .Validate(
+                s => s.UseDatabase && string.IsNullOrWhiteSpace(s.ConnectionString),
+                "The connection string must be provided when using the database."
+            );
 
         services.Scan(scan =>
             scan.FromAssembliesOf(typeof(DependencyInjection))
