@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using SchoolAccount.Collect.Application.Abstractions.Behaviors;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.Application.Configuration;
+using Serilog.Core;
 
 namespace SchoolAccount.Collect.Application;
 
@@ -13,13 +15,12 @@ public static class DependencyInjection
         IConfiguration configuration
     )
     {
+        services.AddSingleton<IValidateOptions<CensusSettings>, CensusSettingsValidator>();
+
         services
             .AddOptions<CensusSettings>()
             .Bind(configuration.GetSection(CensusSettings.SectionName))
-            .Validate(
-                s => s.UseDatabase && string.IsNullOrWhiteSpace(s.ConnectionString),
-                "The connection string must be provided when using the database."
-            );
+            .ValidateOnStart();
 
         services.Scan(scan =>
             scan.FromAssembliesOf(typeof(DependencyInjection))
