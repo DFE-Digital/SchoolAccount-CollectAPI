@@ -5,7 +5,7 @@ namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
 [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
 public static class StubbedCensusResponse
 {
-    public static CensusActionsResponse Create()
+    public static CensusActionsResponse Create(StatusCode? statusCode = null)
     {
         return new CensusActionsResponse
         {
@@ -13,7 +13,9 @@ public static class StubbedCensusResponse
             Caption = "Complete your census return",
             Overview =
                 "The school census collects pupil and school data from state-funded schools three times a year. The data is exported from each school’s management information system (MIS) and submitted to the Department for Education through an online tool called COLLECT.",
-            Status = new ActionStatus { Name = "notStarted", Label = "Not Started" },
+            Status = statusCode is null
+                ? new ActionStatus { Name = "notStarted", Label = "Not Started" }
+                : ToActionStatus(statusCode.Value),
             LastUpdated = new LastUpdated { Date = new DateOnly(2026, 8, 26) },
             CallToAction = new CallToAction
             {
@@ -70,6 +72,26 @@ public static class StubbedCensusResponse
                 new ImportantDate { Date = new DateOnly(2026, 10, 1), Label = "Census day" },
                 new ImportantDate { Date = new DateOnly(2026, 10, 28), Label = "Return due" },
             ],
+        };
+    }
+
+    private static ActionStatus ToActionStatus(StatusCode statusCode)
+    {
+        return statusCode switch
+        {
+            StatusCode.Approved => new ActionStatus { Name = "approved", Label = "Approved" },
+            StatusCode.AmendedByCollector => new ActionStatus
+            {
+                Name = "amendedByCollector",
+                Label = "Amended By Collector",
+            },
+            StatusCode.Authorised => new ActionStatus { Name = "authorised", Label = "Authorised" },
+            StatusCode.AwaitingAuthorisation => new ActionStatus
+            {
+                Name = "awaitingAuthorisation",
+                Label = "Awaiting Authorisation",
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(statusCode)),
         };
     }
 }
