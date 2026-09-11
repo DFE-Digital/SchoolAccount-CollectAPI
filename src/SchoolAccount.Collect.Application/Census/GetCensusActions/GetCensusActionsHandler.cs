@@ -11,6 +11,11 @@ public class GetCensusActionsHandler(ICensusReturnStatusReader returnStatusReade
         CancellationToken cancellationToken
     )
     {
+        if (query.Request.UserDetails.OrgDetails is null)
+        {
+            throw new ArgumentException("No organisation has been provided.");
+        }
+
         StatusCode? status = await returnStatusReader.GetReturnStatusCode(
             query.Request.UserDetails.OrgDetails[0].Laestab,
             cancellationToken
