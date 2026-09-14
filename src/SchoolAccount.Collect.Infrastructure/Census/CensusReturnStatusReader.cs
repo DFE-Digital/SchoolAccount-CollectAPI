@@ -20,11 +20,11 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
         {
             await using var connection = new SqlConnection(_settings.ConnectionString);
             string sql =
-                "SELECT ReturnStatusCode FROM CollectStateLedger.dbo.CollectReturnStatus WHERE LAEStab = @laestab AND Collection = @collection";
+                "SELECT ReturnStatusCode FROM CollectStateLedger.dbo.CollectReturnStatus WHERE LAEStab = @laestab AND Collection = @collection ORDER BY UpdatedAt DESC";
             return await connection.ExecuteScalarAsync<StatusCode?>(
                 new CommandDefinition(
                     sql,
-                    new { laestab, _settings.CurrentOpenCensus },
+                    new { LAEStab = laestab, Collection = _settings.CurrentOpenCensus },
                     cancellationToken: cancellationToken
                 )
             );
