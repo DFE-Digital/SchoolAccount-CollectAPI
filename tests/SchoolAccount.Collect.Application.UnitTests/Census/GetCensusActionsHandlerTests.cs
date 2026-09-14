@@ -68,6 +68,31 @@ public class GetCensusActionsHandlerTests
             .GetReturnStatusCode(Arg.Any<string>(), Arg.Any<CancellationToken>());
     }
 
+    [Fact]
+    public async Task Handler_throws_when_first_organisation_cannot_be_found()
+    {
+        // Arrange
+        var request = new GetCensusActionsRequestModel
+        {
+            CensusId = "test-id",
+            UserDetails = new UserDetails
+            {
+                Id = "test-user-id",
+                Email = "test.user@email.com",
+                OrgDetails = [],
+            },
+        };
+
+        var query = new GetCensusActionsQuery(request);
+
+        var handler = new GetCensusActionsHandler(_returnStatusReader);
+
+        // Act & Assert
+        await Should.ThrowAsync<ArgumentException>(() =>
+            handler.Handle(query, CancellationToken.None)
+        );
+    }
+
     private static GetCensusActionsQuery CreateQuery()
     {
         var requestModel = new GetCensusActionsRequestModel
