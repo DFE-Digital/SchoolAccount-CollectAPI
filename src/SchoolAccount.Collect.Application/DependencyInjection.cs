@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using SchoolAccount.Collect.Application.Abstractions.Behaviors;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.Application.Configuration;
+using Serilog.Core;
 
 namespace SchoolAccount.Collect.Application;
 
@@ -13,7 +15,12 @@ public static class DependencyInjection
         IConfiguration configuration
     )
     {
-        services.Configure<CensusSettings>(configuration.GetSection(CensusSettings.SectionName));
+        services.AddSingleton<IValidateOptions<CensusSettings>, CensusSettingsValidator>();
+
+        services
+            .AddOptions<CensusSettings>()
+            .Bind(configuration.GetSection(CensusSettings.SectionName))
+            .ValidateOnStart();
 
         services.Scan(scan =>
             scan.FromAssembliesOf(typeof(DependencyInjection))

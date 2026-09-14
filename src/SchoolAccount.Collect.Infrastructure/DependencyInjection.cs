@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SchoolAccount.Collect.Application.Census.GetCensusActions;
+using SchoolAccount.Collect.Infrastructure.Census;
 using SchoolAccount.Collect.Infrastructure.Time;
 using SchoolAccount.Collect.SharedKernel;
 
@@ -16,6 +18,7 @@ public static class DependencyInjection
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<ICensusReturnStatusReader, CensusReturnStatusReader>();
 
         return services;
     }
