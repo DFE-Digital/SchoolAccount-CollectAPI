@@ -19,7 +19,7 @@ public static class StubbedCensusResponse
             LastUpdated = new LastUpdated { Date = new DateOnly(2026, 8, 26) },
             CallToAction = new CallToAction
             {
-                Label = "Go to Autumn Census 2026",
+                Label = "Go to COLLECT",
                 Url = new Uri("https://collectdata.education.gov.uk/CollectPortalLive/"),
             },
             Steps =
