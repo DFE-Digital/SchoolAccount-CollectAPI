@@ -12,7 +12,7 @@ public class GetCensusActionsHandler(ICensusReturnStatusReader returnStatusReade
         CancellationToken cancellationToken
     )
     {
-        OrgDetails? firstOrganisation =
+        OrgDetails firstOrganisation =
             query.Request.UserDetails.OrgDetails.FirstOrDefault()
             ?? throw new ArgumentException("No organisation has been provided.");
 
