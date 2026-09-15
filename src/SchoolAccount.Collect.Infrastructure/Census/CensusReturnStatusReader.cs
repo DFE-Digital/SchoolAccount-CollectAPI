@@ -6,6 +6,7 @@ using SchoolAccount.Collect.Application.Configuration;
 
 namespace SchoolAccount.Collect.Infrastructure.Census;
 
+
 public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
     : ICensusReturnStatusReader
 {
@@ -31,5 +32,39 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
         }
 
         return null;
+    }
+    
+    public async Task<List<StatusRow>> GetReturnStatusCodes(
+        List<string> laestabs,
+        CancellationToken cancellationToken
+    )
+    {
+        if (_settings.UseDatabase)
+        {
+            await using var connection = new SqlConnection(_settings.ConnectionString);
+            string sql =
+                @"
+                SELECT ReturnStatusCode, LAEStab
+                FROM (
+                    SELECT ReturnStatusCode, LAEStab,ROW_NUMBER() OVER 
+                    (PARTITION BY LAEStab, Collection ORDER BY UpdatedAt DESC) AS rn
+                    FROM CollectStateLedger.dbo.CollectReturnStatus
+                    WHERE 
+                        LAEStab IN @laestabs
+                        AND Collection = @collection
+                    ) ranked
+                WHERE rn = 1;";
+            
+            var queryParams = new
+            {
+                Laestabs = laestabs,
+                Collection = _settings.CurrentOpenCensus
+            };
+
+            IEnumerable<StatusRow> result = await connection.QueryAsync<StatusRow>(sql, queryParams);
+            return result.ToList();
+        }
+
+        return [];
     }
 }

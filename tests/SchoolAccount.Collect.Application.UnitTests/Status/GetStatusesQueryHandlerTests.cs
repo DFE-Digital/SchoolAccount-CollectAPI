@@ -1,3 +1,4 @@
+using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
@@ -26,7 +27,7 @@ public class GetStatusesQueryHandlerTests
 
         var query = new GetStatusesQuery(requestModel);
 
-        var handler = new GetStatusesQueryHandler();
+        var handler = new GetStatusesQueryHandler(NSubstitute.Substitute.For<ICensusReturnStatusReader>());
 
         // Act
         Result<StatusResponse> result = await handler.Handle(query, CancellationToken.None);
