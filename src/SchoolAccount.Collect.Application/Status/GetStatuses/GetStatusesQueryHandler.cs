@@ -38,15 +38,8 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
     private static OrganisationResponse CreateOrganisationResponse(OrgDetails orgDetails, List<StatusRow> statuses)
     {
         string laestab = orgDetails.LocalAuthorityCode + orgDetails.EstablishmentNumber;
-        StatusCode status = statuses.Where(s => s.LAEStab == laestab).Select(s => s.ReturnStatusCode).FirstOrDefault();
-        string statusName = status switch
-        {
-            StatusCode.AmendedByCollector => "Amended by Collector",
-            StatusCode.Authorised => "Authorised",
-            StatusCode.AwaitingAuthorisation => "Awaiting Authorisation",
-            StatusCode.Approved => "Approved",
-            _ => "Not started"
-        };
+        int status = statuses.Where(s => s.LAEStab == laestab).Select(s => s.ReturnStatusCode).FirstOrDefault();
+        string statusName = ReturnStatusMapper.GetStatusDescription(status);
         bool interesting = !string.IsNullOrEmpty(laestab);
         return new OrganisationResponse
         {
