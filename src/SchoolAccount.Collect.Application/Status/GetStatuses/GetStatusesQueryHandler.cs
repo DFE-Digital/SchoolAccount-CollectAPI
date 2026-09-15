@@ -6,7 +6,8 @@ using SchoolAccount.Collect.SharedKernel;
 namespace SchoolAccount.Collect.Application.Status.GetStatuses;
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.AllConstructors)]
-public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStatusReader) : IQueryHandler<GetStatusesQuery, StatusResponse>
+public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStatusReader)
+    : IQueryHandler<GetStatusesQuery, StatusResponse>
 {
     public async Task<Result<StatusResponse>> Handle(
         GetStatusesQuery getStatusesQuery,
@@ -17,11 +18,9 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
             .Select(x => x.LocalAuthorityCode + x.EstablishmentNumber)
             .Where(x => !string.IsNullOrEmpty(x))
             .ToList();
-        List<StatusRow> statuses = await returnStatusReader.GetReturnStatusCodes(laestabs, cancellationToken);
-        
-        
-        StatusResponse response = CreateStatusResponse(getStatusesQuery, statuses);
 
+        List<StatusRow> statuses = await returnStatusReader.GetReturnStatusCodes(laestabs, cancellationToken);
+        StatusResponse response = CreateStatusResponse(getStatusesQuery, statuses);
         return await Task.FromResult(Result.Success(response));
     }
 
@@ -40,7 +39,7 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
         string laestab = orgDetails.LocalAuthorityCode + orgDetails.EstablishmentNumber;
         int status = statuses.Where(s => s.LAEStab == laestab).Select(s => s.ReturnStatusCode).FirstOrDefault();
         string statusName = ReturnStatusMapper.GetStatusDescription(status);
-        bool interesting = !string.IsNullOrEmpty(laestab);
+        bool interesting = statuses.Any(s => s.LAEStab == laestab);
         return new OrganisationResponse
         {
             Id = orgDetails.Id,
@@ -48,17 +47,17 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
             CategoryId = orgDetails.CategoryId,
             Ukprn = orgDetails.Ukprn,
             Laestab = laestab,
-            Interesting = statuses.Any(s => s.LAEStab == laestab ),
+            Interesting = interesting,
             Actions = interesting
-                ? new List<Action>
-                {
+                ?
+                [
                     new()
                     {
                         Id = "autumn-school-census",
                         Name = "Autumn School Census",
                         Status = new Status { Name = statusName },
-                    },
-                }
+                    }
+                ]
                 : []
         };
     }

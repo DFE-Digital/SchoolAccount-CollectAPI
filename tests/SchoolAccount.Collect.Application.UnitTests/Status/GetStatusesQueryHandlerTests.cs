@@ -1,3 +1,4 @@
+using NSubstitute;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
@@ -27,7 +28,17 @@ public class GetStatusesQueryHandlerTests
 
         var query = new GetStatusesQuery(requestModel);
 
-        var handler = new GetStatusesQueryHandler(NSubstitute.Substitute.For<ICensusReturnStatusReader>());
+        ICensusReturnStatusReader mockReturnStatusReader = Substitute.For<ICensusReturnStatusReader>();
+        mockReturnStatusReader.GetReturnStatusCodes(Arg.Any<List<string>>(), Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(new List<StatusRow>
+            {
+                new()
+                {
+                    LAEStab = "1234567",
+                    ReturnStatusCode = 7
+                },
+            }));
+        var handler = new GetStatusesQueryHandler(mockReturnStatusReader);
 
         // Act
         Result<StatusResponse> result = await handler.Handle(query, CancellationToken.None);
