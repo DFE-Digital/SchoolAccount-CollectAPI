@@ -27,7 +27,7 @@ Content-Type: application/json
   ]
 }
 
-### Get status for trust school
+### Get status for trust
 POST {{API_HostAddress}}/status
 Accept: application/json
 Content-Type: application/json

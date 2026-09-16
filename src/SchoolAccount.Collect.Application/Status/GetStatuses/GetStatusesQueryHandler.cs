@@ -20,45 +20,8 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
             .ToList();
 
         CensusReturn censusReturn = await returnStatusReader.GetReturnStatusCodes(laestabs, cancellationToken);
-        StatusResponse response = CreateStatusResponse(getStatusesQuery, censusReturn);
+        var responseBuilder = new StatusResponseBuilder(censusReturn);
+        StatusResponse response = responseBuilder.BuildResponse(getStatusesQuery.Request.OrgDetails);
         return await Task.FromResult(Result.Success(response));
-    }
-
-    private static StatusResponse CreateStatusResponse(GetStatusesQuery getStatusesQuery, CensusReturn censusReturn)
-    {
-        return new StatusResponse
-        {
-            Details = getStatusesQuery
-                .Request.OrgDetails.Select(x => CreateOrganisationResponse(x, censusReturn))
-                .ToList(),
-        };
-    }
-
-    private static OrganisationResponse CreateOrganisationResponse(OrgDetails orgDetails, CensusReturn censusReturn)
-    {
-        string laestab = orgDetails.LocalAuthorityCode + orgDetails.EstablishmentNumber;
-        int status = censusReturn.StatusRows.Where(s => s.LAEStab == laestab).Select(s => s.ReturnStatusCode).FirstOrDefault();
-        string statusName = ReturnStatusMapper.GetStatusDescription(status);
-        bool interesting = censusReturn.StatusRows.Any(s => s.LAEStab == laestab);
-        return new OrganisationResponse
-        {
-            Id = orgDetails.Id,
-            Name = orgDetails.Name,
-            CategoryId = orgDetails.CategoryId,
-            Ukprn = orgDetails.Ukprn,
-            Laestab = laestab,
-            Interesting = interesting,
-            Actions = interesting
-                ?
-                [
-                    new()
-                    {
-                        Id = censusReturn.CollectionId,
-                        Name = censusReturn.CollectionName,
-                        Status = new Status { Name = statusName },
-                    }
-                ]
-                : []
-        };
     }
 }
