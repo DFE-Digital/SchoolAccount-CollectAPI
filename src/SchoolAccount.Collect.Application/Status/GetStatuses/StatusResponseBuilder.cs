@@ -15,7 +15,7 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
     private OrganisationResponse CreateOrganisationResponse(OrgDetails orgDetails)
     {
         string laestab = orgDetails.LocalAuthorityCode + orgDetails.EstablishmentNumber;
-        bool interesting = censusReturn.StatusRows.Any(s => s.LAEStab == laestab);
+        bool interesting = !string.IsNullOrEmpty(orgDetails.Laestab);
         return new OrganisationResponse
         {
             Id = orgDetails.Id,
