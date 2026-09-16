@@ -30,13 +30,18 @@ public class GetStatusesQueryHandlerTests
 
         ICensusReturnStatusReader mockReturnStatusReader = Substitute.For<ICensusReturnStatusReader>();
         mockReturnStatusReader.GetReturnStatusCodes(Arg.Any<List<string>>(), Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(new List<StatusRow>
+            .Returns(Task.FromResult(new CensusReturn()
             {
-                new()
+                CollectionName = "test-collection-name",
+                CollectionId = "test-collection-id",
+                StatusRows = new List<StatusRow>
                 {
-                    LAEStab = "1234567",
-                    ReturnStatusCode = 7
-                },
+                    new()
+                    {
+                        LAEStab = "1234567",
+                        ReturnStatusCode = 7
+                    }
+                }
             }));
         var handler = new GetStatusesQueryHandler(mockReturnStatusReader);
 

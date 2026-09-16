@@ -19,27 +19,27 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
             .Where(x => !string.IsNullOrEmpty(x))
             .ToList();
 
-        List<StatusRow> statuses = await returnStatusReader.GetReturnStatusCodes(laestabs, cancellationToken);
-        StatusResponse response = CreateStatusResponse(getStatusesQuery, statuses);
+        CensusReturn censusReturn = await returnStatusReader.GetReturnStatusCodes(laestabs, cancellationToken);
+        StatusResponse response = CreateStatusResponse(getStatusesQuery, censusReturn);
         return await Task.FromResult(Result.Success(response));
     }
 
-    private static StatusResponse CreateStatusResponse(GetStatusesQuery getStatusesQuery, List<StatusRow> statuses)
+    private static StatusResponse CreateStatusResponse(GetStatusesQuery getStatusesQuery, CensusReturn censusReturn)
     {
         return new StatusResponse
         {
             Details = getStatusesQuery
-                .Request.OrgDetails.Select(x => CreateOrganisationResponse(x, statuses))
+                .Request.OrgDetails.Select(x => CreateOrganisationResponse(x, censusReturn))
                 .ToList(),
         };
     }
 
-    private static OrganisationResponse CreateOrganisationResponse(OrgDetails orgDetails, List<StatusRow> statuses)
+    private static OrganisationResponse CreateOrganisationResponse(OrgDetails orgDetails, CensusReturn censusReturn)
     {
         string laestab = orgDetails.LocalAuthorityCode + orgDetails.EstablishmentNumber;
-        int status = statuses.Where(s => s.LAEStab == laestab).Select(s => s.ReturnStatusCode).FirstOrDefault();
+        int status = censusReturn.StatusRows.Where(s => s.LAEStab == laestab).Select(s => s.ReturnStatusCode).FirstOrDefault();
         string statusName = ReturnStatusMapper.GetStatusDescription(status);
-        bool interesting = statuses.Any(s => s.LAEStab == laestab);
+        bool interesting = censusReturn.StatusRows.Any(s => s.LAEStab == laestab);
         return new OrganisationResponse
         {
             Id = orgDetails.Id,
@@ -53,8 +53,8 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
                 [
                     new()
                     {
-                        Id = "autumn-school-census",
-                        Name = "Autumn School Census",
+                        Id = censusReturn.CollectionId,
+                        Name = censusReturn.CollectionName,
                         Status = new Status { Name = statusName },
                     }
                 ]

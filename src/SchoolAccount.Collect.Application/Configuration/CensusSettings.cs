@@ -7,4 +7,5 @@ public class CensusSettings
     public bool UseDatabase { get; init; }
     public string? ConnectionString { get; init; }
     public string CurrentOpenCensus { get; init; }
+    public string CurrentOpenCensusDisplayName { get; init; }
 }
