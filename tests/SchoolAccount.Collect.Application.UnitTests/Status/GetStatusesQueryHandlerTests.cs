@@ -28,21 +28,23 @@ public class GetStatusesQueryHandlerTests
 
         var query = new GetStatusesQuery(requestModel);
 
-        ICensusReturnStatusReader mockReturnStatusReader = Substitute.For<ICensusReturnStatusReader>();
-        mockReturnStatusReader.GetReturnStatusCodes(Arg.Any<List<string>>(), Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(new CensusReturn()
-            {
-                CollectionName = "test-collection-name",
-                CollectionId = "test-collection-id",
-                StatusRows = new List<StatusRow>
-                {
-                    new()
+        ICensusReturnStatusReader mockReturnStatusReader =
+            Substitute.For<ICensusReturnStatusReader>();
+        mockReturnStatusReader
+            .GetReturnStatusCodes(Arg.Any<List<string>>(), Arg.Any<CancellationToken>())
+            .Returns(
+                Task.FromResult(
+                    new CensusReturn()
                     {
-                        LAEStab = "1234567",
-                        ReturnStatusCode = 7
+                        CollectionName = "test-collection-name",
+                        CollectionId = "test-collection-id",
+                        StatusRows = new List<StatusRow>
+                        {
+                            new() { LAEStab = "1234567", ReturnStatusCode = 7 },
+                        },
                     }
-                }
-            }));
+                )
+            );
         var handler = new GetStatusesQueryHandler(mockReturnStatusReader);
 
         // Act

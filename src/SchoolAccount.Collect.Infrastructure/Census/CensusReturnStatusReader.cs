@@ -33,14 +33,17 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
         return null;
     }
 
-    public async Task<CensusReturn> GetReturnStatusCodes(List<string> laestabs, CancellationToken cancellationToken)
+    public async Task<CensusReturn> GetReturnStatusCodes(
+        List<string> laestabs,
+        CancellationToken cancellationToken
+    )
     {
         var censusReturn = new CensusReturn
         {
             CollectionName = _settings.CurrentOpenCensusDisplayName,
-            CollectionId = _settings.CurrentOpenCensus
+            CollectionId = _settings.CurrentOpenCensus,
         };
-        
+
         if (_settings.UseDatabase)
         {
             await using var connection = new SqlConnection(_settings.ConnectionString);
@@ -57,13 +60,12 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
                     ) ranked
                 WHERE rn = 1;";
 
-            var queryParams = new
-            {
-                Laestabs = laestabs,
-                Collection = _settings.CurrentOpenCensus
-            };
+            var queryParams = new { Laestabs = laestabs, Collection = _settings.CurrentOpenCensus };
 
-            IEnumerable<StatusRow> result = await connection.QueryAsync<StatusRow>(sql, queryParams);
+            IEnumerable<StatusRow> result = await connection.QueryAsync<StatusRow>(
+                sql,
+                queryParams
+            );
             censusReturn.StatusRows = result.ToList();
         }
 

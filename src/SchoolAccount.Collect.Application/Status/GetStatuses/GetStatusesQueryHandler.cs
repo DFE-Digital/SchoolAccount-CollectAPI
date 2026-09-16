@@ -14,14 +14,19 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
         CancellationToken cancellationToken
     )
     {
-        var laestabs = getStatusesQuery.Request.OrgDetails
-            .Select(x => x.LocalAuthorityCode + x.EstablishmentNumber)
+        var laestabs = getStatusesQuery
+            .Request.OrgDetails.Select(x => x.LocalAuthorityCode + x.EstablishmentNumber)
             .Where(x => !string.IsNullOrEmpty(x))
             .ToList();
 
-        CensusReturn censusReturn = await returnStatusReader.GetReturnStatusCodes(laestabs, cancellationToken);
+        CensusReturn censusReturn = await returnStatusReader.GetReturnStatusCodes(
+            laestabs,
+            cancellationToken
+        );
         var responseBuilder = new StatusResponseBuilder(censusReturn);
-        StatusResponse response = responseBuilder.BuildResponse(getStatusesQuery.Request.OrgDetails);
+        StatusResponse response = responseBuilder.BuildResponse(
+            getStatusesQuery.Request.OrgDetails
+        );
         return await Task.FromResult(Result.Success(response));
     }
 }

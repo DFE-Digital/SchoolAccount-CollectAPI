@@ -32,12 +32,13 @@ public static class ReturnStatusMapper
         { 27, "Awaiting Reconciliation" },
         { 28, "Reconciliation in Progress" },
         { 29, "Matching Failed" },
-        { 30, "Reconciliation Failed" }
+        { 30, "Reconciliation Failed" },
     };
 
     public static string GetStatusDescription(int statusCode)
     {
-        return StatusDescriptions.TryGetValue(statusCode, out string? description) 
-            ? description : "Not started";
+        return StatusDescriptions.TryGetValue(statusCode, out string? description)
+            ? description
+            : "Not started";
     }
 }

@@ -24,14 +24,14 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
             Ukprn = orgDetails.Ukprn,
             Laestab = laestab,
             Interesting = interesting,
-            Actions = interesting ? GetActions(laestab) : []
+            Actions = interesting ? GetActions(laestab) : [],
         };
     }
 
     private List<Action> GetActions(string laestab)
     {
-        int status = censusReturn.StatusRows
-            .Where(s => s.LAEStab == laestab)
+        int status = censusReturn
+            .StatusRows.Where(s => s.LAEStab == laestab)
             .Select(s => s.ReturnStatusCode)
             .FirstOrDefault();
         string statusName = ReturnStatusMapper.GetStatusDescription(status);
@@ -42,7 +42,7 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
                 Id = censusReturn.CollectionId,
                 Name = censusReturn.CollectionName,
                 Status = new Status { Name = statusName },
-            }
+            },
         ];
     }
 }
