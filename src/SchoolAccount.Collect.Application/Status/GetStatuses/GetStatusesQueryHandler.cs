@@ -19,7 +19,7 @@ public sealed class GetStatusesQueryHandler(ICensusReturnStatusReader returnStat
             .Where(x => !string.IsNullOrEmpty(x))
             .ToList();
 
-        CensusReturn censusReturn = await returnStatusReader.GetReturnStatusCodes(
+        CensusReturn censusReturn = await returnStatusReader.GetCensusReturnStatuses(
             laestabs,
             cancellationToken
         );

@@ -31,7 +31,7 @@ public class GetStatusesQueryHandlerTests
         ICensusReturnStatusReader mockReturnStatusReader =
             Substitute.For<ICensusReturnStatusReader>();
         mockReturnStatusReader
-            .GetReturnStatusCodes(Arg.Any<List<string>>(), Arg.Any<CancellationToken>())
+            .GetCensusReturnStatuses(Arg.Any<List<string>>(), Arg.Any<CancellationToken>())
             .Returns(
                 Task.FromResult(
                     new CensusReturn()

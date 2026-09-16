@@ -33,7 +33,7 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
         return null;
     }
 
-    public async Task<CensusReturn> GetReturnStatusCodes(
+    public async Task<CensusReturn> GetCensusReturnStatuses(
         List<string> laestabs,
         CancellationToken cancellationToken
     )
