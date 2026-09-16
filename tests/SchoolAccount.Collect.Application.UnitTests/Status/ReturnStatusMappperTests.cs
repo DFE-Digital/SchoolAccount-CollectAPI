@@ -35,7 +35,7 @@ public class ReturnStatusMappperTests
     [InlineData(28, "Reconciliation in Progress")]
     [InlineData(29, "Matching Failed")]
     [InlineData(30, "Reconciliation Failed")]
-    public void should_return_the_correct_status_description_for_a_given_status_code(
+    public void Returns_the_correct_status_description_for_a_given_status_code(
         int returnCode,
         string expectedDescription
     )

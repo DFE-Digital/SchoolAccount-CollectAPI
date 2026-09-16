@@ -44,6 +44,11 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
             CollectionId = _settings.CurrentOpenCensus,
         };
 
+        if (laestabs.Count == 0)
+        {
+            return censusReturn;
+        }
+
         if (_settings.UseDatabase)
         {
             await using var connection = new SqlConnection(_settings.ConnectionString);
