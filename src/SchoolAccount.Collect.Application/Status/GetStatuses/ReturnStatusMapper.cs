@@ -39,6 +39,6 @@ public static class ReturnStatusMapper
     {
         return StatusDescriptions.TryGetValue(statusCode, out string? description)
             ? description
-            : "Not started";
+            : "Unavailable";
     }
 }

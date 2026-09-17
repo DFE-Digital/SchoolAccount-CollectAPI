@@ -14,7 +14,7 @@ public static class StubbedCensusResponse
             Overview =
                 "The school census collects pupil and school data from state-funded schools three times a year. The data is exported from each school’s management information system (MIS) and submitted to the Department for Education through an online tool called COLLECT.",
             Status = statusCode is null
-                ? new ActionStatus { Name = "notStarted", Label = "Not Started" }
+                ? new ActionStatus { Name = "unavailable", Label = "Unavailable" }
                 : ToActionStatus(statusCode.Value),
             LastUpdated = new LastUpdated { Date = new DateOnly(2026, 8, 26) },
             CallToAction = new CallToAction

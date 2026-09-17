@@ -6,14 +6,14 @@ namespace SchoolAccount.Collect.Application.UnitTests.Census;
 public class StubbedCensusResponseTests
 {
     [Fact]
-    public void Create_without_statusCode_should_return_not_started_status()
+    public void Create_without_statusCode_should_return_Unavailable_status()
     {
         // Act
         CensusActionsResponse response = StubbedCensusResponse.Create();
 
         // Assert
-        response.Status.Name.ShouldBe("notStarted");
-        response.Status.Label.ShouldBe("Not Started");
+        response.Status.Name.ShouldBe("unavailable");
+        response.Status.Label.ShouldBe("Unavailable");
     }
 
     [Theory]
