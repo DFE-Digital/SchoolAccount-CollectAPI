@@ -6,13 +6,13 @@ namespace SchoolAccount.Collect.Application.UnitTests.Census;
 public class StubbedCensusResponseTests
 {
     [Fact]
-    public void Create_without_statusCode_should_return_not_started_status()
+    public void Create_without_statusCode_should_return_unavailable_status()
     {
         // Act
         CensusActionsResponse response = StubbedCensusResponse.Create();
 
         // Assert
-        response.Status.Name.ShouldBe("notStarted");
+        response.Status.Name.ShouldBe("unavailable");
         response.Status.Label.ShouldBe("Unavailable");
     }
 
@@ -36,7 +36,7 @@ public class StubbedCensusResponseTests
     }
 
     [Fact]
-    public void Create_with_invalid_statusCode_should_return_not_started_status()
+    public void Create_with_invalid_statusCode_should_return_unavailable_status()
     {
         // Act & Assert
         CensusActionsResponse response = StubbedCensusResponse.Create(100);
