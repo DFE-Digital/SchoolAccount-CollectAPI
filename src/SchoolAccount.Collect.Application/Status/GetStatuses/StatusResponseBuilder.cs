@@ -14,7 +14,6 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
 
     private OrganisationResponse CreateOrganisationResponse(OrgDetails orgDetails)
     {
-        string laestab = orgDetails.LocalAuthorityCode + orgDetails.EstablishmentNumber;
         bool interesting = !string.IsNullOrEmpty(orgDetails.Laestab);
         return new OrganisationResponse
         {
@@ -22,9 +21,9 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
             Name = orgDetails.Name,
             CategoryId = orgDetails.CategoryId,
             Ukprn = orgDetails.Ukprn,
-            Laestab = laestab,
+            Laestab = orgDetails.Laestab,
             Interesting = interesting,
-            Actions = interesting ? GetActions(laestab) : [],
+            Actions = interesting ? GetActions(orgDetails.Laestab) : [],
         };
     }
 

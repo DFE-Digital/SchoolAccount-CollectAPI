@@ -12,7 +12,7 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
     private readonly CensusSettings _settings = settings.Value;
 
     public async Task<StatusCode?> GetReturnStatusCode(
-        string? laestab,
+        string laestab,
         CancellationToken cancellationToken
     )
     {
