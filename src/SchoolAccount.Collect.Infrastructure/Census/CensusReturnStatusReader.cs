@@ -12,7 +12,7 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
     private readonly CensusSettings _settings = settings.Value;
 
     public async Task<StatusCode?> GetReturnStatusCode(
-        string? laestab,
+        string laestab,
         CancellationToken cancellationToken
     )
     {
@@ -31,5 +31,49 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
         }
 
         return null;
+    }
+
+    public async Task<CensusReturn> GetCensusReturnStatuses(
+        List<string> laestabs,
+        CancellationToken cancellationToken
+    )
+    {
+        var censusReturn = new CensusReturn
+        {
+            CollectionName = _settings.CurrentOpenCensusDisplayName,
+            CollectionId = _settings.CurrentOpenCensus,
+        };
+
+        if (laestabs.Count == 0)
+        {
+            return censusReturn;
+        }
+
+        if (_settings.UseDatabase)
+        {
+            await using var connection = new SqlConnection(_settings.ConnectionString);
+            string sql =
+                @"
+                SELECT ReturnStatusCode, LAEStab
+                FROM (
+                    SELECT ReturnStatusCode, LAEStab,ROW_NUMBER() OVER 
+                    (PARTITION BY LAEStab, Collection ORDER BY UpdatedAt DESC) AS rn
+                    FROM CollectStateLedger.dbo.CollectReturnStatus
+                    WHERE 
+                        LAEStab IN @laestabs
+                        AND Collection = @collection
+                    ) ranked
+                WHERE rn = 1;";
+
+            var queryParams = new { Laestabs = laestabs, Collection = _settings.CurrentOpenCensus };
+
+            IEnumerable<StatusRow> result = await connection.QueryAsync<StatusRow>(
+                sql,
+                queryParams
+            );
+            censusReturn.StatusRows = result.ToList();
+        }
+
+        return censusReturn;
     }
 }
