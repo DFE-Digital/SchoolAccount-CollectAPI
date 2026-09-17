@@ -77,24 +77,26 @@ public static class StubbedCensusResponse
                 new UnderstandStatus
                 {
                     Name = "No Data",
-                    Description = "Nothing has been uploaded into COLLECT.",
+                    Description =
+                        "Nothing has been uploaded into COLLECT. The school needs to upload their data.",
                 },
                 new UnderstandStatus
                 {
                     Name = "Submitted",
-                    Description = "The file has been uploaded by the source and submitted.",
+                    Description =
+                        "The data has been uploaded by the source and submitted. DfE or your local authority will approve your data.",
                 },
                 new UnderstandStatus
                 {
                     Name = "Approved",
                     Description =
-                        "The return has been approved by the LA or the DfE (for non-maintained schools), which means the DfE can now start looking at the data and cleaning the return. Once everything has been resolved the return can be authorised.",
+                        "The data is being reviewed. DfE may need additional information before the return can be authorised. DfE will review your data. The school will be notified if additional information is needed.",
                 },
                 new UnderstandStatus
                 {
                     Name = "Authorised",
                     Description =
-                        "The return is clean from errors and queries and data has been authorised.",
+                        "DfE have accepted the data. There are no more actions for the school.",
                 },
             ],
         };
