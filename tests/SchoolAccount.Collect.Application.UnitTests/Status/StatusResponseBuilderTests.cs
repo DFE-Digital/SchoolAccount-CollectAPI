@@ -49,7 +49,7 @@ public class StatusResponseBuilderTests
     }
 
     [Fact]
-    public void Populates_action_as_not_started_for_a_school_with_no_census_details()
+    public void Populates_action_as_unavailable_for_a_school_with_no_census_details()
     {
         // Arrange
         var censusReturn = new CensusReturn
