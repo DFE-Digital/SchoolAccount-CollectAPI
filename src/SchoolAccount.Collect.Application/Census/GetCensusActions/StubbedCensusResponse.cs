@@ -72,6 +72,31 @@ public static class StubbedCensusResponse
                 new ImportantDate { Date = new DateOnly(2026, 10, 1), Label = "Census day" },
                 new ImportantDate { Date = new DateOnly(2026, 10, 28), Label = "Return due" },
             ],
+            UnderstandStatuses =
+            [
+                new UnderstandStatus
+                {
+                    Name = "No Data",
+                    Description = "Nothing has been uploaded into COLLECT.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Submitted",
+                    Description = "The file has been uploaded by the source and submitted.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Approved",
+                    Description =
+                        "The return has been approved by the LA or the DfE (for non-maintained schools), which means the DfE can now start looking at the data and cleaning the return. Once everything has been resolved the return can be authorised.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Authorised",
+                    Description =
+                        "The return is clean from errors and queries and data has been authorised.",
+                },
+            ],
         };
     }
 
