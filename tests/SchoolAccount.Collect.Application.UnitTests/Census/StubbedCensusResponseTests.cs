@@ -13,14 +13,14 @@ public class StubbedCensusResponseTests
 
         // Assert
         response.Status.Name.ShouldBe("notStarted");
-        response.Status.Label.ShouldBe("Not Started");
+        response.Status.Label.ShouldBe("Unavailable");
     }
 
     [Theory]
     [InlineData(7, "Approved", "Approved")]
-    [InlineData(9, "AmendedByCollector", "Amended By Collector")]
+    [InlineData(9, "Amended_by_collector", "Amended_by_collector")]
     [InlineData(10, "Authorised", "Authorised")]
-    [InlineData(16, "AwaitingAuthorisation", "Awaiting Authorisation")]
+    [InlineData(16, "Awaiting_Authorisation", "Awaiting_Authorisation")]
     public void Create_with_statusCode_should_match_status_correctly(
         int statusCode,
         string expectedName,
@@ -40,6 +40,6 @@ public class StubbedCensusResponseTests
     {
         // Act & Assert
         CensusActionsResponse response = StubbedCensusResponse.Create(100);
-        response.Status.Name.ShouldBe("NotStarted");
+        response.Status.Name.ShouldBe("Unavailable");
     }
 }

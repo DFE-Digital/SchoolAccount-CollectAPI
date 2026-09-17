@@ -86,7 +86,7 @@ public class StatusResponseBuilderTests
         Action action = responseDetail.Actions[0];
         action.Name.ShouldBe(censusReturn.CollectionName);
         action.Id.ShouldBe(censusReturn.CollectionId);
-        action.Status.Name.ShouldBe("Not Started");
+        action.Status.Name.ShouldBe("Unavailable");
     }
 
     [Fact]

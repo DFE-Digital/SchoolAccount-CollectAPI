@@ -60,8 +60,8 @@ public class GetCensusActionsHandlerTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.Status.Name.ShouldBe("AmendedByCollector");
-        result.Value.Status.Label.ShouldBe("Amended By Collector");
+        result.Value.Status.Name.ShouldBe("Amended_by_collector");
+        result.Value.Status.Label.ShouldBe("Amended_by_collector");
 
         await _returnStatusReader
             .Received(1)
