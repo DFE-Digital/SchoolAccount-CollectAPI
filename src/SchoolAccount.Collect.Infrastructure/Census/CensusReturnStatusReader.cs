@@ -11,17 +11,14 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
 {
     private readonly CensusSettings _settings = settings.Value;
 
-    public async Task<StatusCode?> GetReturnStatusCode(
-        string laestab,
-        CancellationToken cancellationToken
-    )
+    public async Task<int?> GetReturnStatusCode(string laestab, CancellationToken cancellationToken)
     {
         if (_settings.UseDatabase)
         {
             await using var connection = new SqlConnection(_settings.ConnectionString);
             string sql =
                 "SELECT ReturnStatusCode FROM CollectStateLedger.dbo.CollectReturnStatus WHERE LAEStab = @laestab AND Collection = @collection ORDER BY UpdatedAt DESC";
-            return await connection.ExecuteScalarAsync<StatusCode?>(
+            return await connection.ExecuteScalarAsync<int?>(
                 new CommandDefinition(
                     sql,
                     new { LAEStab = laestab, Collection = _settings.CurrentOpenCensus },

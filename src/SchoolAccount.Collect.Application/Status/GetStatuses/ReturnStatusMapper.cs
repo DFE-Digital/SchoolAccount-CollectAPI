@@ -41,4 +41,9 @@ public static class ReturnStatusMapper
             ? description
             : "Unavailable";
     }
+
+    public static string GetStatusName(int statusCode)
+    {
+        return GetStatusDescription(statusCode).Replace(" ", "");
+    }
 }
