@@ -1,13 +1,16 @@
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.Application.Configuration;
 
 namespace SchoolAccount.Collect.Infrastructure.Census;
 
-public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
-    : ICensusReturnStatusReader
+public class CensusReturnStatusReader(
+    IOptionsSnapshot<CensusSettings> settings,
+    ILogger<CensusReturnStatusReader> logger
+) : ICensusReturnStatusReader
 {
     private readonly CensusSettings _settings = settings.Value;
 
@@ -18,13 +21,20 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
             await using var connection = new SqlConnection(_settings.ConnectionString);
             string sql =
                 "SELECT ReturnStatusCode FROM CollectStateLedger.dbo.CollectReturnStatus WHERE LAEStab = @laestab AND Collection = @collection ORDER BY UpdatedAt DESC";
-            return await connection.ExecuteScalarAsync<int?>(
+
+            logger.ExecutingReturnStatusQuery(_settings.CurrentOpenCensus, sql);
+
+            int? returnStatusCode = await connection.ExecuteScalarAsync<int?>(
                 new CommandDefinition(
                     sql,
                     new { LAEStab = laestab, Collection = _settings.CurrentOpenCensus },
                     cancellationToken: cancellationToken
                 )
             );
+
+            logger.CompletedReturnStatusQuery(returnStatusCode);
+
+            return returnStatusCode;
         }
 
         return null;
@@ -64,11 +74,19 @@ public class CensusReturnStatusReader(IOptionsSnapshot<CensusSettings> settings)
 
             var queryParams = new { Laestabs = laestabs, Collection = _settings.CurrentOpenCensus };
 
+            logger.ExecutingCensusReturnStatusQuery(
+                laestabs.Count,
+                _settings.CurrentOpenCensus,
+                sql
+            );
+
             IEnumerable<StatusRow> result = await connection.QueryAsync<StatusRow>(
                 sql,
                 queryParams
             );
             censusReturn.StatusRows = result.ToList();
+
+            logger.CompletedCensusReturnStatusQuery(censusReturn.StatusRows.Count);
         }
 
         return censusReturn;
