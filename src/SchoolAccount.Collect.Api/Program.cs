@@ -14,7 +14,7 @@ builder.Host.UseSerilog(
     (context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration)
 );
 
-if (!builder.Environment.IsDevelopment() && !builder.Environment.IsEnvironment("IntegrationTests"))
+if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
 {
     builder.Configuration.AddAzureAppConfiguration();
 }
