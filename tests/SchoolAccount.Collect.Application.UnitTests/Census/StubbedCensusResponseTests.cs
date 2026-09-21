@@ -6,27 +6,23 @@ namespace SchoolAccount.Collect.Application.UnitTests.Census;
 public class StubbedCensusResponseTests
 {
     [Fact]
-    public void Create_without_statusCode_should_return_not_started_status()
+    public void Create_without_statusCode_should_return_unavailable_status()
     {
         // Act
         CensusActionsResponse response = StubbedCensusResponse.Create();
 
         // Assert
-        response.Status.Name.ShouldBe("notStarted");
-        response.Status.Label.ShouldBe("Not Started");
+        response.Status.Name.ShouldBe("unavailable");
+        response.Status.Label.ShouldBe("Unavailable");
     }
 
     [Theory]
-    [InlineData(StatusCode.Approved, "approved", "Approved")]
-    [InlineData(StatusCode.AmendedByCollector, "amendedByCollector", "Amended By Collector")]
-    [InlineData(StatusCode.Authorised, "authorised", "Authorised")]
-    [InlineData(
-        StatusCode.AwaitingAuthorisation,
-        "awaitingAuthorisation",
-        "Awaiting Authorisation"
-    )]
+    [InlineData(7, "Approved", "Approved")]
+    [InlineData(9, "Amended_by_collector", "Amended_by_collector")]
+    [InlineData(10, "Authorised", "Authorised")]
+    [InlineData(16, "Awaiting_Authorisation", "Awaiting_Authorisation")]
     public void Create_with_statusCode_should_match_status_correctly(
-        StatusCode statusCode,
+        int statusCode,
         string expectedName,
         string expectedLabel
     )
@@ -40,11 +36,10 @@ public class StubbedCensusResponseTests
     }
 
     [Fact]
-    public void Create_with_invalid_statusCode_should_throw_exception()
+    public void Create_with_invalid_statusCode_should_return_unavailable_status()
     {
         // Act & Assert
-        Should.Throw<ArgumentOutOfRangeException>(() =>
-            StubbedCensusResponse.Create((StatusCode)100)
-        );
+        CensusActionsResponse response = StubbedCensusResponse.Create(100);
+        response.Status.Name.ShouldBe("Unavailable");
     }
 }

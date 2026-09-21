@@ -147,7 +147,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
                             Name = "Autumn School Census",
                             Status = new Application.Status.GetStatuses.Status
                             {
-                                Name = "Not Started",
+                                Name = "Unavailable",
                             },
                         },
                     },

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
@@ -13,10 +14,13 @@ public class CensusReturnStatusReaderTests
     public async Task GetReturnStatusCode_returns_null_when_database_is_disabled()
     {
         // Arrange
-        var reader = new CensusReturnStatusReader(CreateSettings(false));
+        var reader = new CensusReturnStatusReader(
+            CreateSettings(false),
+            NullLogger<CensusReturnStatusReader>.Instance
+        );
 
         // Act
-        StatusCode? result = await reader.GetReturnStatusCode("1234567", CancellationToken.None);
+        int? result = await reader.GetReturnStatusCode("1234567", CancellationToken.None);
 
         // Assert
         result.ShouldBeNull();
