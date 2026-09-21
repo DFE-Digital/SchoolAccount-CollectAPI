@@ -17,6 +17,9 @@ builder.Host.UseSerilog(
 if (builder.Environment.IsProduction())
 {
     builder.Configuration.AddAzureAppConfiguration();
+
+    // Last one wins: re-added so environment variables stay above App Configuration.
+    builder.Configuration.AddEnvironmentVariables();
 }
 
 builder.Services.AddApplication(builder.Configuration).AddPresentation().AddInfrastructure();
