@@ -70,6 +70,7 @@ public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program
         result.CallToAction.Url.ShouldBe(stubbedCensusResponse.CallToAction.Url);
         result.Steps.Count.ShouldBe(stubbedCensusResponse.Steps.Count);
         result.ImportantDates.Count.ShouldBe(stubbedCensusResponse.ImportantDates.Count);
+        result.UnderstandStatuses.Count.ShouldBe(stubbedCensusResponse.UnderstandStatuses.Count);
     }
 
     [Fact]
