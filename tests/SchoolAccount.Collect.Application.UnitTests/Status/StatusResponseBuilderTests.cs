@@ -49,7 +49,7 @@ public class StatusResponseBuilderTests
     }
 
     [Fact]
-    public void Populates_action_as_not_started_for_a_school_with_no_census_details()
+    public void Populates_action_as_unavailable_for_a_school_with_no_census_details()
     {
         // Arrange
         var censusReturn = new CensusReturn
@@ -86,7 +86,7 @@ public class StatusResponseBuilderTests
         Action action = responseDetail.Actions[0];
         action.Name.ShouldBe(censusReturn.CollectionName);
         action.Id.ShouldBe(censusReturn.CollectionId);
-        action.Status.Name.ShouldBe("Not started");
+        action.Status.Name.ShouldBe("Unavailable");
     }
 
     [Fact]

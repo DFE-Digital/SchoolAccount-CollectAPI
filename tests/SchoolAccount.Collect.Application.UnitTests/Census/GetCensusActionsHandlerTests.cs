@@ -20,7 +20,7 @@ public class GetCensusActionsHandlerTests
 
         _returnStatusReader
             .GetReturnStatusCode(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(null as StatusCode?);
+            .Returns(null as int?);
 
         var handler = new GetCensusActionsHandler(_returnStatusReader);
 
@@ -51,7 +51,7 @@ public class GetCensusActionsHandlerTests
 
         _returnStatusReader
             .GetReturnStatusCode(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(StatusCode.AmendedByCollector);
+            .Returns(9);
 
         var handler = new GetCensusActionsHandler(_returnStatusReader);
 
@@ -60,8 +60,8 @@ public class GetCensusActionsHandlerTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.Status.Name.ShouldBe("amendedByCollector");
-        result.Value.Status.Label.ShouldBe("Amended By Collector");
+        result.Value.Status.Name.ShouldBe("Amended_by_collector");
+        result.Value.Status.Label.ShouldBe("Amended_by_collector");
 
         await _returnStatusReader
             .Received(1)
