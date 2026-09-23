@@ -66,6 +66,11 @@ public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program
         result.Status.Name.ShouldBe(stubbedCensusResponse.Status.Name);
         result.Status.Label.ShouldBe(stubbedCensusResponse.Status.Label);
         result.LastUpdated.Date.ShouldBe(stubbedCensusResponse.LastUpdated.Date);
+        result.SupportService.Title.ShouldBe(stubbedCensusResponse.SupportService.Title);
+        result.SupportService.Description.ShouldBe(
+            stubbedCensusResponse.SupportService.Description
+        );
+        result.SupportService.Url.ShouldBe(stubbedCensusResponse.SupportService.Url);
         result.CallToAction.Label.ShouldBe(stubbedCensusResponse.CallToAction.Label);
         result.CallToAction.Url.ShouldBe(stubbedCensusResponse.CallToAction.Url);
         result.Steps.Count.ShouldBe(stubbedCensusResponse.Steps.Count);
