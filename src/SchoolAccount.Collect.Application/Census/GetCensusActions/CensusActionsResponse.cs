@@ -7,6 +7,7 @@ public sealed class CensusActionsResponse
     public required string Overview { get; init; }
     public required ActionStatus Status { get; init; }
     public required LastUpdated LastUpdated { get; init; }
+    public required SupportService SupportService { get; init; }
     public required CallToAction CallToAction { get; init; }
     public IReadOnlyList<ActionStep> Steps { get; init; } = [];
     public IReadOnlyList<ImportantDate> ImportantDates { get; init; } = [];
@@ -47,4 +48,11 @@ public sealed class ImportantDate
 {
     public DateOnly Date { get; init; }
     public required string Label { get; init; }
+}
+
+public sealed class SupportService
+{
+    public required string Title { get; init; }
+    public required string Description { get; init; }
+    public required Uri Url { get; init; }
 }
