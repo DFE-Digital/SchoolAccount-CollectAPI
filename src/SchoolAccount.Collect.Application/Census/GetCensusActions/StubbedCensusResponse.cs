@@ -10,7 +10,7 @@ public static class StubbedCensusResponse
     {
         return new CensusActionsResponse
         {
-            Title = "Autumn School Census",
+            Title = "Autumn school census",
             Caption = "Complete your census return",
             Overview =
                 "The school census collects pupil and school data from state-funded schools three times a year. The data is exported from each school’s management information system (MIS) and submitted to the Department for Education through an online tool called COLLECT.",
