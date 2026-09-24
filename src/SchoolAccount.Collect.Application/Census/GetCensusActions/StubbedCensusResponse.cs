@@ -82,24 +82,37 @@ public static class StubbedCensusResponse
                 new UnderstandStatus
                 {
                     Name = "No Data",
-                    Description = "Nothing has been uploaded into COLLECT",
+                    Description =
+                        "Nothing has been uploaded to COLLECT yet. You need to upload your data.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Loaded",
+                    Description = "Your data has been uploaded to COLLECT. You need to submit it.",
                 },
                 new UnderstandStatus
                 {
                     Name = "Submitted",
-                    Description = "The file has been uploaded by the source and submitted",
+                    Description =
+                        "You have submitted your data. Your local authority or DfE will now check it.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Amended by Source",
+                    Description =
+                        "Your data has been changed since you submitted it. You need to submit it again.",
                 },
                 new UnderstandStatus
                 {
                     Name = "Approved",
                     Description =
-                        "The return has been approved by the LA or the DfE (for non-maintained schools), which means the DfE can now start looking at the data and cleaning the return. Once everything has been resolved the return can be authorised.",
+                        "Your data has been approved and is waiting for DfE to authorise it. DfE will contact you if you need to do anything else.",
                 },
                 new UnderstandStatus
                 {
                     Name = "Authorised",
                     Description =
-                        "The return is clean from errors and queries and data has been authorised",
+                        "DfE has accepted your data. You do not need to do anything else unless DfE contacts you.",
                 },
             ],
         };
