@@ -41,7 +41,7 @@ app.MapHealthChecks(
 
 app.UseRequestContextLogging();
 
-app.UseSerilogRequestLogging();
+app.UseRequestLogging();
 
 app.UseExceptionHandler();
 
