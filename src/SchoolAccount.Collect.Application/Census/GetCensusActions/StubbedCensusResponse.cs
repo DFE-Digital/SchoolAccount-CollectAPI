@@ -10,7 +10,7 @@ public static class StubbedCensusResponse
     {
         return new CensusActionsResponse
         {
-            Title = "Autumn School Census",
+            Title = "Autumn school census",
             Caption = "Complete your census return",
             Overview =
                 "The school census collects pupil and school data from state-funded schools three times a year. The data is exported from each school’s management information system (MIS) and submitted to the Department for Education through an online tool called COLLECT.",
@@ -84,6 +84,44 @@ public static class StubbedCensusResponse
             [
                 new ImportantDate { Date = new DateOnly(2026, 10, 1), Label = "Census day" },
                 new ImportantDate { Date = new DateOnly(2026, 10, 28), Label = "Return due" },
+            ],
+            UnderstandStatuses =
+            [
+                new UnderstandStatus
+                {
+                    Name = "No Data",
+                    Description =
+                        "Nothing has been uploaded to COLLECT yet. You need to upload your data.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Loaded",
+                    Description = "Your data has been uploaded to COLLECT. You need to submit it.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Submitted",
+                    Description =
+                        "You have submitted your data. Your local authority or DfE will now check it.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Amended by Source",
+                    Description =
+                        "Your data has been changed since you submitted it. You need to submit it again.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Approved",
+                    Description =
+                        "Your data has been approved and is waiting for DfE to authorise it. DfE will contact you if you need to do anything else.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Authorised",
+                    Description =
+                        "DfE has accepted your data. You do not need to do anything else unless DfE contacts you.",
+                },
             ],
         };
     }

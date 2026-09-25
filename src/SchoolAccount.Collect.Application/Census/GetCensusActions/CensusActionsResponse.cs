@@ -11,6 +11,13 @@ public sealed class CensusActionsResponse
     public required CallToAction CallToAction { get; init; }
     public IReadOnlyList<ActionStep> Steps { get; init; } = [];
     public IReadOnlyList<ImportantDate> ImportantDates { get; init; } = [];
+    public IReadOnlyList<UnderstandStatus> UnderstandStatuses { get; init; } = [];
+}
+
+public sealed class UnderstandStatus
+{
+    public string Name { get; init; }
+    public string Description { get; init; }
 }
 
 public sealed class ActionStatus
