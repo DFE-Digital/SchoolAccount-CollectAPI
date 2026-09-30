@@ -16,6 +16,7 @@ env:
 
 jobs:
   test:
+    name: Build & Test
     runs-on: ubuntu-latest
 
     permissions:
@@ -71,6 +72,7 @@ jobs:
           path: TestResults/Merged/SummaryGithub.md
 
   image:
+    name: Create Image
     needs: test
     runs-on: ubuntu-latest
 
@@ -118,6 +120,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}      
 
   deploy-dev:
+    name: Deploy To Dev
     needs: image
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     uses: ./.github/workflows/deploy.yml
