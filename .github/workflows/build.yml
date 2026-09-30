@@ -133,3 +133,21 @@ jobs:
       environment: dev
       image: ${{ needs.image.outputs.image }}
     secrets: inherit
+
+  deploy-preprod:
+    name: Deploy To Pre-Prod
+    needs: [image, deploy-dev]
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: preprod
+      image: ${{ needs.image.outputs.image }}
+    secrets: inherit
+
+  deploy-prod:
+    name: Deploy To Prod
+    needs: [image, deploy-preprod]
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: prod
+      image: ${{ needs.image.outputs.image }}
+    secrets: inherit
