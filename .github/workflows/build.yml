@@ -1,7 +1,6 @@
 name: Collect API Build and Deploy
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,16 +13,15 @@ env:
   MIN_LINE_COVERAGE: "50"
   API_SOLUTION_FILE: SchoolAccount.CollectAPI.slnx
   MAIN_BRANCH: refs/heads/main
-  CONTAINERAPP_NAME: schoolaccount-collectapi-app
-  CONTAINERAPP_RESOURCE_GROUP: s268d01rg-uks-sa-poc
+  IMAGE_NAME: ghcr.io/dfe-digital/schoolaccount-collectapi
 
 jobs:
-  build:
+  test:
+    name: Build & Test
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
-      packages: write
       checks: write
       pull-requests: write
 
@@ -73,53 +71,83 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v3
         with:
           path: TestResults/Merged/SummaryGithub.md
-        
-      - name: Log in to GHCR
-        if: ${{ github.event_name == 'push' }}
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
+
+  image:
+    name: Create Image
+    needs: test
+    runs-on: ubuntu-latest
+
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v6
+
       - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ghcr.io/dfe-digital/schoolaccount-collectapi
+          images: ${{ env.IMAGE_NAME }}
           tags: |
             type=sha
             type=raw,value=latest,enable=${{ github.ref == env.MAIN_BRANCH }}
             type=ref,event=branch
-            
+
       - name: Get SHA image tag
         id: image
         run: |
           IMAGE=$(echo "${{ steps.meta.outputs.tags }}" | grep "sha-" | head -n 1)
           echo "image=$IMAGE" >> $GITHUB_OUTPUT
-            
-      - name: Build & Push Docker image
+
+      - name: Build Docker image
         uses: docker/build-push-action@v7
         with:
           context: .
           file: src/SchoolAccount.Collect.Api/Dockerfile
           target: final
-          push: ${{ github.ref == env.MAIN_BRANCH }}
-          tags: ${{ steps.meta.outputs.tags }}      
-        
-      - name: Publish
-        run: dotnet publish ${{ env.API_SOLUTION_FILE }} --configuration Release --no-restore --no-build
+          load: true
+          tags: ${{ steps.meta.outputs.tags }}
 
-      - name: Azure Login
-        if: github.event_name == 'push' && github.ref == env.MAIN_BRANCH
-        uses: azure/login@v2
+      - name: Log in to GHCR
+        if: ${{ github.event_name == 'push' && github.ref == env.MAIN_BRANCH }}
+        uses: docker/login-action@v4
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update ACA Image
-        if: github.event_name == 'push' && github.ref == env.MAIN_BRANCH
-        run: |
-          az containerapp update \
-            --name ${{ env.CONTAINERAPP_NAME }} \
-            --resource-group ${{ env.CONTAINERAPP_RESOURCE_GROUP }} \
-            --image ${{ steps.image.outputs.image }}
+      - name: Push Docker image
+        if: ${{ github.event_name == 'push' && github.ref == env.MAIN_BRANCH }}
+        run: docker push --all-tags "$IMAGE_NAME"
+
+  deploy-dev:
+    name: Deploy To Dev
+    needs: image
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: dev
+      image: ${{ needs.image.outputs.image }}
+    secrets: inherit
+
+  deploy-preprod:
+    name: Deploy To Pre-Prod
+    needs: [image, deploy-dev]
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: preprod
+      image: ${{ needs.image.outputs.image }}
+    secrets: inherit
+
+  deploy-prod:
+    name: Deploy To Prod
+    needs: [image, deploy-preprod]
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: prod
+      image: ${{ needs.image.outputs.image }}
+    secrets: inherit
