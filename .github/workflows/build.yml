@@ -106,9 +106,6 @@ jobs:
           target: final
           push: ${{ github.event_name == 'push' && github.ref == env.MAIN_BRANCH }}
           tags: ${{ steps.meta.outputs.tags }}      
-        
-      - name: Publish
-        run: dotnet publish ${{ env.API_SOLUTION_FILE }} --configuration Release --no-restore --no-build
 
   deploy-dev:
     needs: build
