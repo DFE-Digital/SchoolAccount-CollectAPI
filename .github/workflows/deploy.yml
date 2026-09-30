@@ -1,0 +1,64 @@
+name: Collect API Deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+      image:
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy to
+        type: environment
+        required: true
+      image_tag:
+        description: Image tag to deploy (e.g. sha-1a2b3c4). Leave blank to deploy the commit this run is started from
+        type: string
+        required: false
+
+env:
+  IMAGE_NAME: ghcr.io/dfe-digital/schoolaccount-collectapi
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    environment: ${{ inputs.environment }}
+
+    concurrency:
+      group: deploy-${{ inputs.environment }}
+      cancel-in-progress: false
+
+    steps:
+      - name: Resolve image
+        id: image
+        env:
+          INPUT_IMAGE: ${{ inputs.image }}
+          INPUT_IMAGE_TAG: ${{ inputs.image_tag }}
+        run: |
+          if [ -n "$INPUT_IMAGE" ]; then
+            IMAGE="$INPUT_IMAGE"
+          elif [ -n "$INPUT_IMAGE_TAG" ]; then
+            IMAGE="$IMAGE_NAME:$INPUT_IMAGE_TAG"
+          else
+            IMAGE="$IMAGE_NAME:sha-${GITHUB_SHA::7}"
+          fi
+          echo "Deploying $IMAGE"
+          echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Update ACA Image
+        run: |
+          az containerapp update \
+            --subscription ${{ vars.AZURE_SUBSCRIPTION_ID }} \
+            --name ${{ vars.CONTAINERAPP_NAME }} \
+            --resource-group ${{ vars.CONTAINERAPP_RESOURCE_GROUP }} \
+            --image ${{ steps.image.outputs.image }}
