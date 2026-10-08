@@ -30,19 +30,6 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
     private List<Action> GetActions(string laestab)
     {
         StatusRow? statusRow = censusReturn.StatusRows.FirstOrDefault(s => s.LAEStab == laestab);
-        if (statusRow is null)
-        {
-            return
-            [
-                new()
-                {
-                    Id = censusReturn.CollectionId,
-                    Name = censusReturn.CollectionName,
-                    Status = new Status { Name = ReturnStatusMapper.GetStatusDescription(0) },
-                },
-            ];
-        }
-
         return
         [
             new()
@@ -51,11 +38,13 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
                 Name = censusReturn.CollectionName,
                 Status = new Status
                 {
-                    Name = ReturnStatusMapper.GetStatusName(statusRow.ReturnStatusCode),
+                    Name = ReturnStatusMapper.GetStatusDescription(
+                        statusRow?.ReturnStatusCode ?? 0
+                    ),
                 },
-                Errors = statusRow.Errors,
-                Queries = statusRow.Queries,
-                UpdatedAt = statusRow.UpdatedAt,
+                Errors = statusRow?.Errors,
+                Queries = statusRow?.Queries,
+                UpdatedAt = statusRow?.UpdatedAt,
             },
         ];
     }
