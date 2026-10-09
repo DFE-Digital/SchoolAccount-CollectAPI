@@ -1,10 +1,10 @@
 namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
 
-public class StatusRow
+public record StatusRow
 {
-    public string LAEStab { get; set; }
-    public int ReturnStatusCode { get; set; }
-    public int? Errors { get; set; }
-    public int? Queries { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    public string LAEStab { get; init; }
+    public int ReturnStatusCode { get; init; }
+    public int? Errors { get; init; }
+    public int? Queries { get; init; }
+    public DateTime? UpdatedAt { get; init; }
 }
