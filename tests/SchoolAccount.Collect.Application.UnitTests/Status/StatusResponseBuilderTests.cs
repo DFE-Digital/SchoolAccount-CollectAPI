@@ -15,7 +15,17 @@ public class StatusResponseBuilderTests
         {
             CollectionId = "test-collection-id",
             CollectionName = "Test Collection",
-            StatusRows = [new() { LAEStab = "1234567", ReturnStatusCode = 7 }],
+            StatusRows =
+            [
+                new()
+                {
+                    LAEStab = "1234567",
+                    ReturnStatusCode = 7,
+                    Errors = 1,
+                    Queries = 2,
+                    UpdatedAt = new DateTime(2026, 10, 1, 9, 0, 0, DateTimeKind.Utc),
+                },
+            ],
         };
 
         var responseBuilder = new StatusResponseBuilder(censusReturn);
@@ -46,6 +56,9 @@ public class StatusResponseBuilderTests
         action.Name.ShouldBe(censusReturn.CollectionName);
         action.Id.ShouldBe(censusReturn.CollectionId);
         action.Status.Name.ShouldBe("Approved");
+        action.Errors.ShouldBe(1);
+        action.Queries.ShouldBe(2);
+        action.UpdatedAt.ShouldBe(new DateTime(2026, 10, 1, 9, 0, 0, DateTimeKind.Utc));
     }
 
     [Fact]
@@ -87,6 +100,9 @@ public class StatusResponseBuilderTests
         action.Name.ShouldBe(censusReturn.CollectionName);
         action.Id.ShouldBe(censusReturn.CollectionId);
         action.Status.Name.ShouldBe("Unavailable");
+        action.Errors.ShouldBeNull();
+        action.Queries.ShouldBeNull();
+        action.UpdatedAt.ShouldBeNull();
     }
 
     [Fact]

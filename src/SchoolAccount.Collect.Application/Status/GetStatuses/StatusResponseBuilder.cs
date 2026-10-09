@@ -29,18 +29,22 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
 
     private List<Action> GetActions(string laestab)
     {
-        int status = censusReturn
-            .StatusRows.Where(s => s.LAEStab == laestab)
-            .Select(s => s.ReturnStatusCode)
-            .FirstOrDefault();
-        string statusName = ReturnStatusMapper.GetStatusDescription(status);
+        StatusRow? statusRow = censusReturn.StatusRows.FirstOrDefault(s => s.LAEStab == laestab);
         return
         [
             new()
             {
                 Id = censusReturn.CollectionId,
                 Name = censusReturn.CollectionName,
-                Status = new Status { Name = statusName },
+                Status = new Status
+                {
+                    Name = statusRow is null
+                        ? ReturnStatusMapper.Unavailable
+                        : ReturnStatusMapper.GetStatusDescription(statusRow.ReturnStatusCode),
+                },
+                Errors = statusRow?.Errors,
+                Queries = statusRow?.Queries,
+                UpdatedAt = statusRow?.UpdatedAt,
             },
         ];
     }
