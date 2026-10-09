@@ -38,9 +38,9 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
                 Name = censusReturn.CollectionName,
                 Status = new Status
                 {
-                    Name = ReturnStatusMapper.GetStatusDescription(
-                        statusRow?.ReturnStatusCode ?? 0
-                    ),
+                    Name = statusRow is null
+                        ? ReturnStatusMapper.Unavailable
+                        : ReturnStatusMapper.GetStatusDescription(statusRow.ReturnStatusCode),
                 },
                 Errors = statusRow?.Errors,
                 Queries = statusRow?.Queries,
