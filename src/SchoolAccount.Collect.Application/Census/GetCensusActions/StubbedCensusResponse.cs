@@ -89,7 +89,7 @@ public static class StubbedCensusResponse
             [
                 new UnderstandStatus
                 {
-                    Name = "No Data",
+                    Name = "No_Data",
                     Description =
                         "Nothing has been uploaded to COLLECT yet. You need to upload your data.",
                 },
@@ -106,7 +106,7 @@ public static class StubbedCensusResponse
                 },
                 new UnderstandStatus
                 {
-                    Name = "Amended by Source",
+                    Name = "Amended_by_Source",
                     Description =
                         "Your data has been changed since you submitted it. You need to submit it again.",
                 },
