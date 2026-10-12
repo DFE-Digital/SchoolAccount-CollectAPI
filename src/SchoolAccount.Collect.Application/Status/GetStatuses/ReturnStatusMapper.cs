@@ -2,6 +2,7 @@ namespace SchoolAccount.Collect.Application.Status.GetStatuses;
 
 public static class ReturnStatusMapper
 {
+    public const string Unavailable = "Unavailable";
     private static readonly Dictionary<int, string> StatusDescriptions = new()
     {
         { 1, "No_Data" },
@@ -39,7 +40,7 @@ public static class ReturnStatusMapper
     {
         return StatusDescriptions.TryGetValue(statusCode, out string? description)
             ? description
-            : "Unavailable";
+            : Unavailable;
     }
 
     public static string GetStatusName(int statusCode)

@@ -61,9 +61,9 @@ public class CensusReturnStatusReader(
             await using var connection = new SqlConnection(_settings.ConnectionString);
             string sql =
                 @"
-                SELECT ReturnStatusCode, LAEStab
+                SELECT ReturnStatusCode, Errors, Queries, UpdatedAt, LAEStab
                 FROM (
-                    SELECT ReturnStatusCode, LAEStab,ROW_NUMBER() OVER 
+                    SELECT ReturnStatusCode, Errors, Queries, UpdatedAt, LAEStab,ROW_NUMBER() OVER 
                     (PARTITION BY LAEStab, Collection ORDER BY UpdatedAt DESC) AS rn
                     FROM CollectStateLedger.dbo.CollectReturnStatus
                     WHERE 
