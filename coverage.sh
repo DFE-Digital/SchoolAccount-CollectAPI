@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 rm -rf TestResults
 
 dotnet tool restore
-dotnet test -- --coverage --coverage-output-format cobertura --coverage-settings "$PWD/coverage.config"
+dotnet test --configuration "Release" --coverage --coverage-output-format cobertura --coverage-settings "$PWD/coverage.config"
 dotnet reportgenerator \
   -reports:"TestResults/*.cobertura.xml" \
   -targetdir:TestResults/CoverageReport \
