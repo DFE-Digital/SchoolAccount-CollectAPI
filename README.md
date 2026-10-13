@@ -124,6 +124,8 @@ To generate the same report locally, run [coverage.sh](coverage.sh) from the rep
 ./coverage.sh
 ```
 
+To ensure that the same report is generated locally, ensure you have the latest version of dotnet installed.
+
 The script runs all tests with coverage enabled, merges the per-project results with ReportGenerator, and writes an
 HTML report to `TestResults/CoverageReport/index.html`. Pass `--open` to open the report in your browser when it
 finishes:
