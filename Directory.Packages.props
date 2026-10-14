@@ -16,7 +16,7 @@
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.31.0.145097" />
     <!-- Application -->
     <PackageVersion Include="Scrutor" Version="7.0.0" />
-    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
     <PackageVersion Include="Serilog" Version="4.4.0" />
     <!-- Infrastructure -->
