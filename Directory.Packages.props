@@ -39,4 +39,14 @@
     <PackageVersion Include="Microsoft.Testing.Extensions.GitHubActionsReport" Version="2.4.1" />
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.4.1" />
   </ItemGroup>
+
+  <!-- Security pins. These packages are not referenced directly; they come in
+       through Microsoft.Data.SqlClient, whose current version still asks for a
+       vulnerable release (GHSA advisories published 13 October 2026). With
+       transitive pinning, these versions override that. Remove them once
+       Microsoft.Data.SqlClient depends on these versions or later. -->
+  <ItemGroup Label="Security pins">
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="9.0.21" />
+  </ItemGroup>
+
 </Project>
