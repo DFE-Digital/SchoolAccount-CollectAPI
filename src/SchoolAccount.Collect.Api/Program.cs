@@ -10,8 +10,12 @@ using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+
+// Also writes to the registered logger providers, so events reach OpenTelemetry.
 builder.Host.UseSerilog(
-    (context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration)
+    (context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration),
+    writeToProviders: true
 );
 
 if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
@@ -22,7 +26,11 @@ if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
     builder.Configuration.AddEnvironmentVariables();
 }
 
-builder.Services.AddApplication(builder.Configuration).AddPresentation().AddInfrastructure();
+builder
+    .Services.AddApplication(builder.Configuration)
+    .AddPresentation()
+    .AddInfrastructure()
+    .AddConfiguredOpenTelemetry(builder.Configuration, builder.Environment);
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 WebApplication app = builder.Build();
 
