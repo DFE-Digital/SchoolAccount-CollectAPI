@@ -28,9 +28,9 @@ if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
 
 builder
     .Services.AddApplication(builder.Configuration)
-    .AddPresentation()
-    .AddInfrastructure()
-    .AddConfiguredOpenTelemetry(builder.Configuration, builder.Environment);
+    .AddPresentation(builder.Environment, builder.Configuration)
+    .AddInfrastructure();
+
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 WebApplication app = builder.Build();
 
