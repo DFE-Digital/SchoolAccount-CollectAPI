@@ -1,9 +1,9 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using NSubstitute;
 using SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
-using SchoolAccount.Collect.Api.IntegrationTests.Common;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
@@ -12,7 +12,7 @@ using Action = SchoolAccount.Collect.Application.Status.GetStatuses.Action;
 
 namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Status;
 
-public class GetByStatusTests : IClassFixture<CollectApiWebApplicationFactory<Program>>
+public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
@@ -20,7 +20,7 @@ public class GetByStatusTests : IClassFixture<CollectApiWebApplicationFactory<Pr
         IQueryHandler<GetStatusesQuery, StatusResponse>
     >();
 
-    public GetByStatusTests(CollectApiWebApplicationFactory<Program> factory)
+    public GetByStatusTests(WebApplicationFactory<Program> factory)
     {
         _client = factory
             .WithWebHostBuilder(builder =>

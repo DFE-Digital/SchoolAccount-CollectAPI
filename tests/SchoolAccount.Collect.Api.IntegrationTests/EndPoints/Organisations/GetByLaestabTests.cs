@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using NSubstitute;
 using SchoolAccount.Collect.Api.Endpoints;
-using SchoolAccount.Collect.Api.IntegrationTests.Common;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.Application.Organisations.GetByLaestab;
 using SchoolAccount.Collect.SharedKernel;
@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Organisations;
 
-public class GetByLaestabTests : IClassFixture<CollectApiWebApplicationFactory<Program>>
+public class GetByLaestabTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
@@ -21,7 +21,7 @@ public class GetByLaestabTests : IClassFixture<CollectApiWebApplicationFactory<P
         IQueryHandler<GetOrganisationByLaestabQuery, OrganisationResponse>
     >();
 
-    public GetByLaestabTests(CollectApiWebApplicationFactory<Program> factory)
+    public GetByLaestabTests(WebApplicationFactory<Program> factory)
     {
         _client = factory
             .WithWebHostBuilder(builder =>

@@ -1,10 +1,10 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using NSubstitute;
 using SchoolAccount.Collect.Api.Endpoints.Shared;
 using SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
-using SchoolAccount.Collect.Api.IntegrationTests.Common;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.SharedKernel;
@@ -12,7 +12,7 @@ using Shouldly;
 
 namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Census;
 
-public class GetCensusActionsTests : IClassFixture<CollectApiWebApplicationFactory<Program>>
+public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private const string _censusId = "autumn-school-census-2026";
 
@@ -21,7 +21,7 @@ public class GetCensusActionsTests : IClassFixture<CollectApiWebApplicationFacto
     private readonly IQueryHandler<GetCensusActionsQuery, CensusActionsResponse> _handler =
         Substitute.For<IQueryHandler<GetCensusActionsQuery, CensusActionsResponse>>();
 
-    public GetCensusActionsTests(CollectApiWebApplicationFactory<Program> factory)
+    public GetCensusActionsTests(WebApplicationFactory<Program> factory)
     {
         _client = factory
             .WithWebHostBuilder(builder =>
