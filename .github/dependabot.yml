@@ -8,8 +8,9 @@ updates:
     cooldown:
       default-days: 3
     # A package goes in the first group it matches. Major updates outside the
-    # test tooling still arrive as their own PRs, so breaking changes are
-    # reviewed one at a time.
+    # test tooling and OpenTelemetry still arrive as their own PRs, so breaking
+    # changes are reviewed one at a time. The OpenTelemetry packages are released
+    # together, so they're updated together.
     groups:
       test-tooling:
         patterns:
@@ -19,6 +20,9 @@ updates:
           - "Shouldly"
           - "NetArchTest.Rules"
           - "RichardSzalay.MockHttp"
+      opentelemetry:
+        patterns:
+          - "OpenTelemetry.*"
       minor-and-patch:
         update-types:
           - "minor"
