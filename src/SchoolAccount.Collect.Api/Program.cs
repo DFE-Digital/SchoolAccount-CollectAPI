@@ -49,8 +49,6 @@ app.MapHealthChecks(
 
 app.UseRequestContextLogging();
 
-app.UseSerilogRequestLogging();
-
 app.UseExceptionHandler();
 
 await app.RunAsync();
