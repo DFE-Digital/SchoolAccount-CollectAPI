@@ -153,7 +153,8 @@ Each endpoint implements `IEndpoint` and is discovered and mapped automatically 
 ## Logging
 
 Structured logs are written via Serilog to [Seq](https://datalust.co/seq). When running via Docker Compose, the Seq UI
-is available at http://localhost:8081.
+is available at http://localhost:8081. When running with the .NET CLI or from the IDE, the API also sends its logs there,
+so start Seq first with `docker compose up seq`.
 
 ## Published Docker Image
 
