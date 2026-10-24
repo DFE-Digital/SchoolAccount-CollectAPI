@@ -46,10 +46,10 @@ How it works:
   * `Otlp` in `appsettings.Development.json`, so local runs send logs, traces and metrics over OTLP to
     `OTEL_EXPORTER_OTLP_ENDPOINT`, which Rider sets for runs from the IDE. Locally this also traces SQL queries, as the
     distro does when deployed.
-  * `None` when the setting is missing, so nothing is registered.
+  * `None` in `appsettings.IntegrationTests.json`, and when the setting is missing, so nothing is registered.
 * If the chosen destination isn't configured the API fails at startup, so a deployed API can't silently lose its
   telemetry. The exception is OTLP in development, where running without a collector, for example through Docker
-  Compose or the integration tests, leaves telemetry off.
+  Compose, leaves telemetry off.
 * Serilog forwards its events to the OpenTelemetry logger provider, so logs line up with their traces. The default
   logging providers are cleared so the console isn't printed twice.
 * The role name and instance come from the distro's Container Apps detector (the container app name and the replica).
