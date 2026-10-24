@@ -54,8 +54,8 @@ How it works:
   logging providers are cleared so the console isn't printed twice.
 * The role name and instance come from the distro's Container Apps detector (the container app name and the replica).
   Locally, the launch profile sets the service name to `schoolaccount-collectapi` and the instance id to `local`.
-* Serilog's per-request summary is turned down to `Warning`, as in the web app, because Application Insights already
-  records each request.
+* Serilog's request logging is off, as in the web app. Application Insights already records each request, with its
+  status and duration, and the exceptions behind failed ones, so a summary log event per request would only repeat them.
 
 ### Choosing the destination
 
