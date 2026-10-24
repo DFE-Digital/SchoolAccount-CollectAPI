@@ -6,17 +6,8 @@ using SchoolAccount.Collect.Api;
 using SchoolAccount.Collect.Api.Extensions;
 using SchoolAccount.Collect.Application;
 using SchoolAccount.Collect.Infrastructure;
-using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-builder.Logging.ClearProviders();
-
-// Also writes to the registered logger providers, so events reach OpenTelemetry.
-builder.Host.UseSerilog(
-    (context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration),
-    writeToProviders: true
-);
 
 if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
 {
@@ -25,6 +16,9 @@ if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
     // Last one wins: re-added so environment variables stay above App Configuration.
     builder.Configuration.AddEnvironmentVariables();
 }
+
+builder.Logging.ClearProviders();
+builder.Host.UseConfiguredSerilog();
 
 builder
     .Services.AddApplication(builder.Configuration)
