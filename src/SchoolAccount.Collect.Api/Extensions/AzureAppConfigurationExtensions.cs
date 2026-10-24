@@ -8,9 +8,6 @@ public static class AzureAppConfigurationExtensions
     /// Loads settings from Azure App Configuration and registers the services that refresh them,
     /// when <c>AzureAppConfiguration:Enabled</c> is true.
     /// </summary>
-    /// <remarks>
-    /// Environment variables are added again afterwards, so they still win over App Configuration.
-    /// </remarks>
     public static WebApplicationBuilder AddConfiguredAzureAppConfiguration(
         this WebApplicationBuilder builder
     )
