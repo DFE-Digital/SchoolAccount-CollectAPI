@@ -6,13 +6,8 @@ using SchoolAccount.Collect.Api;
 using SchoolAccount.Collect.Api.Extensions;
 using SchoolAccount.Collect.Application;
 using SchoolAccount.Collect.Infrastructure;
-using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-builder.Host.UseSerilog(
-    (context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration)
-);
 
 if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
 {
@@ -22,7 +17,14 @@ if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
     builder.Configuration.AddEnvironmentVariables();
 }
 
-builder.Services.AddApplication(builder.Configuration).AddPresentation().AddInfrastructure();
+builder.Logging.ClearProviders();
+builder.Host.UseConfiguredSerilog();
+
+builder
+    .Services.AddApplication(builder.Configuration)
+    .AddPresentation(builder.Environment, builder.Configuration)
+    .AddInfrastructure();
+
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 WebApplication app = builder.Build();
 
@@ -40,8 +42,6 @@ app.MapHealthChecks(
 );
 
 app.UseRequestContextLogging();
-
-app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
 
