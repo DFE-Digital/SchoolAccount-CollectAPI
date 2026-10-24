@@ -1,6 +1,6 @@
 ---
-status: "proposed"
-date: 2026-10-21
+status: "accepted"
+date: 2026-10-24
 decision-makers: Paul Custance
 ---
 
