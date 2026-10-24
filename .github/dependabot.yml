@@ -8,9 +8,9 @@ updates:
     cooldown:
       default-days: 3
     # A package goes in the first group it matches. Major updates outside the
-    # test tooling and OpenTelemetry still arrive as their own PRs, so breaking
-    # changes are reviewed one at a time. The OpenTelemetry packages are released
-    # together, so they're updated together.
+    # test tooling and OpenTelemetry groups get their own PRs, so breaking
+    # changes are reviewed one at a time. OpenTelemetry packages depend on
+    # each other's versions, so they're updated together.
     groups:
       test-tooling:
         patterns:
