@@ -95,8 +95,9 @@ public static class StubbedCensusResponse
                 },
                 new UnderstandStatus
                 {
-                    Name = "Loaded",
-                    Description = "Your data has been uploaded to COLLECT. You need to submit it.",
+                    Name = "Loaded_and_Validated",
+                    Description =
+                        "Your data has been uploaded to COLLECT and automatically checked. You need resolve any errors or queries then submit your return.",
                 },
                 new UnderstandStatus
                 {
@@ -106,9 +107,21 @@ public static class StubbedCensusResponse
                 },
                 new UnderstandStatus
                 {
-                    Name = "Amended_by_Source",
+                    Name = "Amended_by_source",
                     Description =
                         "Your data has been changed since you submitted it. You need to submit it again.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Amended_by_agent",
+                    Description =
+                        "Your local authority has made changes to your data. Contact your local authority if you want to know what they changed.",
+                },
+                new UnderstandStatus
+                {
+                    Name = "Amended_by_Collector",
+                    Description =
+                        "DfE has changed or rechecked your data. Check COLLECT for any notes, errors or queries you need to resolve.",
                 },
                 new UnderstandStatus
                 {
