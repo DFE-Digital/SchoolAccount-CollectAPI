@@ -119,7 +119,7 @@ public static class StubbedCensusResponse
                 },
                 new UnderstandStatus
                 {
-                    Name = "Amended_by_Collector",
+                    Name = "Amended_by_collector",
                     Description =
                         "DfE has changed or rechecked your data. Check COLLECT for any notes, errors or queries you need to resolve.",
                 },
