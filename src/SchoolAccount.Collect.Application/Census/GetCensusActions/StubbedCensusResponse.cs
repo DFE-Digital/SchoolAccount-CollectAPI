@@ -97,7 +97,7 @@ public static class StubbedCensusResponse
                 {
                     Name = "Loaded_and_Validated",
                     Description =
-                        "Your data has been uploaded to COLLECT and automatically checked. You need resolve any errors or queries then submit your return.",
+                        "Your data has been uploaded to COLLECT and automatically checked. You need to resolve any errors or queries then submit your return.",
                 },
                 new UnderstandStatus
                 {
