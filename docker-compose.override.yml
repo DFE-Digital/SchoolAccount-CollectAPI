@@ -3,3 +3,4 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
+      - Serilog__WriteTo__Seq__Args__serverUrl=http://seq
