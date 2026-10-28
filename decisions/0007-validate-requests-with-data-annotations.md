@@ -93,7 +93,7 @@ up front.
 
 ### Confirmation
 
-[GetByLaestabTests.cs](../tests/SchoolAccount.Collect.Api.IntegrationTests/EndPoints/Status/GetByLaestabTests.cs)
+[GetByStatusTests.cs](../tests/SchoolAccount.Collect.Api.IntegrationTests/EndPoints/Status/GetByStatusTests.cs)
 exercises the endpoint with a malformed LAESTAB value and asserts the validation problem response,
 confirming the request never reaches the query handler.
 
