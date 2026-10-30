@@ -51,14 +51,14 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
         {
             Id = id,
             Email = email,
-            Organisations = new List<Organisation>() { organisation },
+            Organisations = new List<Organisation> { organisation },
         };
 
         var stubbedStatusResponse = new StatusResponse
         {
-            Details = new List<OrganisationResponse>()
+            Details = new List<OrganisationResponse>
             {
-                new OrganisationResponse
+                new()
                 {
                     Id = organisation.Id,
                     Name = organisation.Name,
@@ -112,7 +112,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
             Name = "test-organisation-name",
             Category = new Category { Id = "test-category-id", Name = "test-category-name" },
             Ukprn = "test-ukprn",
-            LocalAuthority = new LocalAuthority()
+            LocalAuthority = new LocalAuthority
             {
                 Id = "test-local-authority-id",
                 Name = "test-local-authority-name",
@@ -125,14 +125,14 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
         {
             Id = id,
             Email = email,
-            Organisations = new List<Organisation>() { organisation },
+            Organisations = new List<Organisation> { organisation },
         };
 
         var stubbedStatusResponse = new StatusResponse
         {
-            Details = new List<OrganisationResponse>()
+            Details = new List<OrganisationResponse>
             {
-                new OrganisationResponse
+                new()
                 {
                     Id = organisation.Id,
                     Name = organisation.Name,
@@ -140,9 +140,9 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
                     Ukprn = organisation.Ukprn,
                     Laestab = organisation.LocalAuthority.Code + organisation.EstablishmentNumber,
                     Interesting = true,
-                    Actions = new List<Action>()
+                    Actions = new List<Action>
                     {
-                        new Action
+                        new()
                         {
                             Name = "Autumn School Census",
                             Status = new Application.Status.GetStatuses.Status

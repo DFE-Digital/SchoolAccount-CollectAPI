@@ -1,5 +1,6 @@
 using NSubstitute;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
+using SchoolAccount.Collect.Application.Shared;
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
@@ -34,7 +35,7 @@ public class GetStatusesQueryHandlerTests
             .GetCensusReturnStatuses(Arg.Any<List<string>>(), Arg.Any<CancellationToken>())
             .Returns(
                 Task.FromResult(
-                    new CensusReturn()
+                    new CensusReturn
                     {
                         CollectionName = "test-collection-name",
                         CollectionId = "test-collection-id",

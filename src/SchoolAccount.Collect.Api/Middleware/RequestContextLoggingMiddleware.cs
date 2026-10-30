@@ -5,7 +5,7 @@ namespace SchoolAccount.Collect.Api.Middleware;
 
 public class RequestContextLoggingMiddleware(RequestDelegate next)
 {
-    private const string CorrelationIdHeaderName = "Correlation-Id";
+    private const string _correlationIdHeaderName = "Correlation-Id";
 
     public Task Invoke(HttpContext context)
     {
@@ -18,7 +18,7 @@ public class RequestContextLoggingMiddleware(RequestDelegate next)
     private static string GetCorrelationId(HttpContext context)
     {
         context.Request.Headers.TryGetValue(
-            CorrelationIdHeaderName,
+            _correlationIdHeaderName,
             out StringValues correlationId
         );
 

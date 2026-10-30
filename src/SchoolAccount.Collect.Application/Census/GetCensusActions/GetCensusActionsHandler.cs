@@ -1,4 +1,5 @@
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
+using SchoolAccount.Collect.Application.Shared;
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
 
