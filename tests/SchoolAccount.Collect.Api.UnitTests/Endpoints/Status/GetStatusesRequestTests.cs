@@ -16,7 +16,7 @@ public class GetStatusesRequestTests
             Email = "test.user@email.com",
             Organisations = new List<Organisation>
             {
-                new Organisation
+                new()
                 {
                     Id = "test-organisation-id",
                     Name = "test-organisation-name",
@@ -52,7 +52,7 @@ public class GetStatusesRequestTests
             Email = "test.user@email.com",
             Organisations = new List<Organisation>
             {
-                new Organisation
+                new()
                 {
                     Id = "test-organisation-id",
                     Name = "test-organisation-name",

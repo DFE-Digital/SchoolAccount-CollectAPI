@@ -3,7 +3,8 @@ namespace SchoolAccount.Collect.Application.Status.GetStatuses;
 public static class ReturnStatusMapper
 {
     public const string Unavailable = "Unavailable";
-    private static readonly Dictionary<int, string> StatusDescriptions = new()
+
+    private static readonly Dictionary<int, string> _statusDescriptions = new()
     {
         { 1, "No_Data" },
         { 23, "Awaiting_File_Upload" },
@@ -38,7 +39,7 @@ public static class ReturnStatusMapper
 
     public static string GetStatusDescription(int statusCode)
     {
-        return StatusDescriptions.TryGetValue(statusCode, out string? description)
+        return _statusDescriptions.TryGetValue(statusCode, out string? description)
             ? description
             : Unavailable;
     }

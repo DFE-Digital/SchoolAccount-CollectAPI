@@ -1,3 +1,5 @@
+using SchoolAccount.Collect.Application.Shared;
+
 namespace SchoolAccount.Collect.Application.Status.GetStatuses;
 
 public class GetStatusesRequestModel

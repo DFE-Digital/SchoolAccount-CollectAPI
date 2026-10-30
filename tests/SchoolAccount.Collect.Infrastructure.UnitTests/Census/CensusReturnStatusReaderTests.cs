@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.Application.Configuration;
 using SchoolAccount.Collect.Infrastructure.Census;
 using Shouldly;

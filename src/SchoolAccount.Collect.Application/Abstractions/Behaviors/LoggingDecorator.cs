@@ -8,6 +8,40 @@ namespace SchoolAccount.Collect.Application.Abstractions.Behaviors;
 
 internal static partial class LoggingDecorator
 {
+    [LoggerMessage(EventId = 2001, Level = LogLevel.Debug, Message = "Processing {commandName}")]
+    private static partial void LogProcessingCommand(ILogger logger, string commandName);
+
+    [LoggerMessage(
+        EventId = 2002,
+        Level = LogLevel.Debug,
+        Message = "Completed command {commandName}"
+    )]
+    private static partial void LogCompletedCommand(ILogger logger, string commandName);
+
+    [LoggerMessage(
+        EventId = 2004,
+        Level = LogLevel.Error,
+        Message = "Failed command {commandName} with error"
+    )]
+    private static partial void LogFailedCommand(ILogger logger, string commandName);
+
+    [LoggerMessage(
+        EventId = 3001,
+        Level = LogLevel.Debug,
+        Message = "Processing query {queryName}"
+    )]
+    private static partial void LogProcessingQuery(ILogger logger, string queryName);
+
+    [LoggerMessage(EventId = 3002, Level = LogLevel.Debug, Message = "Completed query {queryName}")]
+    private static partial void LogCompletedQuery(ILogger logger, string queryName);
+
+    [LoggerMessage(
+        EventId = 3003,
+        Level = LogLevel.Error,
+        Message = "Failed query {queryName} with error"
+    )]
+    private static partial void LogFailedQuery(ILogger logger, string queryName);
+
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.AllConstructors)]
     internal sealed class CommandHandler<TCommand, TResponse>(
         ICommandHandler<TCommand, TResponse> innerHandler,
@@ -105,38 +139,4 @@ internal static partial class LoggingDecorator
             return result;
         }
     }
-
-    [LoggerMessage(EventId = 2001, Level = LogLevel.Debug, Message = "Processing {commandName}")]
-    private static partial void LogProcessingCommand(ILogger logger, string commandName);
-
-    [LoggerMessage(
-        EventId = 2002,
-        Level = LogLevel.Debug,
-        Message = "Completed command {commandName}"
-    )]
-    private static partial void LogCompletedCommand(ILogger logger, string commandName);
-
-    [LoggerMessage(
-        EventId = 2004,
-        Level = LogLevel.Error,
-        Message = "Failed command {commandName} with error"
-    )]
-    private static partial void LogFailedCommand(ILogger logger, string commandName);
-
-    [LoggerMessage(
-        EventId = 3001,
-        Level = LogLevel.Debug,
-        Message = "Processing query {queryName}"
-    )]
-    private static partial void LogProcessingQuery(ILogger logger, string queryName);
-
-    [LoggerMessage(EventId = 3002, Level = LogLevel.Debug, Message = "Completed query {queryName}")]
-    private static partial void LogCompletedQuery(ILogger logger, string queryName);
-
-    [LoggerMessage(
-        EventId = 3003,
-        Level = LogLevel.Error,
-        Message = "Failed query {queryName} with error"
-    )]
-    private static partial void LogFailedQuery(ILogger logger, string queryName);
 }

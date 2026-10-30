@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SchoolAccount.Collect.Application.Shared;
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 
 namespace SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;

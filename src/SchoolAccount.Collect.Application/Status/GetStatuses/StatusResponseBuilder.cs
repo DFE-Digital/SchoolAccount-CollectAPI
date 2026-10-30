@@ -1,4 +1,5 @@
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
+using SchoolAccount.Collect.Application.Shared;
 
 namespace SchoolAccount.Collect.Application.Status.GetStatuses;
 
@@ -32,7 +33,7 @@ public class StatusResponseBuilder(CensusReturn censusReturn)
         StatusRow? statusRow = censusReturn.StatusRows.FirstOrDefault(s => s.LAEStab == laestab);
         return
         [
-            new()
+            new Action
             {
                 Id = censusReturn.CollectionId,
                 Name = censusReturn.CollectionName,
