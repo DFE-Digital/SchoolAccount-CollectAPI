@@ -1,7 +1,6 @@
 using NSubstitute;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.Application.Shared;
-using SchoolAccount.Collect.Application.Status.GetStatuses;
 using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
 

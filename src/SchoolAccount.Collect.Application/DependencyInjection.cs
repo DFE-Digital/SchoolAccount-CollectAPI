@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using SchoolAccount.Collect.Application.Abstractions.Behaviors;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
 using SchoolAccount.Collect.Application.Configuration;
-using Serilog.Core;
 
 namespace SchoolAccount.Collect.Application;
 
@@ -24,22 +23,13 @@ public static class DependencyInjection
 
         services.Scan(scan =>
             scan.FromAssembliesOf(typeof(DependencyInjection))
-                .AddClasses(
-                    classes => classes.AssignableTo(typeof(IQueryHandler<,>)),
-                    publicOnly: false
-                )
+                .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)), false)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
-                .AddClasses(
-                    classes => classes.AssignableTo(typeof(ICommandHandler<>)),
-                    publicOnly: false
-                )
+                .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<>)), false)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
-                .AddClasses(
-                    classes => classes.AssignableTo(typeof(ICommandHandler<,>)),
-                    publicOnly: false
-                )
+                .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)), false)
                 .AsImplementedInterfaces()
                 .WithScopedLifetime()
         );

@@ -3,7 +3,6 @@ using SchoolAccount.Collect.Api.Endpoints.Shared;
 using SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.Application.Shared;
-using SchoolAccount.Collect.Application.Status.GetStatuses;
 using Shouldly;
 
 namespace SchoolAccount.Collect.Api.UnitTests.Endpoints.Census;

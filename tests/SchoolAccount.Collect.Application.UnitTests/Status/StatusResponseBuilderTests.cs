@@ -1,4 +1,5 @@
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
+using SchoolAccount.Collect.Application.Shared;
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 using Shouldly;
 using Action = SchoolAccount.Collect.Application.Status.GetStatuses.Action;
@@ -17,7 +18,7 @@ public class StatusResponseBuilderTests
             CollectionName = "Test Collection",
             StatusRows =
             [
-                new()
+                new StatusRow
                 {
                     LAEStab = "1234567",
                     ReturnStatusCode = 7,

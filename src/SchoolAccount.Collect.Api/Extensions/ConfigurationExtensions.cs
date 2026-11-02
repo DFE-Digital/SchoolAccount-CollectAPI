@@ -1,5 +1,4 @@
 using Azure.Identity;
-using Microsoft.Extensions.Configuration;
 
 namespace SchoolAccount.Collect.Api.Extensions;
 
