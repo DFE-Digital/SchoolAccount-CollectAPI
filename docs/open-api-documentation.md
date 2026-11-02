@@ -33,7 +33,7 @@ The information will be displayed in the Scalar UI and in the Open API documenta
 
 Annotations on request classes can be used to provide descriptions of individual parameters. 
 
-An example can be seen in [GetByLaestabRequest](../src/SchoolAccount.Collect.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabRequest.cs) which is annotated with a description for the `Laestab` property.
+An example can be seen in [GetStatusesRequest](../src/SchoolAccount.Collect.Api/Endpoints/Status/GetStatuses/GetStatusesRequest.cs) which is annotated with a `Required` and a `EmailAddress` annotation.
 
 ```csharp
     [Description("LAESTAB of the organisation. Must be a seven digit number.")]
@@ -42,9 +42,9 @@ An example can be seen in [GetByLaestabRequest](../src/SchoolAccount.Collect.Api
 
 ## Response types and codes
 
-The `Produces` extension method can be used to specify the response type and status code for an endpoint, i.e. `.Produces<OrganisationResponse>()`.
+The `Produces` extension method can be used to specify the response type and status code for an endpoint, i.e. `.Produces<StatusResponse>()`.
 
-The specified type can be annotated in the same way as annotating a request in the previous section. See [OrganisationResponse](../src/SchoolAccount.Collect.Application/Organisations/GetByLaestab/OrganisationResponse.cs) for an example of annotating a response type with descriptions.
+The specified type can be annotated in the same way as annotating a request in the previous section.
 
 Specific problem responses codes can be documented using the `ProducesProblem` extension method. The method should be used to specify each HTTP response code that can be returned from an endpoint. The below snippet shows an example of documenting that the API may throw a 500 error.
 
@@ -54,19 +54,33 @@ Specific problem responses codes can be documented using the `ProducesProblem` e
 
 Note the use of the named constants on the `StatusCodes` class to avoid 'magic numbers' like 500 in the code. 
 
-For validation errors the specfic `ProducesValidationProblem` extenstion method should be used. This will likely be required on all end points.
+For validation errors the specific `ProducesValidationProblem` extenstion method should be used. This will likely be required on all end points.
 
 ## Example of documented endpoint
 
-All the recommendations above can be found on the `GetByLaestab` endpoint in the [GetByLaestabEndpoint](../src/SchoolAccount.Collect.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabEndpoint.cs) endpoint.
+All the recommendations above can be found on the `GetStatuses` endpoint in the [GetStatusesEndpoint](../src/SchoolAccount.Collect.Api/Endpoints/Status/GetStatuses/GetStatusesEndpoint.cs) endpoint.
 
 ```csharp
-app.MapGet("/organisations/{laestab}", GetByLaestab)
-    .WithName("GetByLaestab")
-    .WithSummary("Get an organisation by its LAESTAB")
-    .WithDescription("Returns the organisation with the specified LAESTAB. If no organisation is found, a 404 error is returned.")
-    .WithTags("Organisations")
-    .Produces<GetByLaestabResponse>()
-    .ProducesValidationProblem()
-    .ProducesProblem(StatusCodes.Status500InternalServerError);
+app.MapPost(
+                "status",
+                async (
+                    [FromBody] GetStatusesRequest request,
+                    IQueryHandler<GetStatusesQuery, StatusResponse> handler,
+                    CancellationToken cancellationToken
+                ) =>
+                {
+                    GetStatusesQuery query = request.ToQuery();
+
+                    Result<StatusResponse> result = await handler.Handle(query, cancellationToken);
+
+                    return result.Match(Results.Ok, CustomResults.Problem);
+                }
+            )
+            .WithName("GetStatus")
+            .WithSummary("Get status of the service")
+            .WithDescription("Retrieves the status of the service")
+            .Produces<StatusResponse>()
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithTags(Tags.Status);
 ```

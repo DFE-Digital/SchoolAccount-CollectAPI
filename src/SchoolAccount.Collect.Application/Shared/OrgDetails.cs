@@ -1,4 +1,4 @@
-namespace SchoolAccount.Collect.Application.Status.GetStatuses;
+namespace SchoolAccount.Collect.Application.Shared;
 
 public class OrgDetails
 {
