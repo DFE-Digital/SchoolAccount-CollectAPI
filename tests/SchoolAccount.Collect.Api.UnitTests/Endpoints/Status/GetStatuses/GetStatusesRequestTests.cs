@@ -2,7 +2,7 @@ using SchoolAccount.Collect.Api.Endpoints.Status.GetStatuses;
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 using Shouldly;
 
-namespace SchoolAccount.Collect.Api.UnitTests.Endpoints.Status;
+namespace SchoolAccount.Collect.Api.UnitTests.Endpoints.Status.GetStatuses;
 
 public class GetStatusesRequestTests
 {

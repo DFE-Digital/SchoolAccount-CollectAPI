@@ -10,7 +10,7 @@ using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
 
-namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Census;
+namespace SchoolAccount.Collect.Api.IntegrationTests.Endpoints.Census.GetCensusActions;
 
 public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program>>
 {

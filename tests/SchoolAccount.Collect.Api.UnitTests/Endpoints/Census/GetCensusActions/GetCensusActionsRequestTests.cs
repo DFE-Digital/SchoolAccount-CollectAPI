@@ -5,7 +5,7 @@ using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using SchoolAccount.Collect.Application.Shared;
 using Shouldly;
 
-namespace SchoolAccount.Collect.Api.UnitTests.Endpoints.Census;
+namespace SchoolAccount.Collect.Api.UnitTests.Endpoints.Census.GetCensusActions;
 
 public class GetCensusActionsRequestTests
 {
