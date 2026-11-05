@@ -1,12 +1,18 @@
 ﻿using System.Text.Json.Serialization;
+using SchoolAccount.Collect.Api.Extensions;
 using SchoolAccount.Collect.Api.Infrastructure;
 
 namespace SchoolAccount.Collect.Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPresentation(this IServiceCollection services)
+    public static IServiceCollection AddPresentation(
+        this IServiceCollection services,
+        IWebHostEnvironment env,
+        IConfiguration configuration
+    )
     {
+        services.AddConfiguredOpenTelemetry(configuration, env);
         services.AddOpenApi();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();

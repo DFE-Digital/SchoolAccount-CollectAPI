@@ -22,6 +22,7 @@ Architecture decisions are recorded as ADRs in the [decisions](decisions) folder
 - [Enforce code quality with Roslyn analysers](decisions/0006-enforce-code-quality-with-roslyn-analysers.md) - why SonarAnalyzer.CSharp and strict analysis are enforced in the build
 - [Validate requests with Data Annotations](decisions/0007-validate-requests-with-data-annotations.md) - why request shape is validated with Data Annotations rather than a FluentValidation decorator
 - [Use containerisation to publish code](decisions/0008-use-containerisation-to-publish-code.md) - why we have chosen to use containerisation and push to the github container registry
+- [Use the Azure Monitor OpenTelemetry distro for telemetry](decisions/0009-use-azure-monitor-opentelemetry-distro.md) - how logs, traces and metrics reach Azure Monitor and Rider
 
 New decisions should follow the [ADR template](decisions/0000-adr-template.md).
 
@@ -152,7 +153,8 @@ Each endpoint implements `IEndpoint` and is discovered and mapped automatically 
 ## Logging
 
 Structured logs are written via Serilog to [Seq](https://datalust.co/seq). When running via Docker Compose, the Seq UI
-is available at http://localhost:8081.
+is available at http://localhost:8081. When running with the .NET CLI or from the IDE, the API also sends its logs there,
+so start Seq first with `docker compose up seq`.
 
 ## Published Docker Image
 
@@ -165,7 +167,7 @@ To verify the image locally, you can run:
 docker run --platform linux/amd64 --name collect-api -e ASPNETCORE_ENVIRONMENT=development -p 5101:8080 -d --pull=always ghcr.io/dfe-digital/schoolaccount-collectapi:latest
 ```
 
-You can then test the API endpoints by visiting http://localhost:5101/organisations/1234567.
+You can then test the API endpoints by visiting http://localhost:5101/scalar/v1.
 
 To stop and delete the container, you can run:
 ```

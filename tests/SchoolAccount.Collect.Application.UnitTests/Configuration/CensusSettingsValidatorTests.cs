@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Options;
-using NSubstitute;
 using SchoolAccount.Collect.Application.Configuration;
 using Shouldly;
 

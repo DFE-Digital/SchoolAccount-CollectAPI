@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using SchoolAccount.Collect.Api.Extensions;
 using SchoolAccount.Collect.Api.Infrastructure;
 using SchoolAccount.Collect.Application.Abstractions.Messaging;

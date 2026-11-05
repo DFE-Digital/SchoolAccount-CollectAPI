@@ -16,7 +16,7 @@ should request validation live, and with what tool?
 
 This also needs to separate two different kinds of check that are easy to conflate. Boundary
 validation asks whether a request is well-formed, such as whether a string has the right shape, a
-required field is present, or a number falls in range, and it only ever needs the request itself.
+required field is present, or a value falls in range, and it only ever needs the request itself.
 Business-rule validation asks whether an operation is allowed to happen at all, such as whether an
 email already exists, an organisation is already closed, or a referenced record exists. It needs
 data from outside the request, typically the database or other domain state.
@@ -56,17 +56,16 @@ validator class needed for what is usually a handful of attributes.
 
 `services.AddValidation()` in
 [SchoolAccount.Collect.Api/DependencyInjection.cs](../src/SchoolAccount.Collect.Api/DependencyInjection.cs) wires
-up ASP.NET Core's built-in minimal API validation. `GetByLaestabRequest.Laestab` in
-[GetByLaestabRequest.cs](../src/SchoolAccount.Collect.Api/Endpoints/Organisations/GetByLaestab/GetByLaestabRequest.cs)
-carries a `[RegularExpression]` attribute as the example. A malformed value never reaches
-`GetOrganisationByLaestabQueryHandler`; the endpoint's `.ProducesValidationProblem()` documents the
+up ASP.NET Core's built-in minimal API validation. `GetStatusesRequest.Email` in
+[GetStatusesRequest.cs](../src/SchoolAccount.Collect.Api/Endpoints/Status/GetStatuses/GetStatusesRequest.cs)
+carries both a `[Required]` and a `[EmailAddress]` attribute. Preventing malformed or missing values never reach
+`GetStatusesQueryHandler`; the endpoint's `.ProducesValidationProblem()` documents the
 response the client gets instead.
 
 This covers boundary validation for both queries and commands, checking whether the request is
 well-formed enough to act on at all, and it deliberately does not try to cover business-rule
-validation. Queries, like the one example in this codebase, need nothing more than this, because a
-query has no state-changing invariant to protect. "The LAESTAB isn't a real organisation" is a
-`NotFound` result from the handler, not a validation failure at the boundary. When a command is
+validation. Queries need nothing more than this, because a
+query has no state-changing invariant to protect. When a command is
 added and needs a rule that depends on other data, that validation belongs in the Application
 layer, next to the handler it protects, the same way `LoggingDecorator` sits next to the handlers
 it wraps. It should be added for that specific command rather than adopted as a blanket mechanism
@@ -76,7 +75,7 @@ up front.
 
 * Good, because the constraint lives next to the field it constrains, on the request the client
   actually sends, so there is one place to read to know what a request must look like.
-* Good, because no extra pipeline step (decorator, behavior, mediator step) is needed; validation
+* Good, because no extra pipeline step (decorator, behaviour, mediator step) is needed; validation
   happens before the endpoint delegate runs.
 * Good, because the response is ASP.NET Core's standard `ValidationProblem`, matching what
   `.ProducesValidationProblem()` already documents on every endpoint.
@@ -94,7 +93,7 @@ up front.
 
 ### Confirmation
 
-[GetByLaestabTests.cs](../tests/SchoolAccount.Collect.Api.IntegrationTests/EndPoints/Organisations/GetByLaestabTests.cs)
+[GetByStatusTests.cs](../tests/SchoolAccount.Collect.Api.IntegrationTests/EndPoints/Status/GetByStatusTests.cs)
 exercises the endpoint with a malformed LAESTAB value and asserts the validation problem response,
 confirming the request never reaches the query handler.
 
