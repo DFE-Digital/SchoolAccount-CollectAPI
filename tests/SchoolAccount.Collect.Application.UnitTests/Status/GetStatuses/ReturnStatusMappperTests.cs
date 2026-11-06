@@ -1,7 +1,7 @@
 using SchoolAccount.Collect.Application.Status.GetStatuses;
 using Shouldly;
 
-namespace SchoolAccount.Collect.Application.UnitTests.Status;
+namespace SchoolAccount.Collect.Application.UnitTests.Status.GetStatuses;
 
 public class ReturnStatusMappperTests
 {
