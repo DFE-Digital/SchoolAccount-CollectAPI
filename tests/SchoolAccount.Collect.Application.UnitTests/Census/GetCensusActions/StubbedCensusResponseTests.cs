@@ -6,7 +6,7 @@ namespace SchoolAccount.Collect.Application.UnitTests.Census.GetCensusActions;
 public class StubbedCensusResponseTests
 {
     [Fact]
-    public void Create_without_statusCode_should_return_unavailable_status()
+    public void An_unavailable_status_is_returned_for_no_status_code()
     {
         // Act
         CensusActionsResponse response = StubbedCensusResponse.Create();
@@ -21,7 +21,7 @@ public class StubbedCensusResponseTests
     [InlineData(9, "Amended_by_collector", "Amended_by_collector")]
     [InlineData(10, "Authorised", "Authorised")]
     [InlineData(16, "Awaiting_Authorisation", "Awaiting_Authorisation")]
-    public void Create_with_statusCode_should_match_status_correctly(
+    public void The_status_is_correctly_mapped(
         int statusCode,
         string expectedName,
         string expectedLabel
@@ -36,7 +36,7 @@ public class StubbedCensusResponseTests
     }
 
     [Fact]
-    public void Create_with_invalid_statusCode_should_return_unavailable_status()
+    public void An_unavailable_status_is_returned_for_an_invalid_status_code()
     {
         // Act & Assert
         CensusActionsResponse response = StubbedCensusResponse.Create(100);
