@@ -12,7 +12,7 @@ using Action = SchoolAccount.Collect.Application.Status.GetStatuses.Action;
 
 namespace SchoolAccount.Collect.Api.IntegrationTests.Endpoints.Status.GetStatuses;
 
-public class GetStatusesTests : IClassFixture<WebApplicationFactory<Program>>
+public class GetStatusesEndpointTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
@@ -20,7 +20,7 @@ public class GetStatusesTests : IClassFixture<WebApplicationFactory<Program>>
         IQueryHandler<GetStatusesQuery, StatusResponse>
     >();
 
-    public GetStatusesTests(WebApplicationFactory<Program> factory)
+    public GetStatusesEndpointTests(WebApplicationFactory<Program> factory)
     {
         _client = factory
             .WithWebHostBuilder(builder =>

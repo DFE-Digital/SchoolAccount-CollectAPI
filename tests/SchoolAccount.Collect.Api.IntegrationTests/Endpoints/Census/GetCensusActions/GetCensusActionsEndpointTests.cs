@@ -12,7 +12,7 @@ using Shouldly;
 
 namespace SchoolAccount.Collect.Api.IntegrationTests.Endpoints.Census.GetCensusActions;
 
-public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program>>
+public class GetCensusActionsEndpointTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private const string _censusId = "autumn-school-census-2026";
 
@@ -21,7 +21,7 @@ public class GetCensusActionsTests : IClassFixture<WebApplicationFactory<Program
     private readonly IQueryHandler<GetCensusActionsQuery, CensusActionsResponse> _handler =
         Substitute.For<IQueryHandler<GetCensusActionsQuery, CensusActionsResponse>>();
 
-    public GetCensusActionsTests(WebApplicationFactory<Program> factory)
+    public GetCensusActionsEndpointTests(WebApplicationFactory<Program> factory)
     {
         _client = factory
             .WithWebHostBuilder(builder =>
