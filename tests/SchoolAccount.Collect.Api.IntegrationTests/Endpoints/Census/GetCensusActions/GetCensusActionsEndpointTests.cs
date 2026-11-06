@@ -35,7 +35,7 @@ public class GetCensusActionsEndpointTests : IClassFixture<WebApplicationFactory
     }
 
     [Fact]
-    public async Task CensusActions_endpoint_should_return_census_actions_response()
+    public async Task The_details_of_a_census_action_are_retrieved()
     {
         // Arrange
         User user = ValidUser();
@@ -79,7 +79,7 @@ public class GetCensusActionsEndpointTests : IClassFixture<WebApplicationFactory
     }
 
     [Fact]
-    public async Task CensusActions_endpoint_should_pass_the_census_id_and_user_to_the_handler()
+    public async Task The_census_id_and_user_are_correctly_passed_to_the_handler()
     {
         // Arrange
         User user = ValidUser();
@@ -105,7 +105,7 @@ public class GetCensusActionsEndpointTests : IClassFixture<WebApplicationFactory
     }
 
     [Fact]
-    public async Task CensusActions_endpoint_should_return_validation_problem_without_a_user()
+    public async Task Validation_errors_occur_when_no_user_is_provided()
     {
         // Act
         HttpResponseMessage response = await _client.PostAsJsonAsync(
