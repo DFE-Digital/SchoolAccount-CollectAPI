@@ -34,7 +34,7 @@ public class GetStatusesEndpointTests : IClassFixture<WebApplicationFactory<Prog
     }
 
     [Fact]
-    public async Task Status_endpoint_should_return_status_response_with_required_parameters_for_valid_trust_school_input()
+    public async Task The_correct_status_is_returned_for_a_valid_trust_organisation()
     {
         // Arrange
         string id = "test-user-id";
@@ -102,7 +102,7 @@ public class GetStatusesEndpointTests : IClassFixture<WebApplicationFactory<Prog
     }
 
     [Fact]
-    public async Task Status_endpoint_should_return_status_response_with_all_parameters_for_valid_academy_input()
+    public async Task The_correct_status_is_returned_for_a_valid_single_school()
     {
         string id = "test-user-id";
         string email = "test.user@email.com";
@@ -185,7 +185,7 @@ public class GetStatusesEndpointTests : IClassFixture<WebApplicationFactory<Prog
     }
 
     [Fact]
-    public async Task Status_endpoint_should_return_error_messages_for_all_missing_required_parameters_with_null_organisation()
+    public async Task Validation_errors_are_returned_for_a_missing_organisation()
     {
         // Arrange
         var request = new { Organisations = new[] { new { } } };
@@ -231,7 +231,7 @@ public class GetStatusesEndpointTests : IClassFixture<WebApplicationFactory<Prog
     }
 
     [Fact]
-    public async Task Status_endpoint_should_return_error_messages_for_all_missing_required_parameters_with_empty_trust_organisation()
+    public async Task Validation_errors_are_returned_for_an_invalid_trust_organisation()
     {
         // Arrange
         var request = new { Organisations = new[] { new { Category = new { } } } };
@@ -281,7 +281,7 @@ public class GetStatusesEndpointTests : IClassFixture<WebApplicationFactory<Prog
     }
 
     [Fact]
-    public async Task Status_endpoint_should_return_error_messages_for_all_missing_required_parameters_with_empty_academy()
+    public async Task Validation_errors_are_returned_for_an_invalid_single_school()
     {
         // Arrange
         var request = new
