@@ -4,7 +4,7 @@ using SchoolAccount.Collect.Application.Status.GetStatuses;
 using Shouldly;
 using Action = SchoolAccount.Collect.Application.Status.GetStatuses.Action;
 
-namespace SchoolAccount.Collect.Application.UnitTests.Status;
+namespace SchoolAccount.Collect.Application.UnitTests.Status.GetStatuses;
 
 public class StatusResponseBuilderTests
 {

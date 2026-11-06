@@ -10,9 +10,9 @@ using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
 using Action = SchoolAccount.Collect.Application.Status.GetStatuses.Action;
 
-namespace SchoolAccount.Collect.Api.IntegrationTests.EndPoints.Status;
+namespace SchoolAccount.Collect.Api.IntegrationTests.Endpoints.Status.GetStatuses;
 
-public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
+public class GetStatusesEndpointTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
@@ -20,7 +20,7 @@ public class GetByStatusTests : IClassFixture<WebApplicationFactory<Program>>
         IQueryHandler<GetStatusesQuery, StatusResponse>
     >();
 
-    public GetByStatusTests(WebApplicationFactory<Program> factory)
+    public GetStatusesEndpointTests(WebApplicationFactory<Program> factory)
     {
         _client = factory
             .WithWebHostBuilder(builder =>

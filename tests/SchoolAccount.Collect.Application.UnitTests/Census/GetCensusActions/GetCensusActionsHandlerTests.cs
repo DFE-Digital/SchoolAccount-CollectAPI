@@ -4,7 +4,7 @@ using SchoolAccount.Collect.Application.Shared;
 using SchoolAccount.Collect.SharedKernel;
 using Shouldly;
 
-namespace SchoolAccount.Collect.Application.UnitTests.Census;
+namespace SchoolAccount.Collect.Application.UnitTests.Census.GetCensusActions;
 
 public class GetCensusActionsHandlerTests
 {

@@ -1,7 +1,7 @@
 using SchoolAccount.Collect.Application.Census.GetCensusActions;
 using Shouldly;
 
-namespace SchoolAccount.Collect.Application.UnitTests.Census;
+namespace SchoolAccount.Collect.Application.UnitTests.Census.GetCensusActions;
 
 public class StubbedCensusResponseTests
 {
