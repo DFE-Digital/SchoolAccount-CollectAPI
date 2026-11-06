@@ -10,7 +10,7 @@ namespace SchoolAccount.Collect.Infrastructure.UnitTests.Census;
 public class CensusReturnStatusReaderTests
 {
     [Fact]
-    public async Task GetReturnStatusCode_returns_null_when_database_is_disabled()
+    public async Task No_status_code_is_returned_when_the_database_is_disabled()
     {
         // Arrange
         var reader = new CensusReturnStatusReader(
