@@ -10,7 +10,7 @@ namespace SchoolAccount.Collect.Application.UnitTests.Status.GetStatuses;
 public class GetStatusesQueryHandlerTests
 {
     [Fact]
-    public async Task Handler_takes_a_getstatusrequestmodel_and_returns_a_statusresponse()
+    public async Task A_status_is_returned_for_a_valid_organisation()
     {
         // Arrange
         var requestModel = new GetStatusesRequestModel
