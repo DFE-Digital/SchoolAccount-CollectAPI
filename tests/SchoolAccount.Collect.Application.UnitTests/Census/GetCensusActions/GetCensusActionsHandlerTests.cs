@@ -12,7 +12,7 @@ public class GetCensusActionsHandlerTests
         Substitute.For<ICensusReturnStatusReader>();
 
     [Fact]
-    public async Task Handler_takes_a_request_model_and_returns_a_response_model()
+    public async Task A_census_response_is_returned_for_a_valid_user_and_organisation()
     {
         // Arrange
         GetCensusActionsQuery query = CreateQuery();
@@ -43,7 +43,7 @@ public class GetCensusActionsHandlerTests
     }
 
     [Fact]
-    public async Task Handler_uses_database_when_database_is_enabled()
+    public async Task The_database_is_used_when_enabled()
     {
         // Arrange
         GetCensusActionsQuery query = CreateQuery();
@@ -68,7 +68,7 @@ public class GetCensusActionsHandlerTests
     }
 
     [Fact]
-    public async Task Handler_throws_when_first_organisation_cannot_be_found()
+    public async Task A_user_without_an_organisation_throws()
     {
         // Arrange
         var request = new GetCensusActionsRequestModel
