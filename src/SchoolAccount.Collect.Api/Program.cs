@@ -9,13 +9,7 @@ using SchoolAccount.Collect.Infrastructure;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-if (builder.Configuration.GetValue<bool>("AzureAppConfiguration:Enabled"))
-{
-    builder.Configuration.AddAzureAppConfiguration();
-
-    // Last one wins: re-added so environment variables stay above App Configuration.
-    builder.Configuration.AddEnvironmentVariables();
-}
+builder.AddConfiguredAzureAppConfiguration();
 
 builder.Logging.ClearProviders();
 builder.Host.UseConfiguredSerilog();
