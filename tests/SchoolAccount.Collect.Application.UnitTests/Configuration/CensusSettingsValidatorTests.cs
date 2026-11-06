@@ -9,7 +9,7 @@ public class CensusSettingsValidatorTests
     private readonly CensusSettingsValidator _sut = new();
 
     [Fact]
-    public void Validate_returns_validation_fail_when_database_is_used_with_empty_connection_string()
+    public void Failure_is_returned_when_using_the_database_with_an_empty_connection_string()
     {
         // Act
         ValidateOptionsResult result = _sut.Validate("name", CreateSettings(true, string.Empty));
@@ -22,7 +22,7 @@ public class CensusSettingsValidatorTests
     }
 
     [Fact]
-    public void Validate_returns_validation_success_when_database_is_not_used_with_connection_string()
+    public void Success_is_returned_when_databased_is_not_use_and_a_connection_string_is_provided()
     {
         // Act
         ValidateOptionsResult result = _sut.Validate(
@@ -35,7 +35,7 @@ public class CensusSettingsValidatorTests
     }
 
     [Fact]
-    public void Validate_returns_validation_success_when_database_is_used_with_connection_string()
+    public void Success_is_returned_when_database_is_used_with_a_connection_string()
     {
         // Act
         ValidateOptionsResult result = _sut.Validate(
