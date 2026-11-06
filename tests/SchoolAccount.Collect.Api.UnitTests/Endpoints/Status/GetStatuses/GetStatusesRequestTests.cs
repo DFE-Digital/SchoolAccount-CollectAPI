@@ -7,7 +7,7 @@ namespace SchoolAccount.Collect.Api.UnitTests.Endpoints.Status.GetStatuses;
 public class GetStatusesRequestTests
 {
     [Fact]
-    public void Query_is_created_correctly_with_valid_trust_school_request()
+    public void Query_is_created_correctly_from_a_valid_trust_organisation()
     {
         // Arrange
         var request = new GetStatusesRequest
@@ -43,7 +43,7 @@ public class GetStatusesRequestTests
     }
 
     [Fact]
-    public void Query_is_created_correctly_with_valid_academy_request()
+    public void Query_is_created_correctly_from_a_valid_single_school()
     {
         // Arrange
         var request = new GetStatusesRequest
