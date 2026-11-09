@@ -2,7 +2,7 @@ namespace SchoolAccount.Collect.Api.Extensions;
 
 public static class AzureAppConfigurationExtensions
 {
-    private const string EnabledKey = "AzureAppConfiguration:Enabled";
+    private const string _enabledKey = "AzureAppConfiguration:Enabled";
 
     /// <summary>
     /// Loads settings from Azure App Configuration and registers the services that refresh them,
@@ -12,7 +12,7 @@ public static class AzureAppConfigurationExtensions
         this WebApplicationBuilder builder
     )
     {
-        if (builder.Configuration.GetValue<bool>(EnabledKey))
+        if (builder.Configuration.GetValue<bool>(_enabledKey))
         {
             builder.Configuration.AddAzureAppConfiguration();
 
