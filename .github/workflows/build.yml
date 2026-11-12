@@ -55,7 +55,7 @@ jobs:
 
       - name: Merge coverage reports and enforce threshold
         if: ${{ !cancelled() }}
-        uses: danielpalme/ReportGenerator-GitHub-Action@5
+        uses: danielpalme/ReportGenerator-GitHub-Action@v5
         with:
           reports: "TestResults/*.cobertura.xml"
           targetdir: TestResults/Merged
