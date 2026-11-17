@@ -2,5 +2,5 @@ namespace SchoolAccount.Collect.Application.Census.GetCensusActions.GetCensusImp
 
 public interface IGetCensusImportantDates
 {
-    Task<CensusImportantDates> GetImportantDates(CancellationToken cancellationToken);
+    Task<IEnumerable<ImportantDate>> GetImportantDates(CancellationToken cancellationToken);
 }

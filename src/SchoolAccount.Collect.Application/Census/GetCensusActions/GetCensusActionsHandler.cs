@@ -1,11 +1,14 @@
 using SchoolAccount.Collect.Application.Abstractions.Messaging;
+using SchoolAccount.Collect.Application.Census.GetCensusActions.GetCensusImportantDates;
 using SchoolAccount.Collect.Application.Shared;
 using SchoolAccount.Collect.SharedKernel;
 
 namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
 
-public class GetCensusActionsHandler(ICensusReturnStatusReader returnStatusReader)
-    : IQueryHandler<GetCensusActionsQuery, CensusActionsResponse>
+public class GetCensusActionsHandler(
+    ICensusReturnStatusReader returnStatusReader,
+    IGetCensusImportantDates returnImportantDatesReader
+) : IQueryHandler<GetCensusActionsQuery, CensusActionsResponse>
 {
     public async Task<Result<CensusActionsResponse>> Handle(
         GetCensusActionsQuery query,
@@ -20,7 +23,11 @@ public class GetCensusActionsHandler(ICensusReturnStatusReader returnStatusReade
             firstOrganisation.Laestab,
             cancellationToken
         );
-        CensusActionsResponse response = StubbedCensusResponse.Create(status);
+
+        IEnumerable<ImportantDate> importantDates =
+            await returnImportantDatesReader.GetImportantDates(cancellationToken);
+
+        CensusActionsResponse response = StubbedCensusResponse.Create(importantDates, status);
 
         return await Task.FromResult(Result.Success(response));
     }

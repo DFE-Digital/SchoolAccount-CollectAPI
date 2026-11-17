@@ -2,7 +2,5 @@ namespace SchoolAccount.Collect.Application.Census.GetCensusActions.GetCensusImp
 
 public class CensusImportantDates
 {
-    public DateTime CensusOpenDate { get; set; }
-    public DateTime CensusCloseDate { get; set; }
-    public DateTime CensusDueDate { get; set; }
+    public List<ImportantDate> ImportantDates { get; set; }
 }

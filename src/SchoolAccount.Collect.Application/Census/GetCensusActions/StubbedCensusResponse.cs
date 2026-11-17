@@ -6,7 +6,10 @@ namespace SchoolAccount.Collect.Application.Census.GetCensusActions;
 [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded")]
 public static class StubbedCensusResponse
 {
-    public static CensusActionsResponse Create(int? statusCode = null)
+    public static CensusActionsResponse Create(
+        IEnumerable<ImportantDate> censusImportantDates,
+        int? statusCode = null
+    )
     {
         return new CensusActionsResponse
         {
@@ -80,11 +83,7 @@ public static class StubbedCensusResponse
                     Body = "",
                 },
             ],
-            ImportantDates =
-            [
-                new ImportantDate { Date = new DateOnly(2026, 10, 1), Label = "Census day" },
-                new ImportantDate { Date = new DateOnly(2026, 10, 28), Label = "Return due" },
-            ],
+            ImportantDates = censusImportantDates.ToList(),
             UnderstandStatuses =
             [
                 new UnderstandStatus
