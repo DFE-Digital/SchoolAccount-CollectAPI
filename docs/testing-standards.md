@@ -107,8 +107,8 @@ every test. This keeps each test focused on what makes it distinct:
 ```csharp
 private OrgStatus GetStatusAt(DateTime utc)
 {
-    _dateTimeProvider.UtcNow.Returns(utc);
-    return new StatusCalculator(_dateTimeProvider).GetOpenStatus();
+    FakeTimeProvider timeProvider = new(utc);
+    return new StatusCalculator(timeProvider).GetOpenStatus();
 }
 
 [Fact]
@@ -166,13 +166,21 @@ If you need to cover multiple cases, use `[Theory]` instead.
 Unit tests must not touch the file system, database, network, or clock. Use interfaces to abstract anything
 that would otherwise be a fixed external dependency.
 
-This solution already provides `IDateTimeProvider` as a seam over `DateTime.Now`. Inject it into any class that
-needs the current time, and stub it in tests:
+No test should depend on the date or time it runs. Inject .NET's `TimeProvider` into any class that needs the
+current time, rather than calling `DateTime.Now` or `DateTime.UtcNow`. In tests, use `FakeTimeProvider` from
+`Microsoft.Extensions.TimeProvider.Testing`, which also controls timers and delays:
 
 ```csharp
-IDateTimeProvider dateTimeProvider = Substitute.For<IDateTimeProvider>();
-dateTimeProvider.UtcNow.Returns(new DateTime(2026, 2, 11, 9, 0, 0, DateTimeKind.Utc));
+FakeTimeProvider timeProvider = new(new DateTime(2026, 2, 11, 9, 0, 0, DateTimeKind.Utc));
 ```
+
+In integration tests, register it as `TimeProvider` so it replaces the real clock:
+
+```csharp
+services.AddSingleton<TimeProvider>(_timeProvider);
+```
+
+The same applies to test data: builders should default to fixed dates, not today's.
 
 ---
 
