@@ -124,6 +124,69 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref == env.MAIN_BRANCH }}
         run: docker push --all-tags "$IMAGE_NAME"
 
+  version:
+    name: Create Version
+    needs: image
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    permissions:
+      contents: write
+      packages: write
+
+    # One at a time, so two pushes on the same day can't claim the same version
+    concurrency:
+      group: version
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # Versions are vYYYY.MM.DD.N. A rerun reuses the version this commit already has.
+      - name: Work out version
+        id: version
+        run: |
+          EXISTING=$(git tag --points-at HEAD --list 'v*' | head -n 1)
+          if [ -n "$EXISTING" ]; then
+            echo "Commit is already versioned as $EXISTING"
+            echo "version=$EXISTING" >> "$GITHUB_OUTPUT"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          TODAY="v$(date -u +%Y.%m.%d)"
+          LAST=$(git tag --list "$TODAY.*" | awk -F. '{ print $NF }' | sort -n | tail -n 1)
+          VERSION="$TODAY.$(( ${LAST:-0} + 1 ))"
+          echo "Versioning as $VERSION"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "exists=false" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Adds the version as another tag on the image already pushed, without rebuilding
+      - name: Tag image with version
+        env:
+          IMAGE: ${{ needs.image.outputs.image }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: docker buildx imagetools create --tag "$IMAGE_NAME:$VERSION" "$IMAGE"
+
+      - name: Push version tag
+        if: ${{ steps.version.outputs.exists == 'false' }}
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git tag "$VERSION"
+          git push origin "refs/tags/$VERSION"
+
   deploy-dev:
     name: Deploy To Dev
     needs: image
