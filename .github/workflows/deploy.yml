@@ -47,8 +47,14 @@ jobs:
           else
             IMAGE="$IMAGE_NAME:sha-${GITHUB_SHA::7}"
           fi
-          echo "Deploying $IMAGE"
+          # A unique revision suffix forces a new revision on every run, so redeploying the
+          # same image (e.g. after an App Configuration fix) actually restarts the app.
+          # Suffixes allow only lower case letters, numbers and single dashes.
+          TAG=$(echo "${IMAGE##*:}" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9\n' '-' | tr -s '-')
+          SUFFIX="${TAG}-r${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          echo "Deploying $IMAGE as revision suffix $SUFFIX"
           echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+          echo "suffix=$SUFFIX" >> "$GITHUB_OUTPUT"
 
       - name: Azure Login
         uses: azure/login@v3
@@ -61,4 +67,5 @@ jobs:
             --subscription ${{ vars.AZURE_SUBSCRIPTION_ID }} \
             --name ${{ vars.CONTAINERAPP_NAME }} \
             --resource-group ${{ vars.CONTAINERAPP_RESOURCE_GROUP }} \
-            --image ${{ steps.image.outputs.image }}
+            --image ${{ steps.image.outputs.image }} \
+            --revision-suffix ${{ steps.image.outputs.suffix }}
