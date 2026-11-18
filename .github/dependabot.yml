@@ -15,6 +15,7 @@ updates:
       test-tooling:
         patterns:
           - "Microsoft.Testing.*"
+          - "Microsoft.Extensions.TimeProvider.Testing"
           - "xunit*"
           - "NSubstitute"
           - "Shouldly"
