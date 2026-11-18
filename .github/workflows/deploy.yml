@@ -3,6 +3,7 @@ run-name: Deploy ${{ github.ref_name }} to ${{ inputs.environment }}
 
 # Run from a version tag (e.g. v2026.11.18.1) to deploy that version. Running from main
 # deploys main's latest commit. The Environments page shows the tag or commit deployed.
+# A version's GitHub Release is published when it first reaches prod.
 on:
   workflow_dispatch:
     inputs:
@@ -114,3 +115,61 @@ jobs:
           esac
           gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" -f environment="$NEXT" -f promote=true
           echo "Started deploy of $GITHUB_REF_NAME to **$NEXT**" >> "$GITHUB_STEP_SUMMARY"
+
+  # The Releases page lists what has gone to prod. Notes cover every change since the
+  # previous release. Redeploys and rollbacks to an older version don't publish anything.
+  publish:
+    name: Publish release
+    needs: deploy
+    if: ${{ inputs.environment == 'prod' && github.ref_type == 'tag' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      # The release action below updates an existing release instead of skipping it, and it
+      # can't find the previous release for us, so this step decides whether to publish
+      - name: Check release
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Already released (e.g. this version is being redeployed to prod): nothing to do
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME already exists" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # The latest release, i.e. the last version that went to prod. Empty if there isn't one yet.
+          PREVIOUS=$(gh release view --repo "$GITHUB_REPOSITORY" --json tagName --jq .tagName 2> /dev/null || true)
+
+          # Sort the two versions and take the newer one. If it isn't this version, this
+          # is a rollback to an older version, which shouldn't become a new release.
+          NEWEST=$(printf '%s\n%s\n' "$PREVIOUS" "$GITHUB_REF_NAME" | sort -V | tail -n 1)
+          if [ -n "$PREVIOUS" ] && [ "$NEWEST" != "$GITHUB_REF_NAME" ]; then
+            echo "$GITHUB_REF_NAME is older than the latest release $PREVIOUS, so no release published" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
+          echo "publish=true" >> "$GITHUB_OUTPUT"
+
+      # Creates the release for this tag, named after it. The notes list every change since the
+      # previous release. For the first ever release there's no previous one, so GitHub picks
+      # where the notes start.
+      - name: Create GitHub release
+        id: release
+        if: ${{ steps.check.outputs.publish == 'true' }}
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3.0.4
+        with:
+          generate_release_notes: true
+          previous_tag: ${{ steps.check.outputs.previous }}
+
+      - name: Summary
+        if: ${{ steps.check.outputs.publish == 'true' }}
+        env:
+          URL: ${{ steps.release.outputs.url }}
+        run: echo "Published release [$GITHUB_REF_NAME]($URL)" >> "$GITHUB_STEP_SUMMARY"
