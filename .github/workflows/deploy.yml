@@ -1,24 +1,19 @@
 name: Collect API Deploy
+run-name: Deploy ${{ github.ref_name }} to ${{ inputs.environment }}
 
+# Run from a version tag (e.g. v2026.11.18.1) to deploy that version. Running from main
+# deploys main's latest commit. The Environments page shows the tag or commit deployed.
 on:
-  workflow_call:
-    inputs:
-      environment:
-        type: string
-        required: true
-      image:
-        type: string
-        required: true
   workflow_dispatch:
     inputs:
       environment:
         description: Environment to deploy to
         type: environment
         required: true
-      image_tag:
-        description: Image tag to deploy (e.g. sha-1a2b3c4). Leave blank to deploy the commit this run is started from
-        type: string
-        required: false
+      promote:
+        description: When the deploy succeeds, start the deploy to the next environment (dev → preprod → prod)
+        type: boolean
+        default: false
 
 env:
   IMAGE_NAME: ghcr.io/dfe-digital/schoolaccount-collectapi
@@ -29,22 +24,32 @@ jobs:
 
     environment: ${{ inputs.environment }}
 
+    permissions:
+      contents: read
+
     concurrency:
       group: deploy-${{ inputs.environment }}
       cancel-in-progress: false
 
     steps:
+      # Anyone with write access can push a tag, so only deploy commits that are on main
+      - name: Check commit is on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          STATUS=$(gh api "repos/$GITHUB_REPOSITORY/compare/main...$GITHUB_SHA" --jq .status)
+          if [ "$STATUS" != "identical" ] && [ "$STATUS" != "behind" ]; then
+            echo "::error::$GITHUB_REF_NAME ($GITHUB_SHA) is not on main"
+            exit 1
+          fi
+
       - name: Resolve image
         id: image
         env:
-          INPUT_IMAGE: ${{ inputs.image }}
-          INPUT_IMAGE_TAG: ${{ inputs.image_tag }}
           APP_NAME: ${{ vars.CONTAINERAPP_NAME }}
         run: |
-          if [ -n "$INPUT_IMAGE" ]; then
-            IMAGE="$INPUT_IMAGE"
-          elif [ -n "$INPUT_IMAGE_TAG" ]; then
-            IMAGE="$IMAGE_NAME:$INPUT_IMAGE_TAG"
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            IMAGE="$IMAGE_NAME:$GITHUB_REF_NAME"
           else
             IMAGE="$IMAGE_NAME:sha-${GITHUB_SHA::7}"
           fi
@@ -77,3 +82,35 @@ jobs:
             --resource-group ${{ vars.CONTAINERAPP_RESOURCE_GROUP }} \
             --image ${{ steps.image.outputs.image }} \
             --revision-suffix ${{ steps.image.outputs.suffix }}
+
+      - name: Summary
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+          IMAGE: ${{ steps.image.outputs.image }}
+          REVISION: ${{ vars.CONTAINERAPP_NAME }}--${{ steps.image.outputs.suffix }}
+        run: |
+          echo "Deployed \`$IMAGE\` to **$ENVIRONMENT** as revision \`$REVISION\`" >> "$GITHUB_STEP_SUMMARY"
+
+  # Each environment is its own run, so a failed deploy can be re-run on its own
+  promote:
+    name: Start next deploy
+    needs: deploy
+    if: ${{ inputs.promote && inputs.environment != 'prod' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: write
+
+    steps:
+      - name: Start deploy to next environment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CURRENT: ${{ inputs.environment }}
+        run: |
+          case "$CURRENT" in
+            dev) NEXT=preprod ;;
+            preprod) NEXT=prod ;;
+            *) echo "::error::No environment after $CURRENT"; exit 1 ;;
+          esac
+          gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" -f environment="$NEXT" -f promote=true
+          echo "Started deploy of $GITHUB_REF_NAME to **$NEXT**" >> "$GITHUB_STEP_SUMMARY"

@@ -187,30 +187,21 @@ jobs:
           git tag "$VERSION"
           git push origin "refs/tags/$VERSION"
 
-  deploy-dev:
-    name: Deploy To Dev
-    needs: image
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-    uses: ./.github/workflows/deploy.yml
-    with:
-      environment: dev
-      image: ${{ needs.image.outputs.image }}
-    secrets: inherit
+  # Each environment deploys in its own Collect API Deploy run from the version tag, so any
+  # deploy can be re-run on its own and the Environments page shows the version.
+  deploy:
+    name: Start Deploy To Dev
+    needs: version
+    runs-on: ubuntu-latest
 
-  deploy-preprod:
-    name: Deploy To Pre-Prod
-    needs: [image, deploy-dev]
-    uses: ./.github/workflows/deploy.yml
-    with:
-      environment: preprod
-      image: ${{ needs.image.outputs.image }}
-    secrets: inherit
+    permissions:
+      actions: write
 
-  deploy-prod:
-    name: Deploy To Prod
-    needs: [image, deploy-preprod]
-    uses: ./.github/workflows/deploy.yml
-    with:
-      environment: prod
-      image: ${{ needs.image.outputs.image }}
-    secrets: inherit
+    steps:
+      - name: Start deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.version.outputs.version }}
+        run: |
+          gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref "$VERSION" -f environment=dev -f promote=true
+          echo "Started deploy of $VERSION to **dev**. Pre-prod and prod follow as separate Collect API Deploy runs." >> "$GITHUB_STEP_SUMMARY"
